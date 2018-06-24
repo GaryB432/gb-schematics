@@ -38,7 +38,12 @@ export default function(options: Schema): Rule {
 /** Add material, cdk, annimations to package.json if not already present. */
 function addMaterialToPackageJson() {
   return (host: Tree, context: SchematicContext) => {
-    addPackageToPackageJson(host, 'dependencies', '@angular/cdk', 'cdkVersion-wtf');
+    addPackageToPackageJson(
+      host,
+      'dependencies',
+      '@angular/cdk',
+      'cdkVersion-wtf'
+    );
     addPackageToPackageJson(
       host,
       'dependencies',
@@ -56,48 +61,13 @@ function addMaterialToPackageJson() {
   };
 }
 
-// /** Add browser animation module to app.module */
-// function addAnimationRootConfig(options: Schema) {
-//   return (host: Tree) => {
-//     const workspace = getWorkspace(host);
-//     const project = getProjectFromWorkspace(workspace, options.project);
-
-//     addModuleImportToRootModule(
-//       host,
-//       'BrowserAnimationsModule',
-//       '@angular/platform-browser/animations',
-//       project
-//     );
-
-//     return host;
-//   };
-// }
-
-// /** Adds fonts to the index.ext file */
-// function addFontsToIndex(options: Schema) {
-//   return (host: Tree) => {
-//     const workspace = getWorkspace(host);
-//     const project = getProjectFromWorkspace(workspace, options.project);
-
-//     const fonts = [
-//       'https://fonts.googleapis.com/css?family=Roboto:300,400,500',
-//       'https://fonts.googleapis.com/icon?family=Material+Icons',
-//     ];
-
-//     fonts.forEach(f =>
-//       addHeadLink(host, project, `\n<link href="${f}" rel="stylesheet">`)
-//     );
-//     return host;
-//   };
-// }
-
 /** Add 0 margin to body in styles.ext */
 function addBodyMarginToStyles(options: Schema) {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
     const project = getProjectFromWorkspace(workspace, options.project);
 
-    const stylesPath = getStylesPath(host, project);
+    const stylesPath = getStylesPath(project);
 
     const buffer = host.read(stylesPath);
     if (buffer) {

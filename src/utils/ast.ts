@@ -1,12 +1,15 @@
-import {normalize} from '@angular-devkit/core';
-import {SchematicsException, Tree} from '@angular-devkit/schematics';
+import { normalize } from '@angular-devkit/core';
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import * as ts from 'typescript';
-import {addImportToModule} from './devkit-utils/ast-utils';
-import {InsertChange} from './devkit-utils/change';
-import {Project, getWorkspace} from './devkit-utils/config';
-import {findBootstrapModulePath, getAppModulePath} from './devkit-utils/ng-ast-utils';
-import {ModuleOptions, findModuleFromOptions as internalFindModule} from './devkit-utils/find-module';
-
+import { addImportToModule } from './devkit-utils/ast-utils';
+import { InsertChange } from './devkit-utils/change';
+import { Project, getWorkspace, ProjectBuild } from './devkit-utils/config';
+import {
+  getAppModulePath,
+} from './devkit-utils/ng-ast-utils';
+import {
+  findModuleFromOptions as internalFindModule,
+} from './devkit-utils/find-module';
 
 /** Reads file given path and returns TypeScript source file. */
 export function getSourceFile(host: Tree, path: string): ts.SourceFile {
@@ -19,8 +22,16 @@ export function getSourceFile(host: Tree, path: string): ts.SourceFile {
 }
 
 /** Import and add module to root app module. */
-export function addModuleImportToRootModule(host: Tree, moduleName: string, src: string, project: Project) {
-  const modulePath = getAppModulePath(host, project.architect.build.options.main);
+export function addModuleImportToRootModule(
+  host: Tree,
+  moduleName: string,
+  src: string,
+  project: Project
+) {
+  const modulePath = getAppModulePath(
+    host,
+    project.architect.build.options.main
+  );
   addModuleImportToModule(host, modulePath, moduleName, src);
 }
 
@@ -32,7 +43,11 @@ export function addModuleImportToRootModule(host: Tree, moduleName: string, src:
  * @param src src location to import
  */
 export function addModuleImportToModule(
-    host: Tree, modulePath: string, moduleName: string, src: string) {
+  host: Tree,
+  modulePath: string,
+  moduleName: string,
+  src: string
+) {
   const moduleSource = getSourceFile(host, modulePath);
 
   if (!moduleSource) {
@@ -42,7 +57,7 @@ export function addModuleImportToModule(
   const changes = addImportToModule(moduleSource, modulePath, moduleName, src);
   const recorder = host.beginUpdate(modulePath);
 
-  changes.forEach((change) => {
+  changes.forEach(change => {
     if (change instanceof InsertChange) {
       recorder.insertLeft(change.pos, change.toAdd);
     }
@@ -52,7 +67,7 @@ export function addModuleImportToModule(
 }
 
 /** Gets the app index.html file */
-export function getIndexHtmlPath(host: Tree, project: Project): string {
+export function getIndexHtmlPath(project: Project): string {
   const buildTarget = project.architect.build.options;
 
   if (buildTarget.index && buildTarget.index.endsWith('index.html')) {
@@ -63,15 +78,23 @@ export function getIndexHtmlPath(host: Tree, project: Project): string {
 }
 
 /** Get the root stylesheet file. */
-export function getStylesPath(host: Tree, project: Project): string {
-  const buildTarget = project.architect['build'];
+export function getStylesPath(project: Project): string {
+  const buildTarget = project.architect['build'] as ProjectBuild;
 
-  if (buildTarget.options && buildTarget.options.styles && buildTarget.options.styles.length) {
-    const styles = buildTarget.options.styles.map(s => typeof s === 'string' ? s : s.input);
+  if (
+    buildTarget.options &&
+    buildTarget.options.styles &&
+    buildTarget.options.styles.length
+  ) {
+    const styles = buildTarget.options.styles.map(
+      s => (typeof s === 'string' ? s : s.input)
+    );
 
     // First, see if any of the assets is called "styles.(le|sc|c)ss", which is the default
     // "main" style sheet.
-    const defaultMainStylePath = styles.find(a => /styles\.(c|le|sc)ss/.test(a));
+    const defaultMainStylePath = styles.find(a =>
+      /styles\.(c|le|sc)ss/.test(a)
+    );
     if (defaultMainStylePath) {
       return normalize(defaultMainStylePath);
     }
@@ -83,7 +106,9 @@ export function getStylesPath(host: Tree, project: Project): string {
     }
   }
 
-  throw new SchematicsException('No style files could be found into which a theme could be added');
+  throw new SchematicsException(
+    'No style files could be found into which a theme could be added'
+  );
 }
 
 /** Wraps the internal find module from options with undefined path handling  */

@@ -1,4 +1,4 @@
-import {normalize, strings} from '@angular-devkit/core';
+import { normalize, strings } from '@angular-devkit/core';
 import {
   apply,
   branchAndMerge,
@@ -15,12 +15,12 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import * as ts from 'typescript';
-import {addDeclarationToModule, addExportToModule} from './ast-utils';
-import {InsertChange} from './change';
-import {buildRelativePath, findModuleFromOptions} from './find-module';
-import {getWorkspace} from './config';
-import {parseName} from './parse-name';
-import {validateName} from './validation';
+import { addDeclarationToModule, addExportToModule } from './ast-utils';
+import { InsertChange } from './change';
+import { buildRelativePath, findModuleFromOptions } from './find-module';
+import { getWorkspace } from './config';
+import { parseName } from './parse-name';
+import { validateName } from './validation';
 
 function addDeclarationToNgModule(options: any): Rule {
   return (host: Tree) => {
@@ -34,18 +34,26 @@ function addDeclarationToNgModule(options: any): Rule {
       throw new SchematicsException(`File ${modulePath} does not exist.`);
     }
     const sourceText = text.toString('utf-8');
-    const source = ts.createSourceFile(modulePath, sourceText, ts.ScriptTarget.Latest, true);
+    const source = ts.createSourceFile(
+      modulePath,
+      sourceText,
+      ts.ScriptTarget.Latest,
+      true
+    );
 
-    const componentPath = `/${options.path}/`
-                          + (options.flat ? '' : strings.dasherize(options.name) + '/')
-                          + strings.dasherize(options.name)
-                          + '.component';
+    const componentPath =
+      `/${options.path}/` +
+      (options.flat ? '' : strings.dasherize(options.name) + '/') +
+      strings.dasherize(options.name) +
+      '.component';
     const relativePath = buildRelativePath(modulePath, componentPath);
     const classifiedName = strings.classify(`${options.name}Component`);
-    const declarationChanges = addDeclarationToModule(source,
-                                                      modulePath,
-                                                      classifiedName,
-                                                      relativePath);
+    const declarationChanges = addDeclarationToModule(
+      source,
+      modulePath,
+      classifiedName,
+      relativePath
+    );
 
     const declarationRecorder = host.beginUpdate(modulePath);
     for (const change of declarationChanges) {
@@ -62,12 +70,20 @@ function addDeclarationToNgModule(options: any): Rule {
         throw new SchematicsException(`File ${modulePath} does not exist.`);
       }
       const sourceText = text.toString('utf-8');
-      const source = ts.createSourceFile(modulePath, sourceText, ts.ScriptTarget.Latest, true);
+      const source = ts.createSourceFile(
+        modulePath,
+        sourceText,
+        ts.ScriptTarget.Latest,
+        true
+      );
 
       const exportRecorder = host.beginUpdate(modulePath);
-      const exportChanges = addExportToModule(source, modulePath,
-                                              strings.classify(`${options.name}Component`),
-                                              relativePath);
+      const exportChanges = addExportToModule(
+        source,
+        modulePath,
+        strings.classify(`${options.name}Component`),
+        relativePath
+      );
 
       for (const change of exportChanges) {
         if (change instanceof InsertChange) {
@@ -76,7 +92,6 @@ function addDeclarationToNgModule(options: any): Rule {
       }
       host.commitUpdate(exportRecorder);
     }
-
 
     return host;
   };
@@ -105,7 +120,8 @@ export function buildComponent(options: any): Rule {
       options.path = `/${project.root}/src/app`;
     }
 
-    options.selector = options.selector || buildSelector(options, project.prefix);
+    options.selector =
+      options.selector || buildSelector(options, project.prefix);
     options.module = findModuleFromOptions(host, options);
 
     const parsedPath = parseName(options.path, options.name);
@@ -116,21 +132,22 @@ export function buildComponent(options: any): Rule {
 
     const templateSource = apply(url('./files'), [
       options.spec ? noop() : filter(path => !path.endsWith('.spec.ts')),
-      options.inlineStyle ? filter(path => !path.endsWith('.__styleext__')) : noop(),
+      options.inlineStyle
+        ? filter(path => !path.endsWith('.__styleext__'))
+        : noop(),
       options.inlineTemplate ? filter(path => !path.endsWith('.html')) : noop(),
       template({
         ...strings,
-        'if-flat': (s: string) => options.flat ? '' : s,
+        'if-flat': (s: string) => (options.flat ? '' : s),
         ...options,
       }),
       move(null, parsedPath.path),
     ]);
 
     return chain([
-      branchAndMerge(chain([
-        addDeclarationToNgModule(options),
-        mergeWith(templateSource),
-      ])),
+      branchAndMerge(
+        chain([addDeclarationToNgModule(options), mergeWith(templateSource)])
+      ),
     ])(host, context);
   };
 }

@@ -8,7 +8,6 @@
 import { Path, join, normalize, relative, strings } from '@angular-devkit/core';
 import { DirEntry, Tree } from '@angular-devkit/schematics';
 
-
 export interface ModuleOptions {
   module?: string;
   name: string;
@@ -17,24 +16,28 @@ export interface ModuleOptions {
   skipImport?: boolean;
 }
 
-
 /**
  * Find the module referred by a set of options passed to the schematics.
  */
-export function findModuleFromOptions(host: Tree, options: ModuleOptions): Path | undefined {
+export function findModuleFromOptions(
+  host: Tree,
+  options: ModuleOptions
+): Path | undefined {
   if (options.hasOwnProperty('skipImport') && options.skipImport) {
     return undefined;
   }
 
   if (!options.module) {
-    const pathToCheck = (options.path || '')
-                      + (options.flat ? '' : '/' + strings.dasherize(options.name));
+    const pathToCheck =
+      (options.path || '') +
+      (options.flat ? '' : '/' + strings.dasherize(options.name));
 
     return normalize(findModule(host, pathToCheck));
   } else {
-    const modulePath = normalize(
-      '/' + (options.path) + '/' + options.module);
-    const moduleBaseName = normalize(modulePath).split('/').pop();
+    const modulePath = normalize('/' + options.path + '/' + options.module);
+    const moduleBaseName = normalize(modulePath)
+      .split('/')
+      .pop();
 
     if (host.exists(modulePath)) {
       return normalize(modulePath);
@@ -60,20 +63,26 @@ export function findModule(host: Tree, generateDir: string): Path {
   const routingModuleRe = /-routing\.module\.ts/;
 
   while (dir) {
-    const matches = dir.subfiles.filter(p => moduleRe.test(p) && !routingModuleRe.test(p));
+    const matches = dir.subfiles.filter(
+      p => moduleRe.test(p) && !routingModuleRe.test(p)
+    );
 
     if (matches.length == 1) {
       return join(dir.path, matches[0]);
     } else if (matches.length > 1) {
-      throw new Error('More than one module matches. Use skip-import option to skip importing '
-        + 'the component into the closest module.');
+      throw new Error(
+        'More than one module matches. Use skip-import option to skip importing ' +
+          'the component into the closest module.'
+      );
     }
 
     dir = dir.parent;
   }
 
-  throw new Error('Could not find an NgModule. Use the skip-import '
-    + 'option to skip importing in NgModule.');
+  throw new Error(
+    'Could not find an NgModule. Use the skip-import ' +
+      'option to skip importing in NgModule.'
+  );
 }
 
 /**
@@ -91,7 +100,10 @@ export function buildRelativePath(from: string, to: string): string {
   fromParts.pop();
   const toFileName = toParts.pop();
 
-  const relativePath = relative(normalize(fromParts.join('/')), normalize(toParts.join('/')));
+  const relativePath = relative(
+    normalize(fromParts.join('/')),
+    normalize(toParts.join('/'))
+  );
   let pathPrefix = '';
 
   // Set the path prefix for same dir or child dir, parent dir starts with `..`

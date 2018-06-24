@@ -1,7 +1,12 @@
-import {join} from 'path';
-import {SchematicTestRunner, UnitTestTree} from '@angular-devkit/schematics/testing';
+import { join } from 'path';
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
 
-const collectionPath = join('./node_modules/@schematics/angular/collection.json');
+const collectionPath = join(
+  './node_modules/@schematics/angular/collection.json'
+);
 
 /**
  * Create a base app used for testing.
