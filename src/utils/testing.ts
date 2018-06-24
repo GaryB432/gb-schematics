@@ -15,7 +15,7 @@ export function createTestApp(): UnitTestTree {
   const baseRunner = new SchematicTestRunner('schematics', collectionPath);
   return baseRunner.runSchematic('application', {
     directory: '',
-    name: 'app',
+    name: 'test-app',
     prefix: 'app',
     sourceDir: 'src',
     inlineStyle: false,

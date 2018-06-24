@@ -1,4 +1,7 @@
-import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -16,19 +19,71 @@ const defaultOptions: PwaOptions = {
   title: 'Fake Title',
 };
 
-// let appTree: UnitTestTree;
+let appTree: UnitTestTree;
+
+// const workspaceOptions = {
+//   name: 'app',
+//   version: '1.2.3',
+//   skipInstall: false,
+//   linkCli: false,
+//   skipGit: false,
+//   commit: null,
+
+//   // directory: '',
+//   // name: 'app',
+//   // prefix: 'app',
+//   // sourceDir: 'src',
+//   // inlineStyle: false,
+//   // inlineTemplate: false,
+//   // viewEncapsulation: 'None',
+//   // version: '1.2.3',
+//   // routing: true,
+//   // style: 'scss',
+//   // skipTests: false,
+//   // minimal: false,
+// };
+
+// const appOptions = {
+//   name: 'ok',
+//   version: 'fine',
+// };
+
+const workspaceOptions: any = {
+  name: 'workspace',
+  newProjectRoot: 'projects',
+  version: '6.0.0',
+};
+
+const appOptions: any = {
+  name: 'bar',
+  inlineStyle: false,
+  inlineTemplate: false,
+  routing: false,
+  style: 'css',
+  skipTests: false,
+};
 
 describe('angular-iis-config', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
   beforeEach(() => {
-    // appTree = schematicRunner.runExternalSchematic('@schematics/angular', 'workspace', workspaceOptions);
-    // appTree = schematicRunner.runExternalSchematic('@schematics/angular', 'application', appOptions, appTree);
+    appTree = schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+    appTree = schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
   });
 
   it('should create Properties/AssemblyInfo.cs', () => {
     const tree = schematicRunner.runSchematic(
       'angular-iis-config',
-      defaultOptions
+      defaultOptions,
+      appTree
     );
     expect(tree.exists('iis-application/Properties/AssemblyInfo.cs')).toEqual(
       true
