@@ -1,0 +1,9 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "angular-iis-config": {
+      "description": "Add an IIS application to your project.",
+      "factory": "./angular-iis-config/index#angularIisConfig"
+    }
+  }
+}
