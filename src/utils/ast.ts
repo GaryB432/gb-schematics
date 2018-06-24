@@ -4,12 +4,8 @@ import * as ts from 'typescript';
 import { addImportToModule } from './devkit-utils/ast-utils';
 import { InsertChange } from './devkit-utils/change';
 import { Project, getWorkspace, ProjectBuild } from './devkit-utils/config';
-import {
-  getAppModulePath,
-} from './devkit-utils/ng-ast-utils';
-import {
-  findModuleFromOptions as internalFindModule,
-} from './devkit-utils/find-module';
+import { getAppModulePath } from './devkit-utils/ng-ast-utils';
+import { findModuleFromOptions as internalFindModule } from './devkit-utils/find-module';
 
 /** Reads file given path and returns TypeScript source file. */
 export function getSourceFile(host: Tree, path: string): ts.SourceFile {
