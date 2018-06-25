@@ -1,30 +1,55 @@
-import { join } from 'path';
 import {
-  SchematicTestRunner,
   UnitTestTree,
+  SchematicTestRunner,
 } from '@angular-devkit/schematics/testing';
 
-const collectionPath = join(
-  './node_modules/@schematics/angular/collection.json'
-);
+const defaultWorkspaceOptions = {
+  name: 'workspace',
+  newProjectRoot: 'projects',
+  version: '6.0.0',
+};
 
-/**
- * Create a base app used for testing.
- */
-export function createTestApp(): UnitTestTree {
-  const baseRunner = new SchematicTestRunner('schematics', collectionPath);
-  return baseRunner.runSchematic('application', {
-    directory: '',
-    name: 'test-app',
-    prefix: 'app',
-    sourceDir: 'src',
-    inlineStyle: false,
-    inlineTemplate: false,
-    viewEncapsulation: 'None',
-    version: '1.2.3',
-    routing: true,
-    style: 'scss',
-    skipTests: false,
-    minimal: false,
-  });
+const defaultAppOptions = {
+  name: 'bar',
+  inlineStyle: false,
+  inlineTemplate: false,
+  viewEncapsulation: 'Emulated',
+  routing: false,
+  style: 'css',
+  skipTests: false,
+};
+
+// const defaultModuleOptions = {
+//   name: 'foo',
+//   spec: true,
+//   module: undefined,
+//   flat: false,
+// };
+
+export function getTestProjectPath(
+  workspaceOptions: any = defaultWorkspaceOptions,
+  appOptions: any = defaultAppOptions
+) {
+  return `/${workspaceOptions.newProjectRoot}/${appOptions.name}`;
+}
+
+export function createWorkspace(
+  schematicRunner: SchematicTestRunner,
+  appTree: UnitTestTree,
+  workspaceOptions = defaultWorkspaceOptions,
+  appOptions = defaultAppOptions
+) {
+  appTree = schematicRunner.runExternalSchematic(
+    '@schematics/angular',
+    'workspace',
+    workspaceOptions
+  );
+  appTree = schematicRunner.runExternalSchematic(
+    '@schematics/angular',
+    'application',
+    appOptions,
+    appTree
+  );
+
+  return appTree;
 }

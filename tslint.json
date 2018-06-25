@@ -5,6 +5,13 @@
         "tslint-config-gb"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "no-submodule-imports": [
+            true,
+            "rxjs",
+            "@angular/platform-browser",
+            "@angular/core/testing"
+        ]
+    },
     "rulesDirectory": []
 }
