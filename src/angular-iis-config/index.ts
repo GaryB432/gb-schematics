@@ -1,4 +1,3 @@
-import { TemplateOptions } from '@angular-devkit/core';
 import { classify, dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   apply,
@@ -14,18 +13,21 @@ import {
   url,
 } from '@angular-devkit/schematics';
 
-const stringUtils = { dasherize, classify };
+import {
+  getProjectFromWorkspace,
+  getWorkspace,
+} from '../utils/devkit-utils/config';
+import { WebAppOptions } from './options';
 
-export interface WebAppOptions extends TemplateOptions {
-  project: string;
-  // target: string;
-  // configuration: string;
-  title: string;
-}
+const stringUtils = { dasherize, classify };
 
 export function angularIisConfig(options: WebAppOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const iisAppPath = './iis-application';
+    const project = getProjectFromWorkspace(
+      getWorkspace(tree),
+      options.project
+    );
+    const iisAppPath = `${project.root}./iis-application`;
 
     const templateSource = apply(url('./files'), [
       template({
