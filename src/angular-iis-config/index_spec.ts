@@ -21,7 +21,8 @@ describe('angular-iis-config-schematic', () => {
     appTree = createWorkspace(schematicRunner, appTree);
   });
 
-  it('should create Properties/AssemblyInfo.cs', () => {
+  it('should create files', () => {
+    // PS D:\Gary\schm-play> schematics gb-schematics:angular-iis-config --project schm-play
     const tree = schematicRunner.runSchematic(
       'angular-iis-config',
       { ...defaultOptions },
@@ -31,9 +32,18 @@ describe('angular-iis-config-schematic', () => {
     expect(files).toContain(
       `${projectPath}/iis-application/Properties/AssemblyInfo.cs`
     );
+    expect(files).toContain(`${projectPath}/iis-application/Web.config`);
+    expect(files).toContain(`${projectPath}/iis-application/Web.Debug.config`);
     expect(files).toContain(
       `${projectPath}/iis-application/Web.Release.config`
     );
+    expect(files).toContain(`${projectPath}/iis-application/WebForm1.aspx`);
+    expect(files).toContain(`${projectPath}/iis-application/WebForm1.aspx.cs`);
+    expect(files).toContain(
+      `${projectPath}/iis-application/WebForm1.aspx.designer.cs`
+    );
+    expect(files).toContain(`${projectPath}/iis-application/Bar.csproj`);
+    expect(files).toContain(`${projectPath}/iis-application/Bar.sln`);
   });
 
   it('AssemblyInfo should contain project name', () => {
