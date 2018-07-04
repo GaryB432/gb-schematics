@@ -1,1 +1,15 @@
 # gb-schematics
+
+Some schematics for features I like
+
+## Add IIS application to your Angular Project
+
+```
+cd your-app
+schematics gb-schematics:angular-iis-config --project your-app
+```
+
+see 
+
+* [Angular Schematics](https://github.com/angular/angular-cli/tree/master/packages/schematics/angular)
+* [Schematics README](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics/README.md)
