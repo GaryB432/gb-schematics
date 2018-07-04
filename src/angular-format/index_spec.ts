@@ -4,21 +4,12 @@ import {
 } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
 import { createWorkspace, getTestProjectPath } from '../utils/testing';
-import { Schema as ComponentOptions } from './schema';
+import { Schema as FormatOptions } from './schema';
 import { getFileContent } from '@schematics/angular/utility/test';
 
 describe('angular-format-schematic', () => {
   const collectionPath = join(__dirname, '../collection.json');
-  const defaultOptions: ComponentOptions = {
-    name: 'foo',
-    // path: 'src/app',
-    inlineStyle: false,
-    inlineTemplate: false,
-    changeDetection: 'Default',
-    styleext: 'css',
-    spec: true,
-    module: undefined,
-    export: false,
+  const defaultOptions: FormatOptions = {
     project: 'bar',
   };
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);

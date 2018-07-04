@@ -18,7 +18,7 @@ import {
 //   materialVersion,
 // } from '../utils/lib-versions';
 import { addPackageToPackageJson } from '../utils/package';
-import { Schema } from './schema';
+import { Schema as FormatOptions } from './schema';
 // import { addThemeToAppStyles } from './theming';
 
 /**
@@ -27,7 +27,7 @@ import { Schema } from './schema';
  *  - Adds pre-built themes to styles.ext
  *  - Adds Browser Animation to app.momdule
  */
-export default function(options: Schema): Rule {
+export default function(options: FormatOptions): Rule {
   return chain([
     addMaterialToPackageJson(),
     // addThemeToAppStyles(options),
@@ -62,7 +62,7 @@ function addMaterialToPackageJson() {
 }
 
 /** Add 0 margin to body in styles.ext */
-function addBodyMarginToStyles(options: Schema) {
+function addBodyMarginToStyles(options: FormatOptions) {
   return (host: Tree) => {
     const workspace = getWorkspace(host);
     const project = getProjectFromWorkspace(workspace, options.project);
