@@ -29,21 +29,33 @@ describe('angular-iis-config-schematic', () => {
       appTree
     );
     const files = tree.files;
-    expect(files).toContain(
-      `${projectPath}/iis-application/Properties/AssemblyInfo.cs`
-    );
-    expect(files).toContain(`${projectPath}/iis-application/Web.config`);
-    expect(files).toContain(`${projectPath}/iis-application/Web.Debug.config`);
-    expect(files).toContain(
-      `${projectPath}/iis-application/Web.Release.config`
-    );
-    expect(files).toContain(`${projectPath}/iis-application/WebForm1.aspx`);
-    expect(files).toContain(`${projectPath}/iis-application/WebForm1.aspx.cs`);
-    expect(files).toContain(
-      `${projectPath}/iis-application/WebForm1.aspx.designer.cs`
-    );
-    expect(files).toContain(`${projectPath}/iis-application/Bar.csproj`);
-    expect(files).toContain(`${projectPath}/iis-application/Bar.sln`);
+    expect(
+      files.indexOf(`${projectPath}/iis-application/Properties/AssemblyInfo.cs`)
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      files.indexOf(`${projectPath}/iis-application/Web.config`)
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      files.indexOf(`${projectPath}/iis-application/Web.Debug.config`)
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      files.indexOf(`${projectPath}/iis-application/Web.Release.config`)
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      files.indexOf(`${projectPath}/iis-application/WebForm1.aspx`)
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      files.indexOf(`${projectPath}/iis-application/WebForm1.aspx.cs`)
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      files.indexOf(`${projectPath}/iis-application/WebForm1.aspx.designer.cs`)
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      files.indexOf(`${projectPath}/iis-application/Bar.csproj`)
+    ).toBeGreaterThanOrEqual(0);
+    expect(
+      files.indexOf(`${projectPath}/iis-application/Bar.sln`)
+    ).toBeGreaterThanOrEqual(0);
   });
 
   it('AssemblyInfo should contain project name', () => {
