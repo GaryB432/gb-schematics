@@ -65,14 +65,13 @@ describe('Angular Format Schematic', () => {
     const pkg = JSON.parse(tree.readContent('/package.json'));
     expect(pkg.devDependencies['prettier']).toEqual('^1.15.2');
   });
-  xit('should test stuff', () => {
+  it('should contain tslint', () => {
     const tree = schematicRunner.runSchematic(
       'angular-format',
       defaultOptions,
       appTree
     );
-    expect(tree.files).toContain('/projects/bar/src/app/foo.ts');
-    expect(tree.files).not.toContain('/projects/bar/src/app/foo.spec.ts');
+    expect(tree.files).toContain('/tslint.json');
   });
 
   xit('should create the class and spec file', () => {
@@ -112,11 +111,13 @@ describe('Angular Format Schematic', () => {
     expect(tree.files).toContain('/zzz/foo.ts');
   });
 
-  xit('should respect the sourceRoot value', () => {
-    const config = JSON.parse(appTree.readContent('/angular.json'));
-    config.projects.bar.sourceRoot = 'projects/bar/custom';
-    appTree.overwrite('/angular.json', JSON.stringify(config, null, 2));
-    appTree = schematicRunner.runSchematic('class', defaultOptions, appTree);
-    expect(appTree.files).toContain('/projects/bar/custom/app/foo.ts');
+  it('updates tslint configuration', () => {
+    appTree = schematicRunner.runSchematic(
+      'angular-format',
+      defaultOptions,
+      appTree
+    );
+    const config = JSON.parse(appTree.readContent('/tslint.json'));
+    expect(config.rulesDirectory).toContain('tslint-config-gb');
   });
 });

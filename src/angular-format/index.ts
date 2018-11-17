@@ -9,7 +9,6 @@ import {
   // MergeStrategy,
   Rule,
   SchematicContext,
-  // SchematicsException,
   Tree,
   // apply,
   chain,
@@ -36,7 +35,12 @@ import {
   addPackageJsonDependency,
 } from '../utility/dependencies';
 
-import { AngularApplicationOptionsSchema as ApplicationOptions } from '../application/schema';
+// import { getProject } from '../utility/project';
+
+import { AngularFormatOptionsSchema as ApplicationOptions } from './schema';
+
+// import { AngularWorkspaceOptionsSchema } from '../workspace/schema';
+
 // import { latestVersions } from '../utility/latest-versions';
 // import { validateProjectName } from '../utility/validation';
 // import {
@@ -82,6 +86,292 @@ import { AngularApplicationOptionsSchema as ApplicationOptions } from '../applic
 //     + `"${propertyName}": ${JSON.stringify(value, null, 2).replace(/\n/g, indentStr)}`
 //     + indentStr.slice(0, -2),
 //   );
+// }
+
+function updateTsLintConfig(): Rule {
+  return (host: Tree, _context: SchematicContext) => {
+    const tsLintPath = '/tslint.json';
+    const buffer = host.read(tsLintPath);
+    if (!buffer) {
+      return host;
+    }
+
+    const config = JSON.parse(buffer.toString());
+
+    config.rulesDirectory.push('tslint-config-gb');
+
+    host.overwrite('/tslint.json', JSON.stringify(config, null, 2));
+
+    // const tsCfgAst = parseJsonAst(buffer.toString(), JsonParseMode.Loose);
+
+    // if (tsCfgAst.kind != 'object') {
+    //   return host;
+    // }
+
+    // const rulesNode = findPropertyInAstObject(tsCfgAst, 'rules');
+    // if (!rulesNode || rulesNode.kind != 'object') {
+    //   return host;
+    // }
+
+    // const importBlacklistNode = findPropertyInAstObject(rulesNode, 'import-blacklist');
+    // if (!importBlacklistNode || importBlacklistNode.kind != 'array') {
+    //   return host;
+    // }
+
+    // const recorder = host.beginUpdate(tsLintPath);
+
+    // for (let i = 0; i < importBlacklistNode.elements.length; i++) {
+    //   const element = importBlacklistNode.elements[i];
+    //   if (element.kind == 'string' && element.value == 'rxjs') {
+    //     const { start, end } = element;
+    //     // Remove this element.
+    //     if (i == importBlacklistNode.elements.length - 1) {
+    //       // Last element.
+    //       if (i > 0) {
+    //         // Not first, there's a comma to remove before.
+    //         const previous = importBlacklistNode.elements[i - 1];
+    //         recorder.remove(previous.end.offset, end.offset - previous.end.offset);
+    //       } else {
+    //         // Only element, just remove the whole rule.
+    //         const { start, end } = importBlacklistNode;
+    //         recorder.remove(start.offset, end.offset - start.offset);
+    //         recorder.insertLeft(start.offset, '[]');
+    //       }
+    //     } else {
+    //       // Middle, just remove the whole node (up to next node start).
+    //       const next = importBlacklistNode.elements[i + 1];
+    //       recorder.remove(start.offset, next.start.offset - start.offset);
+    //     }
+    //   }
+    // }
+
+    // host.commitUpdate(recorder);
+
+    return host;
+  };
+}
+
+// function updateRootTsConfig(): Rule {
+//   return (host: Tree, context: SchematicContext) => {
+//     const tsConfigPath = '/tsconfig.json';
+//     const buffer = host.read(tsConfigPath);
+//     if (!buffer) {
+//       return;
+//     }
+
+//     const tsCfgAst = parseJsonAst(buffer.toString(), JsonParseMode.Loose);
+//     if (tsCfgAst.kind !== 'object') {
+//       throw new SchematicsException('Invalid root tsconfig. Was expecting an object');
+//     }
+
+//     const compilerOptionsAstNode = findPropertyInAstObject(tsCfgAst, 'compilerOptions');
+//     if (!compilerOptionsAstNode || compilerOptionsAstNode.kind != 'object') {
+//       throw new SchematicsException(
+//         'Invalid root tsconfig "compilerOptions" property; expected an object.',
+//       );
+//     }
+
+//     if (
+//       findPropertyInAstObject(compilerOptionsAstNode, 'baseUrl') &&
+//       findPropertyInAstObject(compilerOptionsAstNode, 'module')
+//     ) {
+//       return host;
+//     }
+
+//     const compilerOptions = compilerOptionsAstNode.value;
+//     const { baseUrl = './', module = 'es2015'} = compilerOptions;
+
+//     const validBaseUrl = ['./', '', '.'];
+//     if (!validBaseUrl.includes(baseUrl as string)) {
+//       const formattedBaseUrl = validBaseUrl.map(x => `'${x}'`).join(', ');
+//       context.logger.warn(tags.oneLine
+//         `Root tsconfig option 'baseUrl' is not one of: ${formattedBaseUrl}.
+//         This might cause unexpected behaviour when generating libraries.`,
+//       );
+//     }
+
+//     if (module !== 'es2015') {
+//       context.logger.warn(
+//         `Root tsconfig option 'module' is not 'es2015'. This might cause unexpected behaviour.`,
+//       );
+//     }
+
+//     compilerOptions.module = module;
+//     compilerOptions.baseUrl = baseUrl;
+
+//     host.overwrite(tsConfigPath, JSON.stringify(tsCfgAst.value, null, 2));
+
+//     return host;
+//   };
+// }
+
+// function xaddAppToWorkspaceFile(
+//   options: ApplicationOptions,
+//   workspace: AngularWorkspaceOptionsSchema
+// ): Rule {
+//   // TODO: use JsonAST
+//   // const workspacePath = '/angular.json';
+//   // const workspaceBuffer = host.read(workspacePath);
+//   // if (workspaceBuffer === null) {
+//   //   throw new SchematicsException(`Configuration file (${workspacePath}) not found.`);
+//   // }
+//   // const workspaceJson = parseJson(workspaceBuffer.toString());
+//   // if (workspaceJson.value === null) {
+//   //   throw new SchematicsException(`Unable to parse configuration file (${workspacePath}).`);
+//   // }
+//   let projectRoot =
+//     options.projectRoot !== undefined
+//       ? options.projectRoot
+//       : `${workspace.newProjectRoot}/${options.name}`;
+//   if (projectRoot !== '' && !projectRoot.endsWith('/')) {
+//     projectRoot += '/';
+//   }
+//   const rootFilesRoot =
+//     options.projectRoot === undefined ? projectRoot : projectRoot + 'src/';
+
+//   // const schematics: JsonObject = {};
+
+//   // if (
+//   //   options.inlineTemplate === true ||
+//   //   options.inlineStyle === true ||
+//   //   options.style !== 'css'
+//   // ) {
+//   //   schematics['@schematics/angular:component'] = {};
+//   //   if (options.inlineTemplate === true) {
+//   //     (schematics[
+//   //       '@schematics/angular:component'
+//   //     ] as JsonObject).inlineTemplate = true;
+//   //   }
+//   //   if (options.inlineStyle === true) {
+//   //     (schematics[
+//   //       '@schematics/angular:component'
+//   //     ] as JsonObject).inlineStyle = true;
+//   //   }
+//   //   if (options.style && options.style !== 'css') {
+//   //     (schematics['@schematics/angular:component'] as JsonObject).styleext =
+//   //       options.style;
+//   //   }
+//   // }
+
+//   // if (options.skipTests === true) {
+//   //   [
+//   //     'class',
+//   //     'component',
+//   //     'directive',
+//   //     'guard',
+//   //     'module',
+//   //     'pipe',
+//   //     'service',
+//   //   ].forEach(type => {
+//   //     if (!(`@schematics/angular:${type}` in schematics)) {
+//   //       schematics[`@schematics/angular:${type}`] = {};
+//   //     }
+//   //     (schematics[`@schematics/angular:${type}`] as JsonObject).spec = false;
+//   //   });
+//   // }
+
+//   const project: WorkspaceProject = {
+//     root: projectRoot,
+//     sourceRoot: join(normalize(projectRoot), 'src'),
+//     projectType: ProjectType.Application,
+//     prefix: options.prefix || 'app',
+//     schematics,
+//     architect: {
+//       build: {
+//         builder: Builders.Browser,
+//         options: {
+//           outputPath: `dist/${options.name}`,
+//           index: `${projectRoot}src/index.html`,
+//           main: `${projectRoot}src/main.ts`,
+//           polyfills: `${projectRoot}src/polyfills.ts`,
+//           tsConfig: `${rootFilesRoot}tsconfig.app.json`,
+//           assets: [
+//             join(normalize(projectRoot), 'src', 'favicon.ico'),
+//             join(normalize(projectRoot), 'src', 'assets'),
+//           ],
+//           styles: [`${projectRoot}src/styles.${options.style}`],
+//           scripts: [],
+//         },
+//         configurations: {
+//           production: {
+//             fileReplacements: [
+//               {
+//                 replace: `${projectRoot}src/environments/environment.ts`,
+//                 with: `${projectRoot}src/environments/environment.prod.ts`,
+//               },
+//             ],
+//             optimization: true,
+//             outputHashing: 'all',
+//             sourceMap: false,
+//             extractCss: true,
+//             namedChunks: false,
+//             aot: true,
+//             extractLicenses: true,
+//             vendorChunk: false,
+//             buildOptimizer: true,
+//             budgets: [
+//               {
+//                 type: 'initial',
+//                 maximumWarning: '2mb',
+//                 maximumError: '5mb',
+//               },
+//             ],
+//           },
+//         },
+//       },
+//       serve: {
+//         builder: Builders.DevServer,
+//         options: {
+//           browserTarget: `${options.name}:build`,
+//         },
+//         configurations: {
+//           production: {
+//             browserTarget: `${options.name}:build:production`,
+//           },
+//         },
+//       },
+//       'extract-i18n': {
+//         builder: Builders.ExtractI18n,
+//         options: {
+//           browserTarget: `${options.name}:build`,
+//         },
+//       },
+//       test: {
+//         builder: Builders.Karma,
+//         options: {
+//           main: `${projectRoot}src/test.ts`,
+//           polyfills: `${projectRoot}src/polyfills.ts`,
+//           tsConfig: `${rootFilesRoot}tsconfig.spec.json`,
+//           karmaConfig: `${rootFilesRoot}karma.conf.js`,
+//           styles: [`${projectRoot}src/styles.${options.style}`],
+//           scripts: [],
+//           assets: [
+//             join(normalize(projectRoot), 'src', 'favicon.ico'),
+//             join(normalize(projectRoot), 'src', 'assets'),
+//           ],
+//         },
+//       },
+//       lint: {
+//         builder: Builders.TsLint,
+//         options: {
+//           tsConfig: [
+//             `${rootFilesRoot}tsconfig.app.json`,
+//             `${rootFilesRoot}tsconfig.spec.json`,
+//           ],
+//           exclude: ['**/node_modules/**'],
+//         },
+//       },
+//     },
+//   };
+//   // tslint:disable-next-line:no-any
+//   // const projects: JsonObject = (<any> workspaceAst.value).projects || {};
+//   // tslint:disable-next-line:no-any
+//   // if (!(<any> workspaceAst.value).projects) {
+//   //   // tslint:disable-next-line:no-any
+//   //   (<any> workspaceAst.value).projects = projects;
+//   // }
+
+//   return addProjectToWorkspace(workspace, options.name, project);
 // }
 
 function addDependenciesToPackageJson(options: ApplicationOptions) {
@@ -146,10 +436,10 @@ export default function(options: ApplicationOptions): Rule {
   //     // addBodyMarginToStyles(options),
   //   ]);
   return (_host: Tree, _context: SchematicContext) => {
-    if (!options.name) {
-      console.log('that should be cool.');
-      // throw new SchematicsException(`Invalid options, "name" is required.`);
-    }
+    // if (!options.name) {
+    //   console.log('that should be cool.');
+    //   // throw new SchematicsException(`Invalid options, "name" is required.`);
+    // }
     // validateProjectName(options.name);
     // const prefix = options.prefix || 'app';
     // const appRootSelector = `${prefix}-root`;
@@ -203,6 +493,7 @@ export default function(options: ApplicationOptions): Rule {
     // };
 
     return chain([
+      updateTsLintConfig(),
       // addAppToWorkspaceFile(options, workspace),
       // mergeWith(
       //   apply(url('./files/src'), [
