@@ -26,6 +26,9 @@ export function angularIisConfig(options: WebAppOptions): Rule {
       throw new SchematicsException(`Invalid options, "project" is required.`);
     }
     const project = getProject(tree, options.project);
+    if (!project) {
+      throw new SchematicsException(`Project "${options.project}" not found.`);
+    }
     const iisAppPath = `${project.root}./iis-application`;
 
     const templateSource = apply(url('./files'), [

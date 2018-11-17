@@ -12,9 +12,6 @@ describe('IIS Configuration Schematic', () => {
     require.resolve('../collection.json')
   );
   const defaultOptions: IisConfigOptions = {
-    name: 'foo',
-    type: '',
-    spec: false,
     project: 'bar',
   };
 

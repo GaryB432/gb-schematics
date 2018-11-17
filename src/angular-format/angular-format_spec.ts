@@ -11,12 +11,7 @@ describe('Angular Format Schematic', () => {
     'schematics',
     require.resolve('../collection.json')
   );
-  const defaultOptions: AfOptions = {
-    name: 'foo',
-    type: '',
-    spec: false,
-    project: 'bar',
-  };
+  const defaultOptions: AfOptions = {};
 
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',

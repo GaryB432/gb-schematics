@@ -3,7 +3,6 @@ import {
   SchematicContext,
   Tree,
   chain,
-  noop,
 } from '@angular-devkit/schematics';
 
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
@@ -47,9 +46,6 @@ function addDependenciesToPackageJson(options: AngularFormatOptionsSchema) {
 
 export default function(options: AngularFormatOptionsSchema): Rule {
   return (_host: Tree, _context: SchematicContext) => {
-    return chain([
-      updateTsLintConfig(),
-      options.skipPackageJson ? noop() : addDependenciesToPackageJson(options),
-    ]);
+    return chain([updateTsLintConfig(), addDependenciesToPackageJson(options)]);
   };
 }
