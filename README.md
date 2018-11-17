@@ -2,6 +2,20 @@
 
 Some schematics for features I like
 
+## Add my favorite lint rules to your Angular Workspace
+
+```
+cd your-app
+schematics gb-schematics:tslint-rules
+```
+
+## Add prettier formatting to your Project
+
+```
+cd your-app
+schematics gb-schematics:angular-format [--skipInstall]
+```
+
 ## Add IIS application to your Angular Project
 
 ```
