@@ -24,7 +24,7 @@ describe('Angular Format Schematic', () => {
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'css',
+    style: 'scss',
     skipTests: false,
     skipPackageJson: false,
   };
@@ -50,23 +50,17 @@ describe('Angular Format Schematic', () => {
     );
     const pkg = JSON.parse(tree.readContent('/package.json'));
     expect(pkg.devDependencies['prettier']).toEqual('^1.15.2');
-  });
-  it('should contain tslint', () => {
-    const tree = schematicRunner.runSchematic(
-      'angular-format',
-      defaultOptions,
-      appTree
+    expect(pkg.scripts['format']).toEqual(
+      'prettier --write "src/**/{*.ts,*.scss}'
     );
-    expect(tree.files).toContain('/tslint.json');
-  });
-
-  it('updates tslint configuration', () => {
-    appTree = schematicRunner.runSchematic(
-      'angular-format',
-      defaultOptions,
-      appTree
-    );
-    const config = JSON.parse(appTree.readContent('/tslint.json'));
-    expect(config.rulesDirectory).toContain('tslint-config-gb');
+    expect(pkg.prettier).toEqual({
+      printWidth: 100,
+      singleQuote: true,
+      useTabs: false,
+      tabWidth: 2,
+      semi: true,
+      bracketSpacing: true,
+      trailingComma: 'es5',
+    });
   });
 });

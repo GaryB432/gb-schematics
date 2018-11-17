@@ -8,6 +8,10 @@
     "angular-iis-config": {
       "description": "Add an IIS application to your project.",
       "factory": "./angular-iis-config/index#angularIisConfig"
+    },
+    "tslint-rules": {
+      "description": "Add my favorite lint rules to your project.",
+      "factory": "./tslint-rules/index#tslintRules"
     }
   }
 }

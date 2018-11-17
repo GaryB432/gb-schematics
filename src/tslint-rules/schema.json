@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "GbAngularFormat",
+  "title": "Angular Format Options Schema",
+  "type": "object",
+  "properties": {
+    "skipInstall": {
+      "type": "boolean",
+      "default": false,
+      "description": "Specifies if npm install should be skipped."
+    }
+  },
+  "required": []
+}
