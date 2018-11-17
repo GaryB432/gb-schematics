@@ -14,11 +14,6 @@ import {
   SchematicsException,
 } from '@angular-devkit/schematics';
 
-// import {
-//   getProjectFromWorkspace,
-//   getWorkspace,
-// } from '../utils/devkit-utils/config';
-
 import { getProject } from '../utility/project';
 
 import { AngularIISConfigOptionsSchema as WebAppOptions } from './schema';

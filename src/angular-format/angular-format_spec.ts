@@ -1,10 +1,3 @@
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -42,13 +35,11 @@ describe('Angular Format Schematic', () => {
   };
   let appTree: UnitTestTree;
   beforeEach(() => {
-    // appTree = schematicRunner.runSchematic('workspace', workspaceOptions);
     appTree = schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
       workspaceOptions
     );
-    // appTree = schematicRunner.runSchematic('application', appOptions, appTree);
     appTree = schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'application',
@@ -72,43 +63,6 @@ describe('Angular Format Schematic', () => {
       appTree
     );
     expect(tree.files).toContain('/tslint.json');
-  });
-
-  xit('should create the class and spec file', () => {
-    const options = {
-      ...defaultOptions,
-      spec: true,
-    };
-    const tree = schematicRunner.runSchematic('class', options, appTree);
-    expect(tree.files).toContain('/projects/bar/src/app/foo.ts');
-    expect(tree.files).toContain('/projects/bar/src/app/foo.spec.ts');
-  });
-
-  xit('should create an class named "Foo"', () => {
-    const tree = schematicRunner.runSchematic('class', defaultOptions, appTree);
-    const fileContent = tree.readContent('/projects/bar/src/app/foo.ts');
-    expect(fileContent).toMatch(/export class Foo/);
-  });
-
-  xit('should put type in the file name', () => {
-    const options = { ...defaultOptions, type: 'model' };
-
-    const tree = schematicRunner.runSchematic('class', options, appTree);
-    expect(tree.files).toContain('/projects/bar/src/app/foo.model.ts');
-  });
-
-  xit('should split the name to name & type with split on "."', () => {
-    const options = { ...defaultOptions, name: 'foo.model' };
-    const tree = schematicRunner.runSchematic('class', options, appTree);
-    const classPath = '/projects/bar/src/app/foo.model.ts';
-    const content = tree.readContent(classPath);
-    expect(content).toMatch(/export class Foo/);
-  });
-
-  xit('should respect the path option', () => {
-    const options = { ...defaultOptions, path: 'zzz' };
-    const tree = schematicRunner.runSchematic('class', options, appTree);
-    expect(tree.files).toContain('/zzz/foo.ts');
   });
 
   it('updates tslint configuration', () => {
