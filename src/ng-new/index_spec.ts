@@ -6,13 +6,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
-import { Schema as NgNewOptions } from './schema';
-
+import { AngularNgNewOptionsSchema as NgNewOptions } from './schema';
 
 describe('Ng New Schematic', () => {
   const schematicRunner = new SchematicTestRunner(
     '@schematics/angular',
-    require.resolve('../collection.json'),
+    require.resolve('../collection.json')
   );
   const defaultOptions: NgNewOptions = {
     name: 'foo',
@@ -33,11 +32,13 @@ describe('Ng New Schematic', () => {
 
     const tree = schematicRunner.runSchematic('ng-new', options);
     const files = tree.files;
-    expect(files).toEqual(jasmine.arrayContaining([
-      '/bar/src/tsconfig.app.json',
-      '/bar/src/main.ts',
-      '/bar/src/app/app.module.ts',
-    ]));
+    expect(files).toEqual(
+      jasmine.arrayContaining([
+        '/bar/src/tsconfig.app.json',
+        '/bar/src/main.ts',
+        '/bar/src/app/app.module.ts',
+      ])
+    );
   });
 
   it('should should set the prefix in angular.json and in app.component.ts', () => {

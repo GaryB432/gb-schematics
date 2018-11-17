@@ -11,33 +11,48 @@ import { dirname } from 'path';
 import * as ts from 'typescript';
 import { findNode, getSourceNodes } from '../utility/ast-utils';
 
-export function findBootstrapModuleCall(host: Tree, mainPath: string): ts.CallExpression | null {
+export function findBootstrapModuleCall(
+  host: Tree,
+  mainPath: string
+): ts.CallExpression | null {
   const mainBuffer = host.read(mainPath);
   if (!mainBuffer) {
     throw new SchematicsException(`Main file (${mainPath}) not found`);
   }
   const mainText = mainBuffer.toString('utf-8');
-  const source = ts.createSourceFile(mainPath, mainText, ts.ScriptTarget.Latest, true);
+  const source = ts.createSourceFile(
+    mainPath,
+    mainText,
+    ts.ScriptTarget.Latest,
+    true
+  );
 
   const allNodes = getSourceNodes(source);
 
   let bootstrapCall: ts.CallExpression | null = null;
 
   for (const node of allNodes) {
-
     let bootstrapCallNode: ts.Node | null = null;
-    bootstrapCallNode = findNode(node, ts.SyntaxKind.Identifier, 'bootstrapModule');
+    bootstrapCallNode = findNode(
+      node,
+      ts.SyntaxKind.Identifier,
+      'bootstrapModule'
+    );
 
     // Walk up the parent until CallExpression is found.
-    while (bootstrapCallNode && bootstrapCallNode.parent
-      && bootstrapCallNode.parent.kind !== ts.SyntaxKind.CallExpression) {
-
+    while (
+      bootstrapCallNode &&
+      bootstrapCallNode.parent &&
+      bootstrapCallNode.parent.kind !== ts.SyntaxKind.CallExpression
+    ) {
       bootstrapCallNode = bootstrapCallNode.parent;
     }
 
-    if (bootstrapCallNode !== null &&
+    if (
+      bootstrapCallNode !== null &&
       bootstrapCallNode.parent !== undefined &&
-      bootstrapCallNode.parent.kind === ts.SyntaxKind.CallExpression) {
+      bootstrapCallNode.parent.kind === ts.SyntaxKind.CallExpression
+    ) {
       bootstrapCall = bootstrapCallNode.parent as ts.CallExpression;
       break;
     }
@@ -56,10 +71,17 @@ export function findBootstrapModulePath(host: Tree, mainPath: string): string {
 
   const mainBuffer = host.read(mainPath);
   if (!mainBuffer) {
-    throw new SchematicsException(`Client app main file (${mainPath}) not found`);
+    throw new SchematicsException(
+      `Client app main file (${mainPath}) not found`
+    );
   }
   const mainText = mainBuffer.toString('utf-8');
-  const source = ts.createSourceFile(mainPath, mainText, ts.ScriptTarget.Latest, true);
+  const source = ts.createSourceFile(
+    mainPath,
+    mainText,
+    ts.ScriptTarget.Latest,
+    true
+  );
   const allNodes = getSourceNodes(source);
   const bootstrapModuleRelativePath = allNodes
     .filter(node => node.kind === ts.SyntaxKind.ImportDeclaration)

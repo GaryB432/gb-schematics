@@ -13,5 +13,11 @@
             "@angular/core/testing"
         ]
     },
-    "rulesDirectory": []
+    "rulesDirectory": [],
+    "linterOptions": {
+        "exclude": [
+            "src/*/files/**/*",
+            "src/*/other-files/**/*"
+        ]
+    }
 }

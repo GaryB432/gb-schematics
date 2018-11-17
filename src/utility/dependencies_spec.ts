@@ -14,7 +14,6 @@ import {
   getPackageJsonDependency,
 } from './dependencies';
 
-
 describe('dependencies', () => {
   describe('addDependency', () => {
     let tree: UnitTestTree;
@@ -45,33 +44,42 @@ describe('dependencies', () => {
         it('should add a dependency', () => {
           addPackageJsonDependency(tree, dependency);
           const pkgJson = JSON.parse(tree.readContent(pkgJsonPath));
-          expect(pkgJson[type.key][dependency.name]).toEqual(dependency.version);
+          expect(pkgJson[type.key][dependency.name]).toEqual(
+            dependency.version
+          );
         });
 
         it('should handle an existing dependency (update version)', () => {
-          addPackageJsonDependency(tree, {...dependency, version: '0.0.0'});
-          addPackageJsonDependency(tree, {...dependency, overwrite: true});
+          addPackageJsonDependency(tree, { ...dependency, version: '0.0.0' });
+          addPackageJsonDependency(tree, { ...dependency, overwrite: true });
           const pkgJson = JSON.parse(tree.readContent(pkgJsonPath));
-          expect(pkgJson[type.key][dependency.name]).toEqual(dependency.version);
+          expect(pkgJson[type.key][dependency.name]).toEqual(
+            dependency.version
+          );
         });
       });
     });
 
     it('should throw when missing package.json', () => {
-      expect((() => addPackageJsonDependency(new EmptyTree(), dependency))).toThrow();
+      expect(() =>
+        addPackageJsonDependency(new EmptyTree(), dependency)
+      ).toThrow();
     });
-
   });
 
   describe('getDependency', () => {
     let tree: UnitTestTree;
     beforeEach(() => {
       const pkgJsonPath = '/package.json';
-      const pkgJsonContent = JSON.stringify({
-        dependencies: {
-          'my-pkg': '1.2.3',
+      const pkgJsonContent = JSON.stringify(
+        {
+          dependencies: {
+            'my-pkg': '1.2.3',
+          },
         },
-      }, null, 2);
+        null,
+        2
+      );
       tree = new UnitTestTree(new EmptyTree());
       tree.create(pkgJsonPath, pkgJsonContent);
     });
@@ -84,7 +92,10 @@ describe('dependencies', () => {
     });
 
     it('should return null if dependency does not exist', () => {
-      const dep = getPackageJsonDependency(tree, 'missing-pkg') as NodeDependency;
+      const dep = getPackageJsonDependency(
+        tree,
+        'missing-pkg'
+      ) as NodeDependency;
       expect(dep).toBeNull();
     });
   });

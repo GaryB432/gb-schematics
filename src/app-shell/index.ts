@@ -15,7 +15,7 @@ import {
   schematic,
 } from '@angular-devkit/schematics';
 import * as ts from 'typescript';
-import { Schema as ComponentOptions } from '../component/schema';
+interface ComponentOptions {}
 import {
   addImportToModule,
   addSymbolToNgModuleMetadata,
@@ -29,9 +29,16 @@ import { Change, InsertChange } from '../utility/change';
 import { getWorkspace, updateWorkspace } from '../utility/config';
 import { getAppModulePath } from '../utility/ng-ast-utils';
 import { getProject } from '../utility/project';
-import { getProjectTargets, targetBuildNotFoundError } from '../utility/project-targets';
+import {
+  getProjectTargets,
+  targetBuildNotFoundError,
+} from '../utility/project-targets';
 import { Builders, WorkspaceProject } from '../utility/workspace-models';
-import { Schema as AppShellOptions } from './schema';
+interface AppShellOptions {
+  rootModuleFileName: any;
+  route: any;
+  clientProject: any;
+}
 
 function getSourceFile(host: Tree, path: string): ts.SourceFile {
   const buffer = host.read(path);
@@ -39,7 +46,12 @@ function getSourceFile(host: Tree, path: string): ts.SourceFile {
     throw new SchematicsException(`Could not find ${path}.`);
   }
   const content = buffer.toString();
-  const source = ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true);
+  const source = ts.createSourceFile(
+    path,
+    content,
+    ts.ScriptTarget.Latest,
+    true
+  );
 
   return source;
 }
@@ -47,16 +59,19 @@ function getSourceFile(host: Tree, path: string): ts.SourceFile {
 function getServerModulePath(
   host: Tree,
   project: experimental.workspace.WorkspaceProject,
-  architect: experimental.workspace.WorkspaceTool,
+  architect: experimental.workspace.WorkspaceTool
 ): string | null {
   const mainPath = architect.server.options.main;
   const mainSource = getSourceFile(host, mainPath);
   const allNodes = getSourceNodes(mainSource);
-  const expNode = allNodes.filter(node => node.kind === ts.SyntaxKind.ExportDeclaration)[0];
+  const expNode = allNodes.filter(
+    node => node.kind === ts.SyntaxKind.ExportDeclaration
+  )[0];
   if (!expNode) {
     return null;
   }
-  const relativePath = (expNode as ts.ExportDeclaration).moduleSpecifier as ts.StringLiteral;
+  const relativePath = (expNode as ts.ExportDeclaration)
+    .moduleSpecifier as ts.StringLiteral;
   const modulePath = normalize(`/${project.root}/src/${relativePath.text}.ts`);
 
   return modulePath;
@@ -67,9 +82,16 @@ interface TemplateInfo {
   templateUrlProp?: ts.PropertyAssignment;
 }
 
-function getComponentTemplateInfo(host: Tree, componentPath: string): TemplateInfo {
+function getComponentTemplateInfo(
+  host: Tree,
+  componentPath: string
+): TemplateInfo {
   const compSource = getSourceFile(host, componentPath);
-  const compMetadata = getDecoratorMetadata(compSource, 'Component', '@angular/core')[0];
+  const compMetadata = getDecoratorMetadata(
+    compSource,
+    'Component',
+    '@angular/core'
+  )[0];
 
   return {
     templateProp: getMetadataProperty(compMetadata, 'template'),
@@ -77,13 +99,18 @@ function getComponentTemplateInfo(host: Tree, componentPath: string): TemplateIn
   };
 }
 
-function getComponentTemplate(host: Tree, compPath: string, tmplInfo: TemplateInfo): string {
+function getComponentTemplate(
+  host: Tree,
+  compPath: string,
+  tmplInfo: TemplateInfo
+): string {
   let template = '';
 
   if (tmplInfo.templateProp) {
     template = tmplInfo.templateProp.getFullText();
   } else if (tmplInfo.templateUrlProp) {
-    const templateUrl = (tmplInfo.templateUrlProp.initializer as ts.StringLiteral).text;
+    const templateUrl = (tmplInfo.templateUrlProp
+      .initializer as ts.StringLiteral).text;
     const dir = dirname(normalize(compPath));
     const templatePath = join(dir, templateUrl);
     const buffer = host.read(templatePath);
@@ -97,7 +124,7 @@ function getComponentTemplate(host: Tree, compPath: string, tmplInfo: TemplateIn
 
 function getBootstrapComponentPath(
   host: Tree,
-  project: WorkspaceProject,
+  project: WorkspaceProject
 ): string {
   const projectTargets = getProjectTargets(project);
   if (!projectTargets.build) {
@@ -108,7 +135,11 @@ function getBootstrapComponentPath(
   const modulePath = getAppModulePath(host, mainPath);
   const moduleSource = getSourceFile(host, modulePath);
 
-  const metadataNode = getDecoratorMetadata(moduleSource, 'NgModule', '@angular/core')[0];
+  const metadataNode = getDecoratorMetadata(
+    moduleSource,
+    'NgModule',
+    '@angular/core'
+  )[0];
   const bootstrapProperty = getMetadataProperty(metadataNode, 'bootstrap');
 
   const arrLiteral = (bootstrapProperty as ts.PropertyAssignment)
@@ -137,14 +168,15 @@ function validateProject(options: AppShellOptions): Rule {
 
     const clientProject = getProject(host, options.clientProject);
     if (clientProject.projectType !== 'application') {
-      throw new SchematicsException(`App shell requires a project type of "application".`);
+      throw new SchematicsException(
+        `App shell requires a project type of "application".`
+      );
     }
     const componentPath = getBootstrapComponentPath(host, clientProject);
     const tmpl = getComponentTemplateInfo(host, componentPath);
     const template = getComponentTemplate(host, componentPath, tmpl);
     if (!routerOutletCheckRegex.test(template)) {
-      const errorMsg =
-        `Prerequisite for app shell is to define a router-outlet in your root component.`;
+      const errorMsg = `Prerequisite for app shell is to define a router-outlet in your root component.`;
       context.logger.error(errorMsg);
       throw new SchematicsException(errorMsg);
     }
@@ -152,7 +184,7 @@ function validateProject(options: AppShellOptions): Rule {
 }
 
 function addUniversalTarget(options: AppShellOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+  return (host: Tree, _context: SchematicContext) => {
     const architect = getProjectTargets(host, options.clientProject);
     if (architect.server) {
       return host;
@@ -164,13 +196,13 @@ function addUniversalTarget(options: AppShellOptions): Rule {
     };
 
     // Delete non-universal options.
-    delete universalOptions.universalProject;
-    delete universalOptions.route;
-    delete universalOptions.name;
-    delete universalOptions.outDir;
-    delete universalOptions.root;
-    delete universalOptions.index;
-    delete universalOptions.sourceDir;
+    // delete universalOptions.universalProject;
+    // delete universalOptions.route;
+    // delete universalOptions.name;
+    // delete universalOptions.outDir;
+    // delete universalOptions.root;
+    // delete universalOptions.index;
+    // delete universalOptions.sourceDir;
 
     return schematic('universal', universalOptions);
   };
@@ -212,7 +244,12 @@ function addRouterModule(options: AppShellOptions): Rule {
     const mainPath = projectTargets.build.options.main;
     const modulePath = getAppModulePath(host, mainPath);
     const moduleSource = getSourceFile(host, modulePath);
-    const changes = addImportToModule(moduleSource, modulePath, 'RouterModule', '@angular/router');
+    const changes = addImportToModule(
+      moduleSource,
+      modulePath,
+      'RouterModule',
+      '@angular/router'
+    );
     const recorder = host.beginUpdate(modulePath);
     changes.forEach((change: Change) => {
       if (change instanceof InsertChange) {
@@ -225,7 +262,10 @@ function addRouterModule(options: AppShellOptions): Rule {
   };
 }
 
-function getMetadataProperty(metadata: ts.Node, propertyName: string): ts.PropertyAssignment {
+function getMetadataProperty(
+  metadata: ts.Node,
+  propertyName: string
+): ts.PropertyAssignment {
   const properties = (metadata as ts.ObjectLiteralExpression).properties;
   const property = properties
     .filter(prop => prop.kind === ts.SyntaxKind.PropertyAssignment)
@@ -257,10 +297,12 @@ function addServerRoutes(options: AppShellOptions): Rule {
     let moduleSource = getSourceFile(host, modulePath);
     if (!isImported(moduleSource, 'Routes', '@angular/router')) {
       const recorder = host.beginUpdate(modulePath);
-      const routesChange = insertImport(moduleSource,
-                                        modulePath,
-                                        'Routes',
-                                        '@angular/router') as InsertChange;
+      const routesChange = insertImport(
+        moduleSource,
+        modulePath,
+        'Routes',
+        '@angular/router'
+      ) as InsertChange;
       if (routesChange.toAdd) {
         recorder.insertLeft(routesChange.pos, routesChange.toAdd);
       }
@@ -269,8 +311,9 @@ function addServerRoutes(options: AppShellOptions): Rule {
         .filter(node => node.kind === ts.SyntaxKind.ImportDeclaration)
         .sort((a, b) => a.getStart() - b.getStart());
       const insertPosition = imports[imports.length - 1].getEnd();
-      const routeText =
-        `\n\nconst routes: Routes = [ { path: '${options.route}', component: AppShellComponent }];`;
+      const routeText = `\n\nconst routes: Routes = [ { path: '${
+        options.route
+      }', component: AppShellComponent }];`;
       recorder.insertRight(insertPosition, routeText);
       host.commitUpdate(recorder);
     }
@@ -278,17 +321,23 @@ function addServerRoutes(options: AppShellOptions): Rule {
     moduleSource = getSourceFile(host, modulePath);
     if (!isImported(moduleSource, 'RouterModule', '@angular/router')) {
       const recorder = host.beginUpdate(modulePath);
-      const routerModuleChange = insertImport(moduleSource,
-                                              modulePath,
-                                              'RouterModule',
-                                              '@angular/router') as InsertChange;
+      const routerModuleChange = insertImport(
+        moduleSource,
+        modulePath,
+        'RouterModule',
+        '@angular/router'
+      ) as InsertChange;
 
       if (routerModuleChange.toAdd) {
         recorder.insertLeft(routerModuleChange.pos, routerModuleChange.toAdd);
       }
 
       const metadataChange = addSymbolToNgModuleMetadata(
-          moduleSource, modulePath, 'imports', 'RouterModule.forRoot(routes)');
+        moduleSource,
+        modulePath,
+        'imports',
+        'RouterModule.forRoot(routes)'
+      );
       if (metadataChange) {
         metadataChange.forEach((change: InsertChange) => {
           recorder.insertRight(change.pos, change.toAdd);
@@ -296,7 +345,6 @@ function addServerRoutes(options: AppShellOptions): Rule {
       }
       host.commitUpdate(recorder);
     }
-
 
     return host;
   };
@@ -312,7 +360,7 @@ function addShellComponent(options: AppShellOptions): Rule {
   return schematic('component', componentOptions);
 }
 
-export default function (options: AppShellOptions): Rule {
+export default function(options: AppShellOptions): Rule {
   return chain([
     validateProject(options),
     addUniversalTarget(options),

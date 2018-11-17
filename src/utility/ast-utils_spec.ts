@@ -1,4 +1,3 @@
-
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -17,12 +16,15 @@ import {
   addSymbolToNgModuleMetadata,
 } from './ast-utils';
 
-
 function getTsSource(path: string, content: string): ts.SourceFile {
   return ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true);
 }
 
-function applyChanges(path: string, content: string, changes: Change[]): string {
+function applyChanges(
+  path: string,
+  content: string,
+  changes: Change[]
+): string {
   const tree = new HostTree();
   tree.create(path, content);
   const exportRecorder = tree.beginUpdate(path);
@@ -62,7 +64,12 @@ describe('ast utils', () => {
 
   it('should add export to module', () => {
     const source = getTsSource(modulePath, moduleContent);
-    const changes = addExportToModule(source, modulePath, 'FooComponent', './foo.component');
+    const changes = addExportToModule(
+      source,
+      modulePath,
+      'FooComponent',
+      './foo.component'
+    );
     const output = applyChanges(modulePath, moduleContent, changes);
     expect(output).toMatch(/import { FooComponent } from '.\/foo.component';/);
     expect(output).toMatch(/exports: \[FooComponent\]/);
@@ -71,7 +78,12 @@ describe('ast utils', () => {
   it('should add export to module if not indented', () => {
     moduleContent = tags.stripIndents`${moduleContent}`;
     const source = getTsSource(modulePath, moduleContent);
-    const changes = addExportToModule(source, modulePath, 'FooComponent', './foo.component');
+    const changes = addExportToModule(
+      source,
+      modulePath,
+      'FooComponent',
+      './foo.component'
+    );
     const output = applyChanges(modulePath, moduleContent, changes);
     expect(output).toMatch(/import { FooComponent } from '.\/foo.component';/);
     expect(output).toMatch(/exports: \[FooComponent\]/);
@@ -80,7 +92,12 @@ describe('ast utils', () => {
   it('should add declarations to module if not indented', () => {
     moduleContent = tags.stripIndents`${moduleContent}`;
     const source = getTsSource(modulePath, moduleContent);
-    const changes = addDeclarationToModule(source, modulePath, 'FooComponent', './foo.component');
+    const changes = addDeclarationToModule(
+      source,
+      modulePath,
+      'FooComponent',
+      './foo.component'
+    );
     const output = applyChanges(modulePath, moduleContent, changes);
     expect(output).toMatch(/import { FooComponent } from '.\/foo.component';/);
     expect(output).toMatch(/declarations: \[\nAppComponent,\nFooComponent\n\]/);
@@ -88,7 +105,12 @@ describe('ast utils', () => {
 
   it('should add metadata', () => {
     const source = getTsSource(modulePath, moduleContent);
-    const changes = addSymbolToNgModuleMetadata(source, modulePath, 'imports', 'HelloWorld');
+    const changes = addSymbolToNgModuleMetadata(
+      source,
+      modulePath,
+      'imports',
+      'HelloWorld'
+    );
     expect(changes).not.toBeNull();
 
     const output = applyChanges(modulePath, moduleContent, changes || []);
@@ -113,7 +135,12 @@ describe('ast utils', () => {
       export class AppModule { }
     `;
     const source = getTsSource(modulePath, moduleContent);
-    const changes = addSymbolToNgModuleMetadata(source, modulePath, 'imports', 'HelloWorld');
+    const changes = addSymbolToNgModuleMetadata(
+      source,
+      modulePath,
+      'imports',
+      'HelloWorld'
+    );
     expect(changes).not.toBeNull();
 
     const output = applyChanges(modulePath, moduleContent, changes || []);
@@ -135,7 +162,12 @@ describe('ast utils', () => {
       export class AppModule { }
     `;
     const source = getTsSource(modulePath, moduleContent);
-    const changes = addSymbolToNgModuleMetadata(source, modulePath, 'imports', 'HelloWorld');
+    const changes = addSymbolToNgModuleMetadata(
+      source,
+      modulePath,
+      'imports',
+      'HelloWorld'
+    );
     expect(changes).not.toBeNull();
 
     const output = applyChanges(modulePath, moduleContent, changes || []);
@@ -158,7 +190,12 @@ describe('ast utils', () => {
       export class AppModule { }
     `;
     const source = getTsSource(modulePath, moduleContent);
-    const changes = addSymbolToNgModuleMetadata(source, modulePath, 'imports', 'HelloWorld');
+    const changes = addSymbolToNgModuleMetadata(
+      source,
+      modulePath,
+      'imports',
+      'HelloWorld'
+    );
     expect(changes).not.toBeNull();
 
     const output = applyChanges(modulePath, moduleContent, changes || []);
@@ -174,7 +211,12 @@ describe('ast utils', () => {
       export class AppModule { }
     `;
     const source = getTsSource(modulePath, moduleContent);
-    const changes = addExportToModule(source, modulePath, 'FooComponent', './foo.component');
+    const changes = addExportToModule(
+      source,
+      modulePath,
+      'FooComponent',
+      './foo.component'
+    );
     const output = applyChanges(modulePath, moduleContent, changes);
     expect(output).toMatch(/import { FooComponent } from '.\/foo.component';/);
     expect(output).toMatch(/exports: \[FooComponent\]/);

@@ -5,7 +5,13 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-import { JsonObject, join, normalize, relative, strings } from '@angular-devkit/core';
+import {
+  JsonObject,
+  join,
+  normalize,
+  relative,
+  strings,
+} from '@angular-devkit/core';
 import {
   MergeStrategy,
   Rule,
@@ -23,13 +29,20 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { Schema as ComponentOptions } from '../component/schema';
-import { Schema as E2eOptions } from '../e2e/schema';
+interface ComponentOptions {
+  inlineStyle: boolean;
+  inlineTemplate: boolean;
+  skipTests: boolean;
+  spec: boolean;
+  styleext: string;
+  viewEncapsulation: string;
+}
+interface E2eOptions {}
+import { addProjectToWorkspace, getWorkspace } from '../utility/config';
 import {
-  addProjectToWorkspace,
-  getWorkspace,
-} from '../utility/config';
-import { NodeDependencyType, addPackageJsonDependency } from '../utility/dependencies';
+  NodeDependencyType,
+  addPackageJsonDependency,
+} from '../utility/dependencies';
 import { latestVersions } from '../utility/latest-versions';
 import { validateProjectName } from '../utility/validation';
 import {
@@ -38,8 +51,20 @@ import {
   WorkspaceProject,
   WorkspaceSchema,
 } from '../utility/workspace-models';
-import { Schema as ApplicationOptions } from './schema';
-
+interface ApplicationOptions {
+  inlineTemplate: boolean;
+  inlineStyle: boolean;
+  style: string;
+  skipTests: boolean;
+  prefix: string;
+  minimal: boolean;
+  viewEncapsulation: string;
+  routing: boolean;
+  skipPackageJson: boolean;
+  name: string;
+  projectRoot: string;
+  skipInstall: boolean;
+}
 
 // TODO: use JsonAST
 // function appendPropertyInAstObject(
@@ -93,7 +118,10 @@ function addDependenciesToPackageJson(options: ApplicationOptions) {
   };
 }
 
-function addAppToWorkspaceFile(options: ApplicationOptions, workspace: WorkspaceSchema): Rule {
+function addAppToWorkspaceFile(
+  options: ApplicationOptions,
+  workspace: WorkspaceSchema
+): Rule {
   // TODO: use JsonAST
   // const workspacePath = '/angular.json';
   // const workspaceBuffer = host.read(workspacePath);
@@ -104,35 +132,50 @@ function addAppToWorkspaceFile(options: ApplicationOptions, workspace: Workspace
   // if (workspaceJson.value === null) {
   //   throw new SchematicsException(`Unable to parse configuration file (${workspacePath}).`);
   // }
-  let projectRoot = options.projectRoot !== undefined
-    ? options.projectRoot
-    : `${workspace.newProjectRoot}/${options.name}`;
+  let projectRoot =
+    options.projectRoot !== undefined
+      ? options.projectRoot
+      : `${workspace.newProjectRoot}/${options.name}`;
   if (projectRoot !== '' && !projectRoot.endsWith('/')) {
     projectRoot += '/';
   }
-  const rootFilesRoot = options.projectRoot === undefined
-    ? projectRoot
-    : projectRoot + 'src/';
+  const rootFilesRoot =
+    options.projectRoot === undefined ? projectRoot : projectRoot + 'src/';
 
   const schematics: JsonObject = {};
 
-  if (options.inlineTemplate === true
-    || options.inlineStyle === true
-    || options.style !== 'css') {
+  if (
+    options.inlineTemplate === true ||
+    options.inlineStyle === true ||
+    options.style !== 'css'
+  ) {
     schematics['@schematics/angular:component'] = {};
     if (options.inlineTemplate === true) {
-      (schematics['@schematics/angular:component'] as JsonObject).inlineTemplate = true;
+      (schematics[
+        '@schematics/angular:component'
+      ] as JsonObject).inlineTemplate = true;
     }
     if (options.inlineStyle === true) {
-      (schematics['@schematics/angular:component'] as JsonObject).inlineStyle = true;
+      (schematics[
+        '@schematics/angular:component'
+      ] as JsonObject).inlineStyle = true;
     }
     if (options.style && options.style !== 'css') {
-      (schematics['@schematics/angular:component'] as JsonObject).styleext = options.style;
+      (schematics['@schematics/angular:component'] as JsonObject).styleext =
+        options.style;
     }
   }
 
   if (options.skipTests === true) {
-    ['class', 'component', 'directive', 'guard', 'module', 'pipe', 'service'].forEach((type) => {
+    [
+      'class',
+      'component',
+      'directive',
+      'guard',
+      'module',
+      'pipe',
+      'service',
+    ].forEach(type => {
       if (!(`@schematics/angular:${type}` in schematics)) {
         schematics[`@schematics/angular:${type}`] = {};
       }
@@ -159,17 +202,17 @@ function addAppToWorkspaceFile(options: ApplicationOptions, workspace: Workspace
             join(normalize(projectRoot), 'src', 'favicon.ico'),
             join(normalize(projectRoot), 'src', 'assets'),
           ],
-          styles: [
-            `${projectRoot}src/styles.${options.style}`,
-          ],
+          styles: [`${projectRoot}src/styles.${options.style}`],
           scripts: [],
         },
         configurations: {
           production: {
-            fileReplacements: [{
-              replace: `${projectRoot}src/environments/environment.ts`,
-              with: `${projectRoot}src/environments/environment.prod.ts`,
-            }],
+            fileReplacements: [
+              {
+                replace: `${projectRoot}src/environments/environment.ts`,
+                with: `${projectRoot}src/environments/environment.prod.ts`,
+              },
+            ],
             optimization: true,
             outputHashing: 'all',
             sourceMap: false,
@@ -179,11 +222,13 @@ function addAppToWorkspaceFile(options: ApplicationOptions, workspace: Workspace
             extractLicenses: true,
             vendorChunk: false,
             buildOptimizer: true,
-            budgets: [{
-              type: 'initial',
-              maximumWarning: '2mb',
-              maximumError: '5mb',
-            }],
+            budgets: [
+              {
+                type: 'initial',
+                maximumWarning: '2mb',
+                maximumError: '5mb',
+              },
+            ],
           },
         },
       },
@@ -211,9 +256,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, workspace: Workspace
           polyfills: `${projectRoot}src/polyfills.ts`,
           tsConfig: `${rootFilesRoot}tsconfig.spec.json`,
           karmaConfig: `${rootFilesRoot}karma.conf.js`,
-          styles: [
-            `${projectRoot}src/styles.${options.style}`,
-          ],
+          styles: [`${projectRoot}src/styles.${options.style}`],
           scripts: [],
           assets: [
             join(normalize(projectRoot), 'src', 'favicon.ico'),
@@ -228,9 +271,7 @@ function addAppToWorkspaceFile(options: ApplicationOptions, workspace: Workspace
             `${rootFilesRoot}tsconfig.app.json`,
             `${rootFilesRoot}tsconfig.spec.json`,
           ],
-          exclude: [
-            '**/node_modules/**',
-          ],
+          exclude: ['**/node_modules/**'],
         },
       },
     },
@@ -252,42 +293,48 @@ function minimalPathFilter(path: string): boolean {
   return !toRemoveList.test(path);
 }
 
-export default function (options: ApplicationOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
+export default function(options: ApplicationOptions): Rule {
+  return (host: Tree, _context: SchematicContext) => {
     if (!options.name) {
       throw new SchematicsException(`Invalid options, "name" is required.`);
     }
     validateProjectName(options.name);
     const prefix = options.prefix || 'app';
     const appRootSelector = `${prefix}-root`;
-    const componentOptions: Partial<ComponentOptions> = !options.minimal ?
-      {
-        inlineStyle: options.inlineStyle,
-        inlineTemplate: options.inlineTemplate,
-        spec: !options.skipTests,
-        styleext: options.style,
-        viewEncapsulation: options.viewEncapsulation,
-      } :
-      {
-        inlineStyle: true,
-        inlineTemplate: true,
-        spec: false,
-        styleext: options.style,
-      };
+    const componentOptions: Partial<ComponentOptions> = !options.minimal
+      ? {
+          inlineStyle: options.inlineStyle,
+          inlineTemplate: options.inlineTemplate,
+          spec: !options.skipTests,
+          styleext: options.style,
+          viewEncapsulation: options.viewEncapsulation,
+        }
+      : {
+          inlineStyle: true,
+          inlineTemplate: true,
+          spec: false,
+          styleext: options.style,
+        };
 
     const workspace = getWorkspace(host);
     let newProjectRoot = workspace.newProjectRoot;
     let appDir = `${newProjectRoot}/${options.name}`;
     let sourceRoot = `${appDir}/src`;
     let sourceDir = `${sourceRoot}/app`;
-    let relativePathToWorkspaceRoot = appDir.split('/').map(x => '..').join('/');
+    let relativePathToWorkspaceRoot = appDir
+      .split('/')
+      .map(_ => '..')
+      .join('/');
     const rootInSrc = options.projectRoot !== undefined;
     if (options.projectRoot !== undefined) {
       newProjectRoot = options.projectRoot;
       appDir = `${newProjectRoot}/src`;
       sourceRoot = appDir;
       sourceDir = `${sourceRoot}/app`;
-      relativePathToWorkspaceRoot = relative(normalize('/' + sourceRoot), normalize('/'));
+      relativePathToWorkspaceRoot = relative(
+        normalize('/' + sourceRoot),
+        normalize('/')
+      );
       if (relativePathToWorkspaceRoot === '') {
         relativePathToWorkspaceRoot = '.';
       }
@@ -298,7 +345,9 @@ export default function (options: ApplicationOptions): Rule {
       name: `${options.name}-e2e`,
       relatedAppName: options.name,
       rootSelector: appRootSelector,
-      projectRoot: newProjectRoot ? `${newProjectRoot}/${options.name}-e2e` : 'e2e',
+      projectRoot: newProjectRoot
+        ? `${newProjectRoot}/${options.name}-e2e`
+        : 'e2e',
     };
 
     return chain([
@@ -309,37 +358,42 @@ export default function (options: ApplicationOptions): Rule {
           template({
             utils: strings,
             ...options,
-            'dot': '.',
+            dot: '.',
             relativePathToWorkspaceRoot,
           }),
           move(sourceRoot),
-        ])),
+        ])
+      ),
       mergeWith(
         apply(url('./files/root'), [
           options.minimal ? filter(minimalPathFilter) : noop(),
           template({
             utils: strings,
             ...options,
-            'dot': '.',
+            dot: '.',
             relativePathToWorkspaceRoot,
             rootInSrc,
           }),
           move(appDir),
-        ])),
-      options.minimal ? noop() : mergeWith(
-        apply(url('./files/lint'), [
-          template({
-            utils: strings,
-            ...options,
-            tsLintRoot,
-            relativePathToWorkspaceRoot,
-            prefix,
-          }),
-          // TODO: Moving should work but is bugged right now.
-          // The __tsLintRoot__ is being used meanwhile.
-          // Otherwise the tslint.json file could be inside of the root folder and
-          // this block and the lint folder could be removed.
-        ])),
+        ])
+      ),
+      options.minimal
+        ? noop()
+        : mergeWith(
+            apply(url('./files/lint'), [
+              template({
+                utils: strings,
+                ...options,
+                tsLintRoot,
+                relativePathToWorkspaceRoot,
+                prefix,
+              }),
+              // TODO: Moving should work but is bugged right now.
+              // The __tsLintRoot__ is being used meanwhile.
+              // Otherwise the tslint.json file could be inside of the root folder and
+              // this block and the lint folder could be removed.
+            ])
+          ),
       schematic('module', {
         name: 'app',
         commonModule: false,
@@ -360,16 +414,22 @@ export default function (options: ApplicationOptions): Rule {
       }),
       mergeWith(
         apply(url('./other-files'), [
-          componentOptions.inlineTemplate ? filter(path => !path.endsWith('.html')) : noop(),
-          !componentOptions.spec ? filter(path => !path.endsWith('.spec.ts')) : noop(),
+          componentOptions.inlineTemplate
+            ? filter(path => !path.endsWith('.html'))
+            : noop(),
+          !componentOptions.spec
+            ? filter(path => !path.endsWith('.spec.ts'))
+            : noop(),
           template({
             utils: strings,
-            ...options as any,  // tslint:disable-line:no-any
+            ...(options as any), // tslint:disable-line:no-any
             selector: appRootSelector,
             ...componentOptions,
           }),
           move(sourceDir),
-        ]), MergeStrategy.Overwrite),
+        ]),
+        MergeStrategy.Overwrite
+      ),
       options.minimal ? noop() : schematic('e2e', e2eOptions),
       options.skipPackageJson ? noop() : addDependenciesToPackageJson(options),
     ]);

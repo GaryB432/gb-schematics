@@ -23,12 +23,11 @@ import {
   NodePackageLinkTask,
   RepositoryInitializerTask,
 } from '@angular-devkit/schematics/tasks';
-import { Schema as ApplicationOptions } from '../application/schema';
-import { Schema as WorkspaceOptions } from '../workspace/schema';
-import { Schema as NgNewOptions } from './schema';
+import { AngularApplicationOptionsSchema as ApplicationOptions } from '../application/schema';
+import { AngularWorkspaceOptionsSchema as WorkspaceOptions } from '../workspace/schema';
+import { AngularNgNewOptionsSchema as NgNewOptions } from './schema';
 
-
-export default function (options: NgNewOptions): Rule {
+export default function(options: NgNewOptions): Rule {
   if (!options.name) {
     throw new SchematicsException(`Invalid options, "name" is required.`);
   }
@@ -64,32 +63,36 @@ export default function (options: NgNewOptions): Rule {
     mergeWith(
       apply(empty(), [
         schematic('workspace', workspaceOptions),
-        options.createApplication ? schematic('application', applicationOptions) : noop,
+        options.createApplication
+          ? schematic('application', applicationOptions)
+          : noop,
         move(options.directory || options.name),
-      ]),
+      ])
     ),
     (_host: Tree, context: SchematicContext) => {
       let packageTask;
       if (!options.skipInstall) {
-        packageTask = context.addTask(new NodePackageInstallTask(options.directory));
+        packageTask = context.addTask(
+          new NodePackageInstallTask(options.directory)
+        );
         if (options.linkCli) {
           packageTask = context.addTask(
             new NodePackageLinkTask('@angular/cli', options.directory),
-            [packageTask],
+            [packageTask]
           );
         }
       }
       if (!options.skipGit) {
-        const commit = typeof options.commit == 'object'
-          ? options.commit
-          : (!!options.commit ? {} : false);
+        const commit =
+          typeof options.commit == 'object'
+            ? options.commit
+            : !!options.commit
+            ? {}
+            : false;
 
         context.addTask(
-          new RepositoryInitializerTask(
-            options.directory,
-            commit,
-          ),
-          packageTask ? [packageTask] : [],
+          new RepositoryInitializerTask(options.directory, commit),
+          packageTask ? [packageTask] : []
         );
       }
     },

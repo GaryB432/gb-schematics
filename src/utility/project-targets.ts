@@ -8,16 +8,20 @@
 
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProject, isWorkspaceProject } from './project';
-import { WorkspaceProject, WorkspaceSchema, WorkspaceTargets } from './workspace-models';
+import {
+  WorkspaceProject,
+  WorkspaceSchema,
+  WorkspaceTargets,
+} from './workspace-models';
 
 export function getProjectTargets(project: WorkspaceProject): WorkspaceTargets;
 export function getProjectTargets(
   workspaceOrHost: WorkspaceSchema | Tree,
-  projectName: string,
+  projectName: string
 ): WorkspaceTargets;
 export function getProjectTargets(
   projectOrHost: WorkspaceProject | Tree | WorkspaceSchema,
-  projectName = '',
+  projectName = ''
 ): WorkspaceTargets {
   const project = isWorkspaceProject(projectOrHost)
     ? projectOrHost

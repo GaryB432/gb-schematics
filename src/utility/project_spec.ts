@@ -8,7 +8,6 @@
 import { ProjectType, WorkspaceProject } from '../utility/workspace-models';
 import { buildDefaultPath } from './project';
 
-
 describe('project', () => {
   describe('buildDefaultPath', () => {
     let project: WorkspaceProject;
