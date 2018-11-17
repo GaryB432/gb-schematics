@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "GbAngularFormat",
-  "title": "Angular Format Options Schema",
+  "id": "GbAngularIISConfig",
+  "title": "Angular IIS Config Options Schema",
   "type": "object",
   "properties": {
     "path": {
