@@ -13,3 +13,4 @@ see
 
 * [Angular Schematics](https://github.com/angular/angular-cli/tree/master/packages/schematics/angular)
 * [Schematics README](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics/README.md)
+* [Angular Blog](https://blog.angular.io/schematics-an-introduction-dc1dfbc2a2b2)

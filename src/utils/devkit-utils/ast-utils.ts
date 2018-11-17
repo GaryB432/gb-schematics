@@ -183,9 +183,8 @@ function _angularImportsFromNode(
         const namedImports = nb as ts.NamedImports;
 
         return namedImports.elements
-          .map(
-            (is: ts.ImportSpecifier) =>
-              is.propertyName ? is.propertyName.text : is.name.text
+          .map((is: ts.ImportSpecifier) =>
+            is.propertyName ? is.propertyName.text : is.name.text
           )
           .reduce((acc: { [name: string]: string }, curr: string) => {
             acc[curr] = modulePath;

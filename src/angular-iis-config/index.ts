@@ -17,7 +17,10 @@ import {
   getProjectFromWorkspace,
   getWorkspace,
 } from '../utils/devkit-utils/config';
-import { WebAppOptions } from './options';
+
+interface WebAppOptions {
+  project: string;
+}
 
 const stringUtils = { dasherize, classify };
 
