@@ -34,6 +34,6 @@ npx json2ts .\src\workspace\schema.json .\src\workspace\schema.d.ts
 npx json2ts .\src\application\schema.json .\src\application\schema.d.ts
 npx json2ts .\src\ng-new\schema.json .\src\ng-new\schema.d.ts
 npx json2ts .\src\app-shell\schema.json .\src\app-shell\schema.d.ts
-npx json2ts .\src\angular-iis-config\schema.json .\src\angular-iis-config\schema.d.ts
-npx json2ts .\src\angular-format\schema.json .\src\angular-format\schema.d.ts
+
+npx tsc;node .\src\util\schema2ts
 ```
