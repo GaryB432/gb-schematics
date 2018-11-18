@@ -1,8 +1,8 @@
 import {
+  chain,
   Rule,
   SchematicContext,
   Tree,
-  chain,
 } from '@angular-devkit/schematics';
 
 interface TslRules {

@@ -1,23 +1,27 @@
 {
-    "extends": [
-        "tslint:latest",
-        "tslint-config-prettier",
-        "tslint-config-gb"
-    ],
-    "jsRules": {},
-    "rules": {
-        "no-submodule-imports": [
-            true,
-            "rxjs",
-            "@angular/platform-browser",
-            "@angular/core/testing"
-        ]
-    },
-    "rulesDirectory": [],
-    "linterOptions": {
-        "exclude": [
-            "src/*/files/**/*",
-            "src/*/other-files/**/*"
-        ]
-    }
+  "extends": [
+    "tslint:latest",
+    "tslint-config-prettier",
+    "tslint-config-gb"
+  ],
+  "jsRules": {},
+  "rules": {
+    "no-submodule-imports": [
+      true,
+      "rxjs",
+      "@angular/platform-browser",
+      "@angular/core/testing",
+      "@angular-devkit/core/src/utils/strings",
+      "@angular-devkit/schematics/testing",
+      "@angular-devkit/schematics/tasks"
+    ]
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": [
+      "src/*/files/**/*",
+      "src/*/other-files/**/*",
+      "src/utility/**/*"
+    ]
+  }
 }

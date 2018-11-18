@@ -1,14 +1,14 @@
 import {
+  chain,
   Rule,
   SchematicContext,
   Tree,
-  chain,
 } from '@angular-devkit/schematics';
 
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
-  NodeDependencyType,
   addPackageJsonDependency,
+  NodeDependencyType,
 } from '../utility/dependencies';
 import { AngularFormatOptionsSchema } from './schema';
 
@@ -18,15 +18,15 @@ function addPrettierConfigToPackageJson(options: AngularFormatOptionsSchema) {
 
     if (pkg) {
       const config = JSON.parse(pkg.toString());
-      config.scripts['format'] = 'prettier --write "src/**/{*.ts,*.scss}';
+      config.scripts.format = 'prettier --write "src/**/{*.ts,*.scss}';
       config.prettier = {
-        printWidth: 100,
-        singleQuote: true,
-        useTabs: false,
-        tabWidth: 2,
-        semi: true,
         bracketSpacing: true,
+        printWidth: 100,
+        semi: true,
+        singleQuote: true,
+        tabWidth: 2,
         trailingComma: 'es5',
+        useTabs: false,
       };
       host.overwrite('/package.json', JSON.stringify(config, null, 2));
     }
@@ -43,8 +43,8 @@ function addDependenciesToPackageJson(options: AngularFormatOptionsSchema) {
   return (host: Tree, context: SchematicContext) => {
     [
       {
-        type: NodeDependencyType.Dev,
         name: 'prettier',
+        type: NodeDependencyType.Dev,
         version: '^1.15.2',
       },
     ].forEach(dependency => addPackageJsonDependency(host, dependency));

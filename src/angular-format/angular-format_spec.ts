@@ -20,13 +20,13 @@ describe('Angular Format Schematic', () => {
   };
 
   const appOptions: ApplicationOptions = {
-    name: 'bar',
     inlineStyle: false,
     inlineTemplate: false,
+    name: 'bar',
     routing: false,
-    style: 'scss',
-    skipTests: false,
     skipPackageJson: false,
+    skipTests: false,
+    style: 'scss',
   };
   let appTree: UnitTestTree;
   beforeEach(() => {
@@ -49,18 +49,18 @@ describe('Angular Format Schematic', () => {
       appTree
     );
     const pkg = JSON.parse(tree.readContent('/package.json'));
-    expect(pkg.devDependencies['prettier']).toEqual('^1.15.2');
-    expect(pkg.scripts['format']).toEqual(
+    expect(pkg.devDependencies.prettier).toEqual('^1.15.2');
+    expect(pkg.scripts.format).toEqual(
       'prettier --write "src/**/{*.ts,*.scss}'
     );
     expect(pkg.prettier).toEqual({
-      printWidth: 100,
-      singleQuote: true,
-      useTabs: false,
-      tabWidth: 2,
-      semi: true,
       bracketSpacing: true,
+      printWidth: 100,
+      semi: true,
+      singleQuote: true,
+      tabWidth: 2,
       trailingComma: 'es5',
+      useTabs: false,
     });
   });
 });

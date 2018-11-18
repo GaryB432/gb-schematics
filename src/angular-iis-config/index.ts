@@ -8,10 +8,10 @@ import {
   move,
   Rule,
   SchematicContext,
+  SchematicsException,
   template,
   Tree,
   url,
-  SchematicsException,
 } from '@angular-devkit/schematics';
 
 import { getProject } from '../utility/project';

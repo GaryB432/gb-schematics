@@ -22,13 +22,13 @@ describe('IIS Configuration Schematic', () => {
   };
 
   const appOptions: AngularApplicationOptionsSchema = {
-    name: 'bar',
     inlineStyle: false,
     inlineTemplate: false,
+    name: 'bar',
     routing: false,
-    style: 'css',
-    skipTests: false,
     skipPackageJson: false,
+    skipTests: false,
+    style: 'css',
   };
 
   let appTree: UnitTestTree;
