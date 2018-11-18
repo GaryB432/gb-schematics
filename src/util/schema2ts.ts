@@ -48,13 +48,11 @@ async function main() {
         },
       };
       compileFromFile(schemaPath, options).then(ts => {
-        writeFile(defPath, ts, { encoding: 'utf-8' }, err => {
+        writeFile(defPath, ts, { encoding: 'utf-8' }, (err) => {
           if (!err) {
-            console.log(
-              `\x1b[32m${schematicName}: ${schematic.description}\x1b[0m`
-            );
+            console.log(`\x1b[32m${schematicName}: ${schematic.description}\x1b[0m`);
           }
-        });
+        })
       });
     }
   }
