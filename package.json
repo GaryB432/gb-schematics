@@ -1,6 +1,6 @@
 {
   "name": "gb-schematics",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Schematics I like",
   "scripts": {
     "format": "prettier --write \"src/**/*.ts\" --single-quote --trailing-comma es5",

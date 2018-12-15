@@ -18,7 +18,7 @@ function addPrettierConfigToPackageJson(options: AngularFormatOptionsSchema) {
 
     if (pkg) {
       const config = JSON.parse(pkg.toString());
-      config.scripts.format = 'prettier --write "src/**/{*.ts,*.scss}';
+      config.scripts.format = 'prettier --write "**/src/**/{*.ts,*.scss}';
       config.prettier = {
         bracketSpacing: true,
         printWidth: 100,
