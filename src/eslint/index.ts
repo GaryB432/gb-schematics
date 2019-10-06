@@ -1,20 +1,14 @@
-import { parse, sep, normalize } from 'path';
+import { parse } from 'path';
 import {
-  chain,
   Rule,
   SchematicContext,
   Tree,
   apply,
   url,
   template,
-  move,
-  branchAndMerge,
   mergeWith,
   MergeStrategy,
 } from '@angular-devkit/schematics';
-
-
-
 
 // function updateTsLintConfig(): Rule {
 //   return (host: Tree, _context: SchematicContext) => {
@@ -54,7 +48,6 @@ export function eslint(_options: any): Rule {
 
     const templatedSource = apply(sts, [template({ ..._options })]);
 
-
     const packageJsonPath = './package.json';
 
     const json = tree.read(packageJsonPath);
@@ -63,7 +56,13 @@ export function eslint(_options: any): Rule {
       tree.visit(f => {
         if (!f.startsWith('/node_modules/')) {
           if (f.endsWith('.ts')) {
-            tsFolders.set(parse(f).dir.split('/').slice(0, 3).join('/'), true);
+            tsFolders.set(
+              parse(f)
+                .dir.split('/')
+                .slice(0, 3)
+                .join('/'),
+              true
+            );
             console.log(f);
           }
         }
@@ -71,17 +70,18 @@ export function eslint(_options: any): Rule {
 
       const pkgJson = {
         scripts: {
-          lint:
-            `eslint \"{${Array.from(tsFolders.keys()).join(',')}}/**/*.ts\" -f eslint-formatter-friendly`
+          lint: `eslint \"{${Array.from(tsFolders.keys()).join(
+            ','
+          )}}/**/*.ts\" -f eslint-formatter-friendly`,
         },
         devDependencies: {
-          "@typescript-eslint/eslint-plugin": "^2.0.0",
-          "@typescript-eslint/parser": "^2.0.0",
-          eslint: "^6.3.0",
-          "eslint-config-prettier": "^6.1.0",
-          "eslint-formatter-friendly": "^7.0.0",
-          "eslint-plugin-prettier": "^3.1.0"
-        }
+          '@typescript-eslint/eslint-plugin': '^2.0.0',
+          '@typescript-eslint/parser': '^2.0.0',
+          eslint: '^6.3.0',
+          'eslint-config-prettier': '^6.1.0',
+          'eslint-formatter-friendly': '^7.0.0',
+          'eslint-plugin-prettier': '^3.1.0',
+        },
       };
 
       const npk = JSON.parse(json.toString());
@@ -107,7 +107,6 @@ export function eslint(_options: any): Rule {
     // return (tree: Tree, _context: SchematicContext) => {
     //   return tree;
     // };
-
 
     // return chain([
     //   branchAndMerge(
