@@ -1,15 +1,4 @@
-// import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-
-
-// // You don't have to export the function as default. You can also have more than one rule factory
-// // per file.
-// export function eslint(_options: any): Rule {
-//   return (tree: Tree, _context: SchematicContext) => {
-//     return tree;
-//   };
-// }
-
-
+import { parse, sep, normalize } from 'path';
 import {
   chain,
   Rule,
@@ -52,7 +41,7 @@ import {
 // }
 
 export function eslint(_options: any): Rule {
-  return (_host: Tree, _context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     // if (!options.project) {
     //   throw new SchematicsException(`Invalid options, "project" is required.`);
     // }
@@ -63,9 +52,47 @@ export function eslint(_options: any): Rule {
 
     const sts = url('./files');
 
-    const spts = apply(sts, [template({ ..._options })]);
+    const templatedSource = apply(sts, [template({ ..._options })]);
 
-    return mergeWith(spts);
+
+    const packageJsonPath = './package.json';
+
+    const json = tree.read(packageJsonPath);
+    if (json) {
+      const tsFolders: Map<string, boolean> = new Map();
+      tree.visit(f => {
+        if (!f.startsWith('/node_modules/')) {
+          if (f.endsWith('.ts')) {
+            tsFolders.set(parse(f).dir.split('/').slice(0, 3).join('/'), true);
+            console.log(f);
+          }
+        }
+      });
+
+      const pkgJson = {
+        scripts: {
+          lint:
+            `eslint \"{${Array.from(tsFolders.keys()).join(',')}}/**/*.ts\" -f eslint-formatter-friendly`
+        },
+        devDependencies: {
+          "@typescript-eslint/eslint-plugin": "^2.0.0",
+          "@typescript-eslint/parser": "^2.0.0",
+          eslint: "^6.3.0",
+          "eslint-config-prettier": "^6.1.0",
+          "eslint-formatter-friendly": "^7.0.0",
+          "eslint-plugin-prettier": "^3.1.0"
+        }
+      };
+
+      const npk = JSON.parse(json.toString());
+      const scripts = { ...npk.scripts, ...pkgJson.scripts };
+      const devDependencies = { ...npk.devDependencies, ...pkgJson.devDependencies };
+      npk.scripts = scripts;
+      npk.devDependencies = devDependencies;
+      tree.overwrite(packageJsonPath, JSON.stringify(npk, null, 2));
+    }
+
+    return mergeWith(templatedSource, MergeStrategy.AllowOverwriteConflict);
 
     // const iisAppPath = `$./iis-application`;
 
