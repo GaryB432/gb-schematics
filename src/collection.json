@@ -6,8 +6,12 @@
       "factory": "./gb-schematics/index#gbSchematics"
     },
     "eslint": {
-      "description": "A blank schematic.",
+      "description": "Add eslint configuration.",
       "factory": "./eslint/index#eslint"
+    },
+    "prettier": {
+      "description": "Add prettier configuration.",
+      "factory": "./prettier/index#prettier"
     }
   }
 }

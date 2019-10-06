@@ -4,7 +4,8 @@
   "description": "A blank schematics",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/*_spec.js"
+    "test": "npm run build && jasmine src/**/*_spec.js",
+    "format": "prettier --write \"**/src/**/{*.ts,*.scss,*.html,*.json}"
   },
   "keywords": [
     "schematics"
@@ -19,5 +20,17 @@
     "@types/node": "^8.0.31",
     "jasmine": "^3.3.1",
     "typescript": "~3.5.3"
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "printWidth": 100,
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "useTabs": false
+  },
+  "devDependencies": {
+    "prettier": "^1.15.2"
   }
 }
