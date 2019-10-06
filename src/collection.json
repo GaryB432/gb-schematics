@@ -4,6 +4,10 @@
     "gb-schematics": {
       "description": "A blank schematic.",
       "factory": "./gb-schematics/index#gbSchematics"
+    },
+    "eslint": {
+      "description": "A blank schematic.",
+      "factory": "./eslint/index#eslint"
     }
   }
 }
