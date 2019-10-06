@@ -1,20 +1,9 @@
 {
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "angular-format": {
-      "description": "Add prettier and some lint rules.",
-      "factory": "./angular-format",
-      "schema": "./angular-format/schema.json"
-    },
-    "angular-iis-config": {
-      "description": "Add an IIS application to your project.",
-      "factory": "./angular-iis-config/index#angularIisConfig",
-      "schema": "./angular-iis-config/schema.json"
-    },
-    "tslint-rules": {
-      "description": "Add my favorite lint rules to your project.",
-      "factory": "./tslint-rules/index#tslintRules",
-      "schema": "./tslint-rules/schema.json"
+    "gb-schematics": {
+      "description": "A blank schematic.",
+      "factory": "./gb-schematics/index#gbSchematics"
     }
   }
 }
