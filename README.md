@@ -1,39 +1,28 @@
-# gb-schematics
+# Getting Started With Schematics
 
-Some schematics for features I like
+This repository is a basic Schematic implementation that serves as a starting point to create and publish Schematics to NPM.
 
-## Add my favorite lint rules to your Angular Workspace
+### Testing
 
-```
-cd your-app
-schematics gb-schematics:tslint-rules
-```
+To test locally, install `@angular-devkit/schematics-cli` globally and use the `schematics` command line tool. That tool acts the same as the `generate` command of the Angular CLI, but also has a debug mode.
 
-## Add prettier formatting to your Project
-
-```
-cd your-app
-schematics gb-schematics:angular-format [--skipInstall]
+Check the documentation with
+```bash
+schematics --help
 ```
 
-## Add IIS application to your Angular Project
+### Unit Testing
 
+`npm run test` will run the unit tests, using Jasmine as a runner and test framework.
+
+### Publishing
+
+To publish, simply do:
+
+```bash
+npm run build
+npm publish
 ```
-cd your-app
-schematics gb-schematics:angular-iis-config --project your-app
-```
 
-see 
-
-* [Angular Schematics](https://github.com/angular/angular-cli/tree/master/packages/schematics/angular)
-* [Schematics README](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics/README.md)
-* [Angular Blog](https://blog.angular.io/schematics-an-introduction-dc1dfbc2a2b2)
-
-```powershell
-npx json2ts .\src\workspace\schema.json .\src\workspace\schema.d.ts
-npx json2ts .\src\application\schema.json .\src\application\schema.d.ts
-npx json2ts .\src\ng-new\schema.json .\src\ng-new\schema.d.ts
-npx json2ts .\src\app-shell\schema.json .\src\app-shell\schema.d.ts
-
-npx tsc;node .\src\util\schema2ts
-```
+That's it!
+ 
