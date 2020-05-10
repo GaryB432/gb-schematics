@@ -34,7 +34,7 @@ import {
 //   };
 // }
 
-export function eslint(_options: any): Rule {
+export function eslint(options: any): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     // if (!options.project) {
     //   throw new SchematicsException(`Invalid options, "project" is required.`);
@@ -46,7 +46,7 @@ export function eslint(_options: any): Rule {
 
     const sts = url('./files');
 
-    const templatedSource = apply(sts, [template({ ..._options })]);
+    const templatedSource = apply(sts, [template({ ...options })]);
 
     const packageJsonPath = './package.json';
 
@@ -67,6 +67,11 @@ export function eslint(_options: any): Rule {
           }
         }
       });
+
+      if (tsFolders.size === 0) {
+        
+        tsFolders.set('src', true);
+      }
 
       const pkgJson = {
         scripts: {
