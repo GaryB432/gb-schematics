@@ -12,6 +12,10 @@
     "prettier": {
       "description": "Add prettier configuration.",
       "factory": "./prettier/index#prettier"
+    },
+    "typescript": {
+      "description": "Add typescript.",
+      "factory": "./typescript/index#typescript"
     }
   }
 }
