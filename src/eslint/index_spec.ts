@@ -9,6 +9,6 @@ describe('eslint', () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const tree = runner.runSchematic('eslint', {}, Tree.empty());
 
-    expect(tree.files).toEqual([]);
+    expect(tree.files).toEqual(['/.eslintrc.js']);
   });
 });
