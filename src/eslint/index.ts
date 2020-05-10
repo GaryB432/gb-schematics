@@ -69,8 +69,8 @@ export function eslint(options: any): Rule {
       });
 
       if (tsFolders.size === 0) {
-        
-        tsFolders.set('src', true);
+        tree.create('./src/dummy.ts', "console.log('dummy file');\n");
+        tsFolders.set('/src', true);
       }
 
       const pkgJson = {
@@ -97,6 +97,19 @@ export function eslint(options: any): Rule {
       tree.overwrite(packageJsonPath, JSON.stringify(npk, null, 2));
     }
 
+    // const rule0: Rule = (tree: Tree) => {
+    //   tree.create('test', 'test');
+    //   tree.create('./src/dummy.ts', "console.log('dummy file');\n");
+    //   // tree.delete('test');
+    // };
+
+    // return chain([
+    //   branchAndMerge(
+    //     chain([mergeWith(templatedSource, MergeStrategy.Overwrite), mergeWith(rule0, MergeStrategy.Overwrite)]),
+    //     MergeStrategy.AllowOverwriteConflict
+    //   ),
+    //   rule0
+    // ])(tree, _context);
     return mergeWith(templatedSource, MergeStrategy.AllowOverwriteConflict);
 
     // const iisAppPath = `$./iis-application`;
