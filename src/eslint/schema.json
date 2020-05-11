@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "GbSchematicsEslint",
+  "title": "GB Schematics Eslint Options Schema",
+  "type": "object",
+  "properties": {
+    "includeTypescript": {
+      "type": "boolean",
+      "default": true,
+      "description": "Include Typescript"
+    },
+    "includePrettier": {
+      "type": "boolean",
+      "default": true,
+      "description": "Include Prettier"
+    },
+    "skipInstall": {
+      "type": "boolean",
+      "default": false,
+      "description": "Skip package installation"
+    }
+  },
+  "required": []
+}
