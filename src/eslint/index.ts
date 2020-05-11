@@ -1,17 +1,17 @@
-import { parse } from 'path';
 import {
+  apply,
+  applyTemplates,
+  branchAndMerge,
+  chain,
+  MergeStrategy,
+  mergeWith,
   Rule,
+  schematic,
   SchematicContext,
   Tree,
-  apply,
   url,
-  template,
-  mergeWith,
-  MergeStrategy,
-  schematic,
-  chain,
-  branchAndMerge,
 } from '@angular-devkit/schematics';
+import { parse } from 'path';
 import { Schema as Options } from './schema';
 
 // function updateTsLintConfig(): Rule {
@@ -50,10 +50,7 @@ export function eslint(options: Options): Rule {
 
     const sts = url('./files');
 
-    const templatedSource = apply(sts, [template({ ...options })]);
-
-    schematic('typescript', {});
-    schematic('prettier', {});
+    const templatedSource = apply(sts, [applyTemplates({ ...options })]);
 
     const packageJsonPath = './package.json';
 
