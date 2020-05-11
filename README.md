@@ -6,21 +6,21 @@ Some schematics for features I like
 
 ```
 cd your-app
-schematics gb-schematics:tslint-rules
+schematics gb-schematics:eslint
 ```
 
 ## Add prettier formatting to your Project
 
 ```
 cd your-app
-schematics gb-schematics:angular-format [--skipInstall]
+schematics gb-schematics:prettier [--skipInstall]
 ```
 
-## Add IIS application to your Angular Project
+## Add Typescript to your project
 
 ```
 cd your-app
-schematics gb-schematics:angular-iis-config --project your-app
+schematics gb-schematics:typescript
 ```
 
 see 
