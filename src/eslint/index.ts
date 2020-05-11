@@ -8,7 +8,11 @@ import {
   template,
   mergeWith,
   MergeStrategy,
+  schematic,
+  chain,
+  branchAndMerge,
 } from '@angular-devkit/schematics';
+import { Schema as Options } from './schema';
 
 // function updateTsLintConfig(): Rule {
 //   return (host: Tree, _context: SchematicContext) => {
@@ -34,8 +38,8 @@ import {
 //   };
 // }
 
-export function eslint(options: any): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+export function eslint(options: Options): Rule {
+  return (tree: Tree, context: SchematicContext) => {
     // if (!options.project) {
     //   throw new SchematicsException(`Invalid options, "project" is required.`);
     // }
@@ -47,6 +51,9 @@ export function eslint(options: any): Rule {
     const sts = url('./files');
 
     const templatedSource = apply(sts, [template({ ...options })]);
+
+    schematic('typescript', {});
+    schematic('prettier', {});
 
     const packageJsonPath = './package.json';
 
@@ -69,8 +76,9 @@ export function eslint(options: any): Rule {
       });
 
       if (tsFolders.size === 0) {
-        tree.create('./src/dummy.ts', "console.log('dummy file');\n");
+        tree.create('./src/dummy.ts', '\n');
         tsFolders.set('/src', true);
+        tsFolders.set('/tbd', true);
       }
 
       const pkgJson = {
@@ -103,14 +111,18 @@ export function eslint(options: any): Rule {
     //   // tree.delete('test');
     // };
 
-    // return chain([
-    //   branchAndMerge(
-    //     chain([mergeWith(templatedSource, MergeStrategy.Overwrite), mergeWith(rule0, MergeStrategy.Overwrite)]),
-    //     MergeStrategy.AllowOverwriteConflict
-    //   ),
-    //   rule0
-    // ])(tree, _context);
-    return mergeWith(templatedSource, MergeStrategy.AllowOverwriteConflict);
+    return chain([
+      branchAndMerge(
+        chain([
+          schematic('typescript', {}),
+          schematic('prettier', {}),
+          mergeWith(templatedSource, MergeStrategy.Overwrite),
+          // mergeWith(rule0, MergeStrategy.Overwrite)
+        ]),
+        MergeStrategy.AllowOverwriteConflict
+      ),
+    ])(tree, context);
+    // return mergeWith(templatedSource, MergeStrategy.AllowOverwriteConflict);
 
     // const iisAppPath = `$./iis-application`;
 
