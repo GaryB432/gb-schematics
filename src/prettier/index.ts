@@ -13,7 +13,7 @@ export function prettier(options: any): Rule {
           format: 'prettier --write "**/src/**/{*.ts,*.scss,*.html,*.json}',
         },
         devDependencies: {
-          prettier: '^1.15.2',
+          prettier: '^2.0.5',
         },
       };
       const npk = JSON.parse(json.toString());
