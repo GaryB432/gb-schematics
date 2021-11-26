@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "GbSchematicsEslint",
+  "$id": "GbSchematicsEslint",
   "title": "GB Schematics Eslint Options Schema",
   "type": "object",
   "properties": {

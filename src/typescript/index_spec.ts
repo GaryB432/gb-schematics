@@ -5,9 +5,9 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('typescript', () => {
-  it('works', () => {
+  it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('typescript', {}, Tree.empty());
+    const tree = await runner.runSchematicAsync('typescript', {}, Tree.empty()).toPromise();
 
     expect(tree.files).toContain('/tsconfig.json');
   });

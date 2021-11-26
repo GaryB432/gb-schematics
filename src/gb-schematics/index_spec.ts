@@ -5,9 +5,9 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('gb-schematics', () => {
-  it('works', () => {
+  it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('gb-schematics', {}, Tree.empty());
+    const tree = await runner.runSchematicAsync('gb-schematics', {}, Tree.empty()).toPromise();
 
     expect(tree.files).toEqual([]);
   });

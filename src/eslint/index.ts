@@ -57,16 +57,10 @@ export function eslint(options: Options): Rule {
     const json = tree.read(packageJsonPath);
     if (json) {
       const tsFolders: Map<string, boolean> = new Map();
-      tree.visit(f => {
+      tree.visit((f) => {
         if (!f.startsWith('/node_modules/')) {
           if (f.endsWith('.ts')) {
-            tsFolders.set(
-              parse(f)
-                .dir.split('/')
-                .slice(0, 3)
-                .join('/'),
-              true
-            );
+            tsFolders.set(parse(f).dir.split('/').slice(0, 3).join('/'), true);
             console.log(f);
           }
         }
