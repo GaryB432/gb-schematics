@@ -8,9 +8,9 @@ describe('devops', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const tree = await runner
-      .runSchematicAsync('devops', {}, Tree.empty())
+      .runSchematicAsync('devops', { platform: 'azure' }, Tree.empty())
       .toPromise();
 
-    expect(tree.files).toContain('/tsconfig.json');
+    expect(tree.files).toContain('/azure-pipelines.yml');
   });
 });
