@@ -18,6 +18,11 @@
       "description": "Add typescript.",
       "factory": "./typescript/index#typescript"
     },
+    "devops": {
+      "description": "Add platform devops pipeline",
+      "schema": "./devops/schema.json",
+      "factory": "./devops/index#devops"
+    },
     "bump": {
       "description": "Bump package.json version",
       "schema": "./bump/schema.json",

@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "GbSchematicsDevops",
+  "title": "GB Schematics Devops Options Schema",
+  "type": "object",
+  "properties": {
+    "platform": {
+      "type": "string",
+      "description": "Which Dev Ops pipeline",
+      "enum": [
+        "azure",
+        "github"
+      ],
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "skipInstall": {
+      "type": "boolean",
+      "default": false,
+      "description": "Skip package installation"
+    }
+  },
+  "required": ["platform"]
+}
