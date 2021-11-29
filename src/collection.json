@@ -17,6 +17,11 @@
     "typescript": {
       "description": "Add typescript.",
       "factory": "./typescript/index#typescript"
+    },
+    "bump": {
+      "description": "Bump package.json version",
+      "schema": "./bump/schema.json",
+      "factory": "./bump/index#bump"
     }
   }
 }

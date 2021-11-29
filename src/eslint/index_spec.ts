@@ -7,7 +7,14 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('eslint', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = await runner.runSchematicAsync('eslint', {}, Tree.empty()).toPromise();
+    const ftree = Tree.empty();
+    ftree.create(
+      'package.json',
+      JSON.stringify({ name: 'test', version: '1.2.3' })
+    );
+    const tree = await runner
+      .runSchematicAsync('eslint', {}, ftree)
+      .toPromise();
 
     expect(tree.files).toContain('/.eslintrc.js');
   });

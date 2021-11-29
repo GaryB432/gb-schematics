@@ -90,7 +90,10 @@ export function eslint(options: Options): Rule {
 
       const npk = JSON.parse(json.toString());
       const scripts = { ...npk.scripts, ...pkgJson.scripts };
-      const devDependencies = { ...npk.devDependencies, ...pkgJson.devDependencies };
+      const devDependencies = {
+        ...npk.devDependencies,
+        ...pkgJson.devDependencies,
+      };
       npk.scripts = scripts;
       npk.devDependencies = devDependencies;
       tree.overwrite(packageJsonPath, JSON.stringify(npk, null, 2));

@@ -20,11 +20,12 @@
     "@types/jasmine": "^3.10.2",
     "@types/node": "^16.11.10",
     "jasmine": "^3.10.0",
+    "semver": "^7.3.5",
     "typescript": "^4.5.2"
   },
   "prettier": {
     "bracketSpacing": true,
-    "printWidth": 100,
+    "printWidth": 80,
     "semi": true,
     "singleQuote": true,
     "tabWidth": 2,

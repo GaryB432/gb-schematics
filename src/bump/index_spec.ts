@@ -4,13 +4,22 @@ import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('gb-schematics', () => {
+describe('bump', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    ftree.create(
+      'package.json',
+      JSON.stringify({ name: 'test', version: '1.2.3' })
+    );
     const tree = await runner
-      .runSchematicAsync('gb-schematics', {}, Tree.empty())
+      .runSchematicAsync('bump', { part: 'major' }, ftree)
       .toPromise();
 
-    expect(tree.files).toEqual([]);
+    const buff = tree.read('package.json');
+
+    const newPJ = buff ? JSON.parse(buff.toString()) : {};
+
+    expect(newPJ.version).toBe('2.0.0');
   });
 });
