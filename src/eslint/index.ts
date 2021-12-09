@@ -74,9 +74,9 @@ export function eslint(options: Options): Rule {
 
       const pkgJson = {
         scripts: {
-          lint: `eslint \"{${Array.from(tsFolders.keys()).join(
+          lint: `eslint "{${Array.from(tsFolders.keys()).join(
             ','
-          )}}/**/*.ts\" -f eslint-formatter-friendly`,
+          )}}/**/*.ts" -f eslint-formatter-friendly`,
         },
         devDependencies: {
           '@typescript-eslint/eslint-plugin': '^2.0.0',
