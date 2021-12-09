@@ -23,6 +23,10 @@
       "schema": "./devops/schema.json",
       "factory": "./devops/index#devops"
     },
+    "jest": {
+      "description": "Add Jest testing",
+      "factory": "./jest/index#jestFactory"
+    },
     "bump": {
       "description": "Bump package.json version",
       "schema": "./bump/schema.json",
