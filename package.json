@@ -15,13 +15,13 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^13.0.3",
-    "@angular-devkit/schematics": "^13.0.3",
-    "@types/jasmine": "^3.10.2",
-    "@types/node": "^16.11.10",
-    "jasmine": "^3.10.0",
-    "semver": "^7.3.5",
-    "typescript": "^4.5.2"
+    "@angular-devkit/core": "^14.0.2",
+    "@angular-devkit/schematics": "^14.0.2",
+    "@types/jasmine": "^4.0.3",
+    "@types/node": "^18.0.0",
+    "jasmine": "^4.2.1",
+    "semver": "^7.3.7",
+    "typescript": "^4.7.4"
   },
   "prettier": {
     "bracketSpacing": true,
@@ -33,13 +33,13 @@
     "useTabs": false
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
-    "eslint": "^8.3.0",
-    "eslint-config-prettier": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-formatter-friendly": "^7.0.0",
     "eslint-plugin-gb": "^1.2.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.5.0"
+    "prettier": "^2.7.1"
   }
 }
