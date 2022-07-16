@@ -12,14 +12,20 @@ import {
 
 interface Options {
   name: string;
+  project: string;
+  directory: string | undefined;
   style: string;
+}
+
+function normalizeOptions(options: Options): Options {
+  return { ...options, directory: options.directory ?? 'lib/components' };
 }
 
 export default function (options: Options): Rule {
   return (_tree: Tree, _context: SchematicContext) => {
     const urlString = './files';
     const templateSource = apply(url(urlString), [
-      applyTemplates({ ...options, ...strings }),
+      applyTemplates({ ...normalizeOptions(options), ...strings }),
     ]);
     return mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict);
   };

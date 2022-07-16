@@ -7,9 +7,9 @@
   {message}
 </article>
 
-<style lang="<%= style %>">
+<style lang="scss">
   article {
-    border: thin solid blue;
+    border: thin solid silver;
     padding: 1em;
   }
 </style>
