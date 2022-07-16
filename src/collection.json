@@ -1,10 +1,6 @@
 {
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "gb-schematics": {
-      "description": "A blank schematic.",
-      "factory": "./gb-schematics/index#gbSchematics"
-    },
     "eslint": {
       "description": "Add eslint configuration.",
       "schema": "./eslint/schema.json",
@@ -22,6 +18,16 @@
       "description": "Add platform devops pipeline",
       "schema": "./devops/schema.json",
       "factory": "./devops/index#devops"
+    },
+    "sveltekit-component": {
+      "description": "Add a component to your sveltekit project",
+      "schema": "./sveltekit-component/schema.json",
+      "factory": "./sveltekit-component"
+    },
+    "sveltekit-route": {
+      "description": "Add a route to your sveltekit project",
+      "schema": "./sveltekit-route/schema.json",
+      "factory": "./sveltekit-route"
     },
     "jest": {
       "description": "Add Jest testing",

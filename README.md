@@ -2,6 +2,20 @@
 
 Some schematics for features I like
 
+## Add a route to your [SvelteKit](https://kit.svelte.dev/) project
+
+```
+cd your-app
+schematics gb-schematics:sveltekit-route my-route
+```
+
+## Add a component to your [SvelteKit](https://kit.svelte.dev/) project
+
+```
+cd your-app
+schematics gb-schematics:sveltekit-component my-component
+```
+
 ## Add my favorite lint rules to your Angular Workspace
 
 ```
@@ -28,12 +42,3 @@ see
 * [Angular Schematics](https://github.com/angular/angular-cli/tree/master/packages/schematics/angular)
 * [Schematics README](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics/README.md)
 * [Angular Blog](https://blog.angular.io/schematics-an-introduction-dc1dfbc2a2b2)
-
-```powershell
-npx json2ts .\src\workspace\schema.json .\src\workspace\schema.d.ts
-npx json2ts .\src\application\schema.json .\src\application\schema.d.ts
-npx json2ts .\src\ng-new\schema.json .\src\ng-new\schema.d.ts
-npx json2ts .\src\app-shell\schema.json .\src\app-shell\schema.d.ts
-
-npx tsc;node .\src\util\schema2ts
-```
