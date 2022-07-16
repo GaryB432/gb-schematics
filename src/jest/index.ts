@@ -12,7 +12,11 @@ import {
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
-export function jestFactory(options: any): Rule {
+interface Options {
+  skipInstall: boolean;
+}
+
+export function jestFactory(options: Options): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const templatedSource = apply(url('./files'), [
       applyTemplates({ ...options }),
@@ -74,42 +78,3 @@ export function jestFactory(options: any): Rule {
     ])(tree, context);
   };
 }
-
-// import { strings } from '@angular-devkit/core';
-// import {
-//   apply,
-//   applyTemplates,
-//   branchAndMerge,
-//   chain,
-//   MergeStrategy,
-//   mergeWith,
-//   Rule,
-//   SchematicContext,
-//   Tree,
-//   url,
-// } from '@angular-devkit/schematics';
-
-// export default function (): Rule {
-//   const templatedSource = apply(url('./files'), [applyTemplates({ ...strings })]);
-
-//   return (tree: Tree, context: SchematicContext) => {
-//     const buff = tree.read('package.json');
-//     if (!buff) throw new Error('no package.json');
-
-//     const packageJson = JSON.parse(buff.toString());
-//     packageJson.devDependencies = packageJson.devDependencies || {};
-//     packageJson.scripts = packageJson.scripts || {};
-
-//     packageJson.devDependencies['prettier'] = '^2.4.1';
-//     packageJson.scripts['format'] = 'prettier --write .';
-
-//     tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
-
-//     return chain([
-//       branchAndMerge(
-//         chain([mergeWith(templatedSource, MergeStrategy.Overwrite)]),
-//         MergeStrategy.AllowOverwriteConflict
-//       ),
-//     ])(tree, context);
-//   };
-// }

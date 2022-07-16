@@ -12,7 +12,11 @@ import {
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
-export function prettier(options: any): Rule {
+interface Options {
+  skipInstall: boolean;
+}
+
+export function prettier(options: Options): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const templatedSource = apply(url('./files'), [
       applyTemplates({ ...options }),

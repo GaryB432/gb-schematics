@@ -10,7 +10,11 @@ import {
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
-export function typescript(options: any): Rule {
+interface Options {
+  skipInstall: boolean;
+}
+
+export function typescript(options: Options): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const templateSource = apply(url('./files'), [applyTemplates(options)]);
 

@@ -9,9 +9,7 @@ import {
 import {
   apply,
   applyTemplates,
-  FileOperator,
   filter,
-  forEach,
   MergeStrategy,
   mergeWith,
   move,
@@ -22,9 +20,9 @@ import {
 } from '@angular-devkit/schematics';
 
 interface Options {
-  path: string;
   endpoint: boolean;
   name: string;
+  path: string;
   skipTests: boolean;
   style: string;
 }

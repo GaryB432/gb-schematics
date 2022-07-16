@@ -13,9 +13,9 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 interface PackageDef {
   scripts: {
     build?: string;
-    test?: string;
     dependencies?: unknown;
     devDependencies?: unknown;
+    test?: string;
   };
 }
 

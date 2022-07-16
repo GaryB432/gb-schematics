@@ -1,5 +1,5 @@
 export interface Schema {
-  includeTypescript?: boolean;
   includePrettier?: boolean;
+  includeTypescript?: boolean;
   skipInstall?: boolean;
 }
