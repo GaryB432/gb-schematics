@@ -1,7 +1,7 @@
 {
   "name": "gb-schematics",
   "version": "1.0.0",
-  "description": "A blank schematics",
+  "description": "Some schematics I like",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
@@ -11,8 +11,18 @@
   "keywords": [
     "schematics"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GaryB432/gb-schematics.git"
+  },
+  "engines": {
+    "node": "^14.15.0 || ^16.10.0"
+  },
   "author": "",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GaryB432/gb-schematics/issues"
+  },
   "schematics": "./src/collection.json",
   "dependencies": {
     "@angular-devkit/core": "^14.0.2",
