@@ -1,11 +1,11 @@
 {
   "name": "gb-schematics",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Some schematics I like",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
-    "format": "prettier --write \"**/src/**/{*.ts,*.scss,*.html,*.json}",
+    "format": "prettier --write .",
     "lint": "eslint \"src/**/*.ts\" -f eslint-formatter-friendly"
   },
   "keywords": [
@@ -32,15 +32,6 @@
     "jasmine": "^4.2.1",
     "semver": "^7.3.7",
     "typescript": "^4.7.4"
-  },
-  "prettier": {
-    "bracketSpacing": true,
-    "printWidth": 80,
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.28.0",

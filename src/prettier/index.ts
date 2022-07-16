@@ -62,7 +62,7 @@ export function prettier(options: Options): Rule {
     packageJson.devDependencies = packageJson.devDependencies || {};
     packageJson.scripts = packageJson.scripts || {};
 
-    packageJson.devDependencies['prettier'] = '^2.4.1';
+    packageJson.devDependencies['prettier'] = '^2.7.1';
     packageJson.scripts['format'] = 'prettier --write .';
 
     tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
