@@ -1,0 +1,18 @@
+<script lang="ts">
+  export let <%= camelize(name) %>: string;
+  $: title = `${<%= camelize(name) %>} - Generated`;
+</script>
+
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
+
+<article>
+  <div>{<%= camelize(name) %>} works</div>
+</article>
+
+<style lang="<%= style %>">
+  article {
+    padding: 1em;
+  }
+</style>
