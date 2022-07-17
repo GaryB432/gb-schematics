@@ -2,8 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/gb-schematics.svg)](https://badge.fury.io/js/gb-schematics)
 
-This package contains a collection of [schematics](/packages/angular_devkit/schematics/README.md)
-for generating my favorite features.
+This package contains a collection of [Schematics](https://github.com/angular/angular-cli/tree/main/packages/angular_devkit/schematics) for generating my favorite features.
 
 🔥 Now including [SvelteKit](https://kit.svelte.dev/)
 
@@ -134,6 +133,6 @@ Add typescript.
 
 see
 
-- [Angular Schematics](https://github.com/angular/angular-cli/tree/master/packages/schematics/angular)
-- [Schematics README](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics/README.md)
+- [Angular Schematics](https://github.com/angular/angular-cli/tree/main/packages/schematics/angular)
+- [Schematics README](https://github.com/angular/angular-cli/blob/main/packages/angular_devkit/schematics/README.md)
 - [Angular Blog](https://blog.angular.io/schematics-an-introduction-dc1dfbc2a2b2)
