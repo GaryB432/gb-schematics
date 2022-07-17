@@ -15,15 +15,15 @@
       "x-prompt": "What name would you like to use for the component?"
     },
     "directory": {
-      "description": "The directory for your component",
+      "description": "The directory for your component, under src",
       "type": "string",
       "default": "lib"
     },
     "style": {
-      "description": "The file extension or preprocessor to use for style files, or 'none' to skip generating the style file.",
+      "description": "The value of styles type attribute",
       "type": "string",
       "default": "scss",
-      "enum": ["css", "scss", "sass", "less", "none"]
+      "enum": ["css", "scss", "none"]
     }
   },
 

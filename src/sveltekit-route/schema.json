@@ -25,10 +25,10 @@
       "x-prompt": "What name would you like to use for the route?"
     },
     "style": {
-      "description": "The file extension or preprocessor to use for style files, or 'none' to skip generating the style file.",
+      "description": "The value of styles type attribute",
       "type": "string",
       "default": "scss",
-      "enum": ["css", "scss", "sass", "less", "none"],
+      "enum": ["css", "scss", "none"],
       "x-user-analytics": 5
     },
     "skipTests": {

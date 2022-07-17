@@ -13,7 +13,7 @@ import {
 interface Options {
   name: string;
   project: string;
-  directory: string | undefined;
+  directory?: string;
   style: string;
 }
 
