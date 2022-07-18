@@ -4,7 +4,7 @@
 
 This package contains a collection of [Schematics](https://github.com/angular/angular-cli/tree/main/packages/angular_devkit/schematics) for generating my favorite features.
 
-You will need the [Reference Schematics CLI](https://www.npmjs.com/package/@angular-devkit/schematics-cli) tooling to run execute these schematics.
+You will need the [Reference Schematics CLI](https://www.npmjs.com/package/@angular-devkit/schematics-cli) tooling to execute these schematics.
 
 > npm i @angular-devkit/schematics-cli -g
 
