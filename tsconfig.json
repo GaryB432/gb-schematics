@@ -1,23 +1,21 @@
 {
   "compilerOptions": {
     "baseUrl": "tsconfig",
-    "declaration": true,
-    "esModuleInterop": true,
-    "lib": ["es2018", "dom"], // "lib": ["ES2017", "DOM"],
-    "module": "commonjs", // "module": "ES2020",
+    "lib": ["es2018", "dom"],
+    "module": "commonjs",
     "moduleResolution": "node",
-    "noEmitHelpers": false,
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true,
-    "rootDir": "src/",
+    // "noUnusedLocals": true,
+    "rootDir": "",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es6", // "target": "ES2017",
+    "target": "es6",
     "types": ["jasmine", "node"]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.d.ts", "src/**/*.spec.ts", "src/*/other-files/**/*"]
+  "include": ["src/**/*", "tools/**/*"],
+  "exclude": ["src/*/files/**/*"]
 }

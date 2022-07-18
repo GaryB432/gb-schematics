@@ -11,9 +11,9 @@ import {
 } from '@angular-devkit/schematics';
 
 interface Options {
+  directory?: string;
   name: string;
   project: string;
-  directory?: string;
   style: string;
 }
 

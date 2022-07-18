@@ -2,6 +2,9 @@
 src/**/*.js
 src/**/*.js.map
 src/**/*.d.ts
+tools/**/*.js
+tools/**/*.js.map
+tools/**/*.d.ts
 
 # IDEs
 .idea/

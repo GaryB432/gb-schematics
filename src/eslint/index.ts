@@ -60,8 +60,7 @@ export function eslint(options: Options): Rule {
       tree.visit((f) => {
         if (!f.startsWith('/node_modules/')) {
           if (f.endsWith('.ts')) {
-            tsFolders.set(parse(f).dir.split('/').slice(0, 3).join('/'), true);
-            console.log(f);
+            tsFolders.set(parse(f).dir.split('/').slice(0, 2).join('/'), true);
           }
         }
       });
@@ -89,6 +88,7 @@ export function eslint(options: Options): Rule {
       };
 
       const npk = JSON.parse(json.toString());
+      console.log(pkgJson.scripts);
       const scripts = { ...npk.scripts, ...pkgJson.scripts };
       const devDependencies = {
         ...npk.devDependencies,

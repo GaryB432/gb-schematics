@@ -1,10 +1,10 @@
 import { readFile } from 'fs/promises';
-import { join, parse } from 'path/posix';
+import { join, parse } from 'path';
 
 interface Schemtic {
   description: string;
-  schema?: string;
   factory: string;
+  schema?: string;
 }
 
 interface Collection {
@@ -117,4 +117,4 @@ async function main() {
   }
 }
 
-main();
+void main();
