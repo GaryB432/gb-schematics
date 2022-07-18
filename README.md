@@ -100,10 +100,10 @@ Add a component to your sveltekit project
 
 ### Options
 
-| OPTION      | DESCRIPTION                                 | VALUE TYPE          | DEFAULT VALUE |
-| ----------- | ------------------------------------------- | ------------------- | ------------- |
-| --directory | The directory for your component, under src | string              | lib           |
-| --style     | The value of styles type attribute          | css \| scss \| none | scss          |
+| OPTION      | DESCRIPTION                                 | VALUE TYPE          | DEFAULT VALUE  |
+| ----------- | ------------------------------------------- | ------------------- | -------------- |
+| --directory | The directory for your component, under src | string              | lib/components |
+| --style     | The value of styles type attribute          | css \| scss \| none | scss           |
 
 ## sveltekit-route
 

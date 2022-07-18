@@ -19,6 +19,8 @@ import {
   url,
 } from '@angular-devkit/schematics';
 
+import { createConsoleLogger } from '@angular-devkit/core/node';
+
 interface Options {
   endpoint: boolean;
   name: string;
@@ -43,7 +45,10 @@ function parseName(path: string, name: string): Location {
 }
 
 export default function (options: Options): Rule {
-  return async (_tree: Tree, _context: SchematicContext) => {
+  return async (tree: Tree, context: SchematicContext) => {
+    if (!tree.exists('svelte.config.js')) {
+      context.logger.warn('no svelte configuration');
+    }
     options.path = options.path ?? '';
 
     const parsedPath = parseName(options.path as string, options.name);

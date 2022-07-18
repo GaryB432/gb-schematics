@@ -22,7 +22,10 @@ function normalizeOptions(options: Options): Options {
 }
 
 export default function (options: Options): Rule {
-  return (_tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
+    if (!tree.exists('svelte.config.js')) {
+      context.logger.warn('no svelte configuration');
+    }
     const urlString = './files';
     const templateSource = apply(url(urlString), [
       applyTemplates({ ...normalizeOptions(options), ...strings }),

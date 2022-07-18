@@ -17,7 +17,7 @@
     "directory": {
       "description": "The directory for your component, under src",
       "type": "string",
-      "default": "lib"
+      "default": "lib/components"
     },
     "style": {
       "description": "The value of styles type attribute",

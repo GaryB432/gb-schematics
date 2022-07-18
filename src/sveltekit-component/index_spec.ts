@@ -12,7 +12,7 @@ describe('sveltekit-component', () => {
       .runSchematicAsync('sveltekit-component', { name: 'tester' }, ftree)
       .toPromise();
 
-    expect(tree.files).toEqual(['/src/lib/Tester.svelte']);
+    expect(tree.files).toEqual(['/src/lib/components/Tester.svelte']);
   });
 });
 
