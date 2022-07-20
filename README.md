@@ -10,6 +10,10 @@ You will need the [Reference Schematics CLI](https://www.npmjs.com/package/@angu
 
 🔥 Now including [SvelteKit](https://kit.svelte.dev/)
 
+# Development
+
+> npx ts-node tools/schemas
+
 # Schematics
 
 ## bump
