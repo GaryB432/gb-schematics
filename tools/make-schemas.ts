@@ -13,6 +13,8 @@ interface PackageConfig {
   schematics?: string;
 }
 
+const dev = true;
+
 async function writeSchemaTypeDef(
   root: string,
   sdef: SchemaDefined,
@@ -28,8 +30,12 @@ async function writeSchemaTypeDef(
         ${title}
     */`,
   });
-  const outName = join(root, path.dir, `${path.name}.gen.d.ts`);
+  const stamp = dev ? ['generated', 'v1'] : [];
+  const fname = [path.name, ...stamp, 'd', 'ts'].join('.');
+  const outName = join(root, path.dir, fname);
   void (await writeFile(outName, dts));
+  // console.log(dts);
+  // console.log(fname);
   return outName;
 }
 
@@ -64,7 +70,7 @@ async function main() {
       const schParsed = parse(v.schema);
       const sfn = join(collParsed.dir, schParsed.dir, schParsed.base);
       const n = await writeSchemaTypeDef(cwd, { schema: sfn }, parse(sfn));
-      console.log(chalk.green(parse(sfn).dir), chalk.yellow(parse(n).name));
+      console.log(chalk.green(parse(sfn).dir), chalk.yellow(parse(n).base));
     } else {
       console.log(k, chalk.gray('none'));
     }
