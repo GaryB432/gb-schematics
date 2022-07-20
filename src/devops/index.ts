@@ -9,6 +9,7 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { Options } from './schema';
 
 interface PackageDef {
   scripts: {
@@ -17,11 +18,6 @@ interface PackageDef {
     devDependencies?: unknown;
     test?: string;
   };
-}
-
-interface Options {
-  platform: string;
-  skipInstall: boolean;
 }
 
 export function devops(options: Options): Rule {

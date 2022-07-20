@@ -12,7 +12,7 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { Schema as Options } from './schema';
+import { Options } from './schema';
 
 export function eslint(options: Options): Rule {
   return (tree: Tree, context: SchematicContext) => {

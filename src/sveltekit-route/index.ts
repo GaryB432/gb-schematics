@@ -18,16 +18,7 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-
-import { createConsoleLogger } from '@angular-devkit/core/node';
-
-interface Options {
-  endpoint: boolean;
-  name: string;
-  path: string;
-  skipTests: boolean;
-  style: string;
-}
+import { Options } from './schema';
 
 interface Location {
   name: string;
@@ -44,14 +35,23 @@ function parseName(path: string, name: string): Location {
   };
 }
 
-export default function (options: Options): Rule {
+function normalizeOptions(o: Options): Required<Options> {
+  const path = o.path ?? '';
+  const style = o.style ?? 'none';
+  const endpoint = o.endpoint ?? false;
+  const skipTests = o.skipTests ?? false;
+  return { ...o, path, style, skipTests, endpoint };
+}
+
+export default function (opts: Options): Rule {
   return async (tree: Tree, context: SchematicContext) => {
     if (!tree.exists('svelte.config.js')) {
       context.logger.warn('no svelte configuration');
     }
-    options.path = options.path ?? '';
 
-    const parsedPath = parseName(options.path as string, options.name);
+    const options = normalizeOptions(opts);
+
+    const parsedPath = parseName(options.path, options.name);
     options.name = parsedPath.name;
     options.path = parsedPath.path;
     const templateSource = apply(url('./files'), [

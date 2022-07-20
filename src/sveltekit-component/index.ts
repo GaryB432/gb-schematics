@@ -9,13 +9,7 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-
-interface Options {
-  directory?: string;
-  name: string;
-  project: string;
-  style: string;
-}
+import { Options } from './schema';
 
 function normalizeOptions(options: Options): Options {
   return { ...options, directory: options.directory ?? 'lib/components' };
