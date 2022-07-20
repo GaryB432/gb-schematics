@@ -3,6 +3,7 @@
   "$id": "GbSchematicsDevops",
   "title": "GB Schematics Devops Options Schema",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "platform": {
       "type": "string",
