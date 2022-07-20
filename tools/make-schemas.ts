@@ -1,4 +1,4 @@
-import ansiColors from 'ansi-colors';
+import colors from 'ansi-colors';
 import { readFile, writeFile } from 'fs/promises';
 import { compile, JSONSchema } from 'json-schema-to-typescript';
 import { join, parse, ParsedPath, posix } from 'path';
@@ -13,7 +13,7 @@ interface PackageConfig {
   schematics?: string;
 }
 
-const dev = true;
+const dev = false;
 
 async function writeSchemaTypeDef(
   root: string,
@@ -34,8 +34,7 @@ async function writeSchemaTypeDef(
   const fname = [path.name, ...stamp, 'd', 'ts'].join('.');
   const outName = join(root, path.dir, fname);
   void (await writeFile(outName, dts));
-  // console.log(dts);
-  // console.log(fname);
+
   return outName;
 }
 
@@ -65,19 +64,24 @@ async function main() {
   const collection = await readJson<Collection>(packageJ.schematics);
 
   const collParsed = parse(packageJ.schematics);
-  for (const [k, v] of Object.entries(collection.schematics)) {
+
+  for (const [k, v] of Object.entries(collection.schematics).sort()) {
     if (v.schema) {
       const schParsed = parse(v.schema);
       const sfn = join(collParsed.dir, schParsed.dir, schParsed.base);
       const n = await writeSchemaTypeDef(cwd, { schema: sfn }, parse(sfn));
       console.log(
-        ansiColors.green(parse(sfn).dir),
-        ansiColors.yellow(parse(n).base)
+        colors.white(k),
+        colors.green('✔'),
+        colors.green(parse(sfn).dir),
+        colors.yellow(parse(n).base)
       );
     } else {
-      console.log(k, ansiColors.gray('none'));
+      console.log(
+        colors.white(k),
+        colors.gray('no schema'),
+      );
     }
   }
 }
-
 void main();
