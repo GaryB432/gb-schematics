@@ -27,6 +27,7 @@
   "dependencies": {
     "@angular-devkit/core": "^14.0.6",
     "@angular-devkit/schematics": "^14.0.6",
+    "chalk": "4.1.2",
     "semver": "^7.3.7"
   },
   "devDependencies": {

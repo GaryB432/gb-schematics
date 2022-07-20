@@ -3,6 +3,7 @@
     "baseUrl": "tsconfig",
     "lib": ["es2018", "dom"],
     "module": "commonjs",
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
