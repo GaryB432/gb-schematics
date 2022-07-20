@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import ansiColors from 'ansi-colors';
 import { readFile, writeFile } from 'fs/promises';
 import { compile, JSONSchema } from 'json-schema-to-typescript';
 import { join, parse, ParsedPath, posix } from 'path';
@@ -70,9 +70,12 @@ async function main() {
       const schParsed = parse(v.schema);
       const sfn = join(collParsed.dir, schParsed.dir, schParsed.base);
       const n = await writeSchemaTypeDef(cwd, { schema: sfn }, parse(sfn));
-      console.log(chalk.green(parse(sfn).dir), chalk.yellow(parse(n).base));
+      console.log(
+        ansiColors.green(parse(sfn).dir),
+        ansiColors.yellow(parse(n).base)
+      );
     } else {
-      console.log(k, chalk.gray('none'));
+      console.log(k, ansiColors.gray('none'));
     }
   }
 }
