@@ -25,7 +25,7 @@
       "x-prompt": "What name would you like to use for the route?"
     },
     "style": {
-      "description": "The value of styles type attribute",
+      "description": "The value of styles lang attribute",
       "type": "string",
       "default": "scss",
       "enum": ["css", "scss", "none"],
