@@ -60,9 +60,7 @@ export default function (opts: Options): Rule {
           case '/src/routes/__name@dasherize__.svelte.template': {
             return !options.endpoint;
           }
-          case '/src/routes/__name@dasherize__/index.svelte.template': {
-            return options.endpoint;
-          }
+          case '/src/routes/__name@dasherize__/index.svelte.template':
           case '/src/routes/__name@dasherize__/index.ts.template': {
             return options.endpoint;
           }
@@ -70,7 +68,6 @@ export default function (opts: Options): Rule {
             return !options.skipTests;
           }
         }
-
         throw new Error('unrecognized template');
       }),
       applyTemplates({
