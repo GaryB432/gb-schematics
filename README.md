@@ -127,7 +127,7 @@ Add a route to your sveltekit project
 
 | OPTION      | DESCRIPTION                                           | VALUE TYPE          | DEFAULT VALUE |
 | ----------- | ----------------------------------------------------- | ------------------- | ------------- |
-| --style     | The value of styles lang attribute                    | css \| scss \| none | scss          |
+| --style     | The value of style element lang attribute             | css \| scss \| none | scss          |
 | --skipTests | Do not create "spec.ts" test files for the new route. | boolean             | false         |
 | --endpoint  | Create an endpoint handler for your route.            | boolean             | false         |
 
