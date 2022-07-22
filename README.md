@@ -12,7 +12,7 @@ You will need the [Reference Schematics CLI](https://www.npmjs.com/package/@angu
 
 # Development
 
-> npx ts-node tools/make-schemas
+> npx ts-node tools/make-schemas --stamp generated
 
 # Schematics
 

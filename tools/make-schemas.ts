@@ -13,7 +13,11 @@ interface PackageConfig {
   schematics?: string;
 }
 
-const dev = false;
+const argv = require('minimist')(process.argv.slice(2)) as {
+  _: string[];
+  stamp: string;
+};
+argv.stamp = argv.stamp ?? '';
 
 async function writeSchemaTypeDef(
   root: string,
@@ -30,8 +34,9 @@ async function writeSchemaTypeDef(
         ${title}
     */`,
   });
-  const stamp = dev ? ['generated', 'v1'] : [];
-  const fname = [path.name, ...stamp, 'd', 'ts'].join('.');
+  const fname = [path.name, argv.stamp, 'd', 'ts']
+    .filter((p) => p.length > 0)
+    .join('.');
   const outName = join(root, path.dir, fname);
   void (await writeFile(outName, dts));
 
@@ -77,10 +82,7 @@ async function main() {
         colors.yellow(parse(n).base)
       );
     } else {
-      console.log(
-        colors.white(k),
-        colors.gray('no schema'),
-      );
+      console.log(colors.white(k), colors.gray('no schema'));
     }
   }
 }
