@@ -1,6 +1,6 @@
 {
   "name": "gb-schematics",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Some schematics I like",
   "scripts": {
     "schemas": "npx ts-node tools/make-schemas",
@@ -26,8 +26,8 @@
   },
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^14.0.6",
-    "@angular-devkit/schematics": "^14.0.6",
+    "@angular-devkit/core": "^14.1.0",
+    "@angular-devkit/schematics": "^14.1.0",
     "semver": "^7.3.7"
   },
   "devDependencies": {
