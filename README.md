@@ -8,7 +8,7 @@ You will need the [Reference Schematics CLI](https://www.npmjs.com/package/@angu
 
 > npm i @angular-devkit/schematics-cli -g
 
-🔥 Now including [SvelteKit](https://kit.svelte.dev/)
+🔥 Now including [SvelteKit](https://kit.svelte.dev/)  (@sveltejs/kit@1.0.0-next.401)
 
 # Development
 
