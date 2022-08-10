@@ -54,6 +54,7 @@ export default function (opts: Options): Rule {
     const parsedPath = parseName(options.path, options.name);
     options.name = parsedPath.name;
     options.path = parsedPath.path;
+    const route = 'tbd';
     const templateSource = apply(url('./files/v0'), [
       applyTemplates({
         ...strings,
@@ -65,12 +66,16 @@ export default function (opts: Options): Rule {
       applyTemplates({
         ...strings,
         ...options,
+        route,
       }),
       move(`tests/${parsedPath.path}`),
     ]);
-    return chain([
+    const rules = [
       mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict),
-      mergeWith(testSource, MergeStrategy.AllowOverwriteConflict),
-    ]);
+    ];
+    if (!options.skipTests) {
+      rules.push(mergeWith(testSource, MergeStrategy.AllowOverwriteConflict));
+    }
+    return chain(rules);
   };
 }

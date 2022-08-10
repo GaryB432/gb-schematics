@@ -1,6 +1,7 @@
 <script lang="ts">
-	export let <%= camelize(name) %>: string;
-	$: title = `${<%= camelize(name) %>} - Generated`;
+// <%= path %> <%= name %>
+	export let subject: string;
+	$: title = `${subject} - Generated`;
 </script>
 
 <svelte:head>
@@ -8,7 +9,7 @@
 </svelte:head>
 
 <article>
-	<div>{<%= camelize(name) %>} works</div>
+	<div>{subject} works</div>
 </article>
 
 <style lang="<%= style %>">

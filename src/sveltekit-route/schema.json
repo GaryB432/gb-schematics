@@ -40,7 +40,7 @@
     "endpoint": {
       "type": "boolean",
       "description": "Create an endpoint handler for your route.",
-      "default": false
+      "default": true
     }
   },
   "required": ["name"]

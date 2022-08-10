@@ -5,7 +5,7 @@ export const GET: RequestHandler = async ({ params }) => {
 	return {
 		status: 200,
 		body: {
-			<%= camelize(name) %>: '<%= classify(name) %> route'
+			subject: '<%= path %>/<%= name %> route'
 		}
 	};
 };
