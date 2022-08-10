@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-var-requires: 0 */
 import colors from 'ansi-colors';
 import { readFile, writeFile } from 'fs/promises';
 import { compile, JSONSchema } from 'json-schema-to-typescript';

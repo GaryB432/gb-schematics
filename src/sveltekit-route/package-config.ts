@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-non-null-assertion: 0 */
 /**
  * @license
  * Copyright Google LLC All Rights Reserved.

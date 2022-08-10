@@ -78,7 +78,7 @@ describe('sveltekit-route with path', () => {
     ]);
 
     expect(tree.readContent('/tests/a/b/c/tester.spec.ts')).toContain(
-      "await page.goto('/a/b/c/subject');"
+      "await page.goto('/a/b/c/tester');"
     );
   });
 });

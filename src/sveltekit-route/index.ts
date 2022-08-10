@@ -19,6 +19,7 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import { Options } from './schema';
+import { makeTestRoute } from './utils';
 
 interface Location {
   name: string;
@@ -54,7 +55,6 @@ export default function (opts: Options): Rule {
     const parsedPath = parseName(options.path, options.name);
     options.name = parsedPath.name;
     options.path = parsedPath.path;
-    const route = 'tbd';
     const templateSource = apply(url('./files/v0'), [
       applyTemplates({
         ...strings,
@@ -62,6 +62,7 @@ export default function (opts: Options): Rule {
       }),
       move(`src/routes/${parsedPath.path}/${parsedPath.name}`),
     ]);
+    const route = makeTestRoute(options.path, options.name);
     const testSource = apply(url('./files/test'), [
       applyTemplates({
         ...strings,

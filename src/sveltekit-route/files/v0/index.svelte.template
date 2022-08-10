@@ -1,5 +1,4 @@
 <script lang="ts">
-// <%= path %> <%= name %>
 	export let subject: string;
 	$: title = `${subject} - Generated`;
 </script>
