@@ -9,7 +9,7 @@ import {
 import {
   apply,
   applyTemplates,
-  filter,
+  chain,
   MergeStrategy,
   mergeWith,
   move,
@@ -54,29 +54,23 @@ export default function (opts: Options): Rule {
     const parsedPath = parseName(options.path, options.name);
     options.name = parsedPath.name;
     options.path = parsedPath.path;
-    const templateSource = apply(url('./files'), [
-      filter((path) => {
-        switch (path) {
-          case '/src/routes/__name@dasherize__.svelte.template': {
-            return !options.endpoint;
-          }
-          case '/src/routes/__name@dasherize__/index.svelte.template':
-          case '/src/routes/__name@dasherize__/index.ts.template': {
-            return options.endpoint;
-          }
-          case '/tests/__name@dasherize__.spec.ts.template': {
-            return !options.skipTests;
-          }
-        }
-        throw new Error('unrecognized template');
-      }),
+    const templateSource = apply(url('./files/v0'), [
       applyTemplates({
         ...strings,
         ...options,
       }),
-      move(parsedPath.path),
+      move(`src/routes/${parsedPath.path}/${parsedPath.name}`),
     ]);
-
-    return mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict);
+    const testSource = apply(url('./files/test'), [
+      applyTemplates({
+        ...strings,
+        ...options,
+      }),
+      move(`tests/${parsedPath.path}`),
+    ]);
+    return chain([
+      mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict),
+      mergeWith(testSource, MergeStrategy.AllowOverwriteConflict),
+    ]);
   };
 }
