@@ -38,6 +38,28 @@ describe('sveltekit-route with endpoint', () => {
       '/tests/tester.spec.ts',
     ]);
   });
+
+  it('works with project root', async () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    const tree = await runner
+      .runSchematicAsync(
+        'sveltekit-route',
+        { name: 'a/b/c/tester', projectRoot: 'apps/fun' },
+        ftree
+      )
+      .toPromise();
+
+    expect(tree.files).toEqual([
+      '/apps/fun/src/routes/a/b/c/tester/index.svelte',
+      '/apps/fun/src/routes/a/b/c/tester/index.ts',
+      '/apps/fun/tests/a/b/c/tester.spec.ts',
+    ]);
+
+    expect(tree.readContent('/apps/fun/tests/a/b/c/tester.spec.ts')).toContain(
+      "await page.goto('/a/b/c/tester');"
+    );
+  });
 });
 
 describe('sveltekit-route skipTests', () => {
@@ -66,19 +88,46 @@ describe('sveltekit-route with path', () => {
     const tree = await runner
       .runSchematicAsync(
         'sveltekit-route',
-        { name: 'a/b/c/tester', endpoint: true },
+        { name: 'a/b/c/tester', endpoint: true, path: 'tbd' },
         ftree
       )
       .toPromise();
 
     expect(tree.files).toEqual([
-      '/src/routes/a/b/c/tester/index.svelte',
-      '/src/routes/a/b/c/tester/index.ts',
-      '/tests/a/b/c/tester.spec.ts',
+      '/src/routes/tbd/a/b/c/tester/index.svelte',
+      '/src/routes/tbd/a/b/c/tester/index.ts',
+      '/tests/tbd/a/b/c/tester.spec.ts',
     ]);
 
-    expect(tree.readContent('/tests/a/b/c/tester.spec.ts')).toContain(
-      "await page.goto('/a/b/c/tester');"
+    expect(tree.readContent('/tests/tbd/a/b/c/tester.spec.ts')).toContain(
+      "await page.goto('/tbd/a/b/c/tester');"
     );
+  });
+
+  it('works with project root', async () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    const tree = await runner
+      .runSchematicAsync(
+        'sveltekit-route',
+        {
+          name: 'a/b/c/tester',
+          endpoint: true,
+          path: 'tbd',
+          projectRoot: 'apps/fun',
+        },
+        ftree
+      )
+      .toPromise();
+
+    expect(tree.files).toEqual([
+      '/apps/fun/src/routes/tbd/a/b/c/tester/index.svelte',
+      '/apps/fun/src/routes/tbd/a/b/c/tester/index.ts',
+      '/apps/fun/tests/tbd/a/b/c/tester.spec.ts',
+    ]);
+
+    expect(
+      tree.readContent('/apps/fun/tests/tbd/a/b/c/tester.spec.ts')
+    ).toContain("await page.goto('/tbd/a/b/c/tester');");
   });
 });

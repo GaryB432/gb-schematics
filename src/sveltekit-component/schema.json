@@ -3,11 +3,10 @@
   "$id": "GbSchematicsSveltekitComponent",
   "title": "GB Schematics SveltekitComponent Options Schema",
   "type": "object",
-  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string",
-      "description": "The name of the route.",
+      "description": "The name of the component.",
       "$default": {
         "$source": "argv",
         "index": 0
@@ -15,17 +14,27 @@
       "x-prompt": "What name would you like to use for the component?"
     },
     "directory": {
-      "description": "The directory for your component, under src",
       "type": "string",
-      "default": "lib/components"
+      "format": "path",
+      "description": "The directory to create the component, relative to your project source."
+    },
+    "language": {
+      "type": "string",
+      "description": "Component script language (ts/js).",
+      "enum": ["js", "ts"],
+      "default": "ts"
     },
     "style": {
-      "description": "The value of style element lang attribute",
       "type": "string",
-      "default": "scss",
-      "enum": ["css", "scss", "none"]
+      "description": "Component style language (css/scss).",
+      "enum": ["css", "scss"],
+      "default": "scss"
+    },
+    "projectRoot": {
+      "type": "string",
+      "description": "Svelte App root directory"
     }
   },
-
+  "additionalProperties": false,
   "required": ["name"]
 }

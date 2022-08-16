@@ -14,10 +14,8 @@ describe('sveltekit-component', () => {
 
     expect(tree.files).toEqual(['/src/lib/components/Tester.svelte']);
   });
-});
 
-describe('sveltekit-component', () => {
-  it('works', async () => {
+  it('works with directory', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
     const tree = await runner
@@ -29,5 +27,19 @@ describe('sveltekit-component', () => {
       .toPromise();
 
     expect(tree.files).toEqual(['/src/a/b/c/d/Tester.svelte']);
+  });
+
+  it('works with project root', async () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    const tree = await runner
+      .runSchematicAsync(
+        'sveltekit-component',
+        { name: 'tester', directory: 'a/b/c/d', projectRoot: 'apps/project' },
+        ftree
+      )
+      .toPromise();
+
+    expect(tree.files).toEqual(['/apps/project/src/a/b/c/d/Tester.svelte']);
   });
 });

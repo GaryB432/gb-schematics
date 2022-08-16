@@ -41,16 +41,16 @@ function normalizeOptions(o: Options): Required<Options> {
   const style = o.style ?? 'none';
   const endpoint = o.endpoint ?? false;
   const skipTests = o.skipTests ?? false;
-  return { ...o, path, style, skipTests, endpoint };
+  const projectRoot = o.projectRoot ?? '.';
+  return { ...o, path, style, skipTests, endpoint, projectRoot };
 }
 
 export default function (opts: Options): Rule {
   return async (tree: Tree, context: SchematicContext) => {
-    if (!tree.exists('svelte.config.js')) {
+    const options = normalizeOptions(opts);
+    if (!tree.exists(join(options.projectRoot as Path, 'svelte.config.js'))) {
       context.logger.warn('no svelte configuration');
     }
-
-    const options = normalizeOptions(opts);
 
     const parsedPath = parseName(options.path, options.name);
     options.name = parsedPath.name;
@@ -60,7 +60,15 @@ export default function (opts: Options): Rule {
         ...strings,
         ...options,
       }),
-      move(`src/routes/${parsedPath.path}/${parsedPath.name}`),
+      move(
+        join(
+          options.projectRoot as Path,
+          'src',
+          'routes',
+          parsedPath.path,
+          parsedPath.name
+        )
+      ),
     ]);
     const route = makeTestRoute(options.path, options.name);
     const testSource = apply(url('./files/test'), [
@@ -69,7 +77,7 @@ export default function (opts: Options): Rule {
         ...options,
         route,
       }),
-      move(`tests/${parsedPath.path}`),
+      move(join(options.projectRoot as Path, 'tests', parsedPath.path)),
     ]);
     const rules = [
       mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict),
