@@ -1,0 +1,11 @@
+import { error } from '@sveltejs/kit';
+import type { PageLoad } from './$types';
+
+export const load: PageLoad = async (ctx) => {
+	console.log(`${ctx.routeId} route has a routeId.`);
+	return {
+		subject: '<%= path %>/<%= name %> route'
+	};
+
+	// throw error(response.status);
+};
