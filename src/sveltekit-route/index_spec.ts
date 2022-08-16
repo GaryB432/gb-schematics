@@ -13,8 +13,8 @@ describe('sveltekit-route', () => {
       .toPromise();
 
     expect(tree.files).toEqual([
-      '/src/routes/tester/index.svelte',
-      '/src/routes/tester/index.ts',
+      '/src/routes/tester/+page.svelte',
+      '/src/routes/tester/+page.ts',
       '/tests/tester.spec.ts',
     ]);
   });
@@ -33,8 +33,8 @@ describe('sveltekit-route with endpoint', () => {
       .toPromise();
 
     expect(tree.files).toEqual([
-      '/src/routes/tester/index.svelte',
-      '/src/routes/tester/index.ts',
+      '/src/routes/tester/+page.svelte',
+      '/src/routes/tester/+page.ts',
       '/tests/tester.spec.ts',
     ]);
   });
@@ -51,8 +51,8 @@ describe('sveltekit-route with endpoint', () => {
       .toPromise();
 
     expect(tree.files).toEqual([
-      '/apps/fun/src/routes/a/b/c/tester/index.svelte',
-      '/apps/fun/src/routes/a/b/c/tester/index.ts',
+      '/apps/fun/src/routes/a/b/c/tester/+page.svelte',
+      '/apps/fun/src/routes/a/b/c/tester/+page.ts',
       '/apps/fun/tests/a/b/c/tester.spec.ts',
     ]);
 
@@ -75,8 +75,8 @@ describe('sveltekit-route skipTests', () => {
       .toPromise();
 
     expect(tree.files).toEqual([
-      '/src/routes/tester/index.svelte',
-      '/src/routes/tester/index.ts',
+      '/src/routes/tester/+page.svelte',
+      '/src/routes/tester/+page.ts',
     ]);
   });
 });
@@ -94,8 +94,8 @@ describe('sveltekit-route with path', () => {
       .toPromise();
 
     expect(tree.files).toEqual([
-      '/src/routes/tbd/a/b/c/tester/index.svelte',
-      '/src/routes/tbd/a/b/c/tester/index.ts',
+      '/src/routes/tbd/a/b/c/tester/+page.svelte',
+      '/src/routes/tbd/a/b/c/tester/+page.ts',
       '/tests/tbd/a/b/c/tester.spec.ts',
     ]);
 
@@ -121,8 +121,8 @@ describe('sveltekit-route with path', () => {
       .toPromise();
 
     expect(tree.files).toEqual([
-      '/apps/fun/src/routes/tbd/a/b/c/tester/index.svelte',
-      '/apps/fun/src/routes/tbd/a/b/c/tester/index.ts',
+      '/apps/fun/src/routes/tbd/a/b/c/tester/+page.svelte',
+      '/apps/fun/src/routes/tbd/a/b/c/tester/+page.ts',
       '/apps/fun/tests/tbd/a/b/c/tester.spec.ts',
     ]);
 
