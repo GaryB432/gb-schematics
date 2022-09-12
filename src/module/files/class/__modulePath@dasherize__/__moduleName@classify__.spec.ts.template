@@ -1,0 +1,20 @@
+import { <%= classify(moduleName) %> } from '<%= srcPath %><%= dasherize(moduleName) %>';
+
+describe('<%= classify(moduleName) %>', () => {
+  let <%= camelize(moduleName) %>: <%= classify(moduleName) %>;
+  beforeEach(() => {
+    <%= camelize(moduleName) %> = new <%= classify(moduleName) %>(2);
+  });
+  test('adds', () => {
+    expect(
+      <%= camelize(moduleName) %>.add(3)
+    ).toEqual(5);
+  });
+  test('greets', () => {
+    expect(
+      <%= camelize(moduleName) %>.greet('world')
+    ).toEqual(
+      '<%= classify(moduleName) %> says: hello to world'
+    );
+  });
+});

@@ -20,6 +20,11 @@
       "description": "Add Jest testing",
       "factory": "./jest/index#jestFactory"
     },
+    "module": {
+      "description": "Add Class or general Module",
+      "schema": "./module/schema.json",
+      "factory": "./module"
+    },
     "prettier": {
       "description": "Add prettier configuration.",
       "factory": "./prettier/index#prettier"

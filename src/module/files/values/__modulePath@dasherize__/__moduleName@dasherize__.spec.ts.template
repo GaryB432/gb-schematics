@@ -1,0 +1,13 @@
+import { add, greet, meaning } from '<%= srcPath %><%= dasherize(moduleName) %>';
+
+describe('<%= classify(moduleName) %>', () => {
+  test('adds', () => {
+    expect(add(2, 3)).toEqual(5);
+  });
+  test('greets', () => {
+    expect(greet('world')).toEqual('<%= moduleName %> says: hello to world');
+  });
+  test('meaning', () => {
+    expect(meaning.life).toEqual(42);
+  });
+});

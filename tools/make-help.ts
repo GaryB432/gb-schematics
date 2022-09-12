@@ -42,6 +42,10 @@ function tableRow(...cells: string[]): string {
   return ['', ...cells, ''].join(' | ').slice(1);
 }
 
+function isFromArgv(d: Details): unknown {
+  return d.$default && d.$default.$source === 'argv';
+}
+
 async function main() {
   const packageJ = await readJson<{ schematics: string }>('package.json');
 
@@ -60,7 +64,7 @@ async function main() {
       const b = await readJson<SchematicProperties>(sfn);
 
       const args = Object.entries(b.properties)
-        .filter(([_c, d]) => d.$default && d.$default.$source === 'argv')
+        .filter(([_c, d]) => isFromArgv(d))
         .sort((e, f) => e[1].$default.index - f[1].$default.index);
 
       console.log('```');
@@ -88,7 +92,7 @@ async function main() {
       }
 
       const schematidOptions = Object.entries(b.properties).filter(
-        ([_c, d]) => d.$default === void 0
+        ([_c, d]) => !isFromArgv(d)
       );
       if (schematidOptions.length > 0) {
         console.log('\n### Options\n');
@@ -97,6 +101,9 @@ async function main() {
         );
         for (const [c, d] of schematidOptions) {
           const u = d.default ?? '';
+          if (d.visible === false) {
+            break;
+          }
           console.log(
             tableRow(
               `--${c}`,

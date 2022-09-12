@@ -6,6 +6,8 @@ This package contains a collection of [Schematics](https://github.com/angular/an
 
 You will need the [Reference Schematics CLI](https://www.npmjs.com/package/@angular-devkit/schematics-cli) tooling to execute these schematics.
 
+If you're using [Nx: Smart, Fast and Extensible Build System](https://nx.dev/) you might also like [GaryB432/gb-nx: Some miscellaneous NX plugins](https://github.com/GaryB432/gb-nx).
+
 > npm i @angular-devkit/schematics-cli -g
 
 🔥 Now including [SvelteKit](https://kit.svelte.dev/) (@sveltejs/kit@1.0.0-next.401)
@@ -80,6 +82,29 @@ schematics gb-schematics:jest
 
 Add Jest testing
 
+## module
+
+```
+schematics gb-schematics:module [name]
+```
+
+Add Class or general Module
+
+### Arguments
+
+| ARGUMENT | DESCRIPTION             | VALUE TYPE |
+| -------- | ----------------------- | ---------- |
+| name     | The name of the module. | string     |
+
+### Options
+
+| OPTION        | DESCRIPTION                                                                                   | VALUE TYPE      | DEFAULT VALUE |
+| ------------- | --------------------------------------------------------------------------------------------- | --------------- | ------------- |
+| --directory   | The directory to create the module, relative to your project source.                          | string          |               |
+| --kind        | kind of module                                                                                | class \| values | values        |
+| --skipTests   | Do not create "spec.ts" test files for the new module.                                        | boolean         | false         |
+| --projectRoot | The path to your project root, relative to the current workspace. Default is workingDirectory | string          |               |
+
 ## prettier
 
 ```
@@ -98,16 +123,18 @@ Add a component to your sveltekit project
 
 ### Arguments
 
-| ARGUMENT | DESCRIPTION            | VALUE TYPE |
-| -------- | ---------------------- | ---------- |
-| name     | The name of the route. | string     |
+| ARGUMENT | DESCRIPTION                | VALUE TYPE |
+| -------- | -------------------------- | ---------- |
+| name     | The name of the component. | string     |
 
 ### Options
 
-| OPTION      | DESCRIPTION                                 | VALUE TYPE          | DEFAULT VALUE  |
-| ----------- | ------------------------------------------- | ------------------- | -------------- |
-| --directory | The directory for your component, under src | string              | lib/components |
-| --style     | The value of style element lang attribute   | css \| scss \| none | scss           |
+| OPTION        | DESCRIPTION                                                             | VALUE TYPE  | DEFAULT VALUE |
+| ------------- | ----------------------------------------------------------------------- | ----------- | ------------- |
+| --directory   | The directory to create the component, relative to your project source. | string      |               |
+| --language    | Component script language (ts/js).                                      | js \| ts    | ts            |
+| --style       | Component style language (css/scss).                                    | css \| scss | scss          |
+| --projectRoot | Svelte App root directory                                               | string      |               |
 
 ## sveltekit-route
 
@@ -125,11 +152,12 @@ Add a route to your sveltekit project
 
 ### Options
 
-| OPTION      | DESCRIPTION                                           | VALUE TYPE          | DEFAULT VALUE |
-| ----------- | ----------------------------------------------------- | ------------------- | ------------- |
-| --style     | The value of style element lang attribute             | css \| scss \| none | scss          |
-| --skipTests | Do not create "spec.ts" test files for the new route. | boolean             | false         |
-| --endpoint  | Create an endpoint handler for your route.            | boolean             | true          |
+| OPTION      | DESCRIPTION                                                                                                                                       | VALUE TYPE          | DEFAULT VALUE |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ------------- |
+| --path      | The path at which to create the route file, relative to the projectRoot. Default is a folder with the same name as the route in the project root. | string              |               |
+| --style     | The value of style element lang attribute                                                                                                         | css \| scss \| none | scss          |
+| --skipTests | Do not create "spec.ts" test files for the new route.                                                                                             | boolean             | false         |
+| --endpoint  | Create an endpoint handler for your route.                                                                                                        | boolean             | true          |
 
 ## typescript
 
