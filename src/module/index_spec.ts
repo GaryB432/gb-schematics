@@ -13,7 +13,7 @@ describe('module', () => {
       .runSchematicAsync<Options>('module', { name: 'tester' }, ftree)
       .toPromise();
 
-    expect(tree.files).toEqual(['/tester.spec.ts', '/tester.ts']);
+    expect(tree.files).toEqual(['/src/tester.spec.ts', '/src/tester.ts']);
   });
 
   it('skips tests', async () => {
@@ -41,7 +41,7 @@ describe('module', () => {
       )
       .toPromise();
 
-    expect(tree.files).toEqual(['/Tester.spec.ts', '/Tester.ts']);
+    expect(tree.files).toEqual(['/src/Tester.spec.ts', '/src/Tester.ts']);
   });
 
   it('works with directory', async () => {
@@ -55,7 +55,7 @@ describe('module', () => {
       )
       .toPromise();
 
-    expect(tree.files).toContain('/a/b/c/d/tester.ts');
+    expect(tree.files).toContain('/src/a/b/c/d/tester.ts');
   });
 
   it('works with path name', async () => {
@@ -69,7 +69,7 @@ describe('module', () => {
       )
       .toPromise();
 
-    expect(tree.files).toContain('/a/b/c/d/tester.ts');
+    expect(tree.files).toContain('/src/a/b/c/d/tester.ts');
   });
 
   it('works with project root', async () => {
@@ -78,12 +78,16 @@ describe('module', () => {
     const tree = await runner
       .runSchematicAsync<Options>(
         'module',
-        { name: 'tester', directory: 'a/b/c/d', projectRoot: 'apps/project' },
+        {
+          name: 'tester',
+          directory: 'a/b/c/d',
+          sourceRoot: 'apps/project/src',
+        },
         ftree
       )
       .toPromise();
 
-    expect(tree.files).toContain('/apps/project/a/b/c/d/tester.ts');
+    expect(tree.files).toContain('/apps/project/src/a/b/c/d/tester.ts');
   });
 
   it('works with project root and path', async () => {
@@ -92,11 +96,15 @@ describe('module', () => {
     const tree = await runner
       .runSchematicAsync<Options>(
         'module',
-        { name: 'c/d/tester', directory: 'a/b', projectRoot: 'apps/project' },
+        {
+          name: 'c/d/tester',
+          directory: 'a/b',
+          sourceRoot: 'apps/project/src',
+        },
         ftree
       )
       .toPromise();
 
-    expect(tree.files).toContain('/apps/project/a/b/c/d/tester.ts');
+    expect(tree.files).toContain('/apps/project/src/a/b/c/d/tester.ts');
   });
 });

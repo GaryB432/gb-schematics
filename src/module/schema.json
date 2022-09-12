@@ -32,13 +32,11 @@
       "default": false,
       "x-user-analytics": 12
     },
-    "projectRoot": {
+    "sourceRoot": {
       "type": "string",
       "format": "path",
-      "$default": {
-        "$source": "workingDirectory"
-      },
-      "description": "The path to your project root, relative to the current workspace. Default is workingDirectory"
+      "default": "src",
+      "description": "The path to your project's source root"
     }
   },
   "required": ["name"]

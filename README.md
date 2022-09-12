@@ -98,12 +98,12 @@ Add Class or general Module
 
 ### Options
 
-| OPTION        | DESCRIPTION                                                                                   | VALUE TYPE      | DEFAULT VALUE |
-| ------------- | --------------------------------------------------------------------------------------------- | --------------- | ------------- |
-| --directory   | The directory to create the module, relative to your project source.                          | string          |               |
-| --kind        | kind of module                                                                                | class \| values | values        |
-| --skipTests   | Do not create "spec.ts" test files for the new module.                                        | boolean         | false         |
-| --projectRoot | The path to your project root, relative to the current workspace. Default is workingDirectory | string          |               |
+| OPTION       | DESCRIPTION                                                          | VALUE TYPE      | DEFAULT VALUE |
+| ------------ | -------------------------------------------------------------------- | --------------- | ------------- |
+| --directory  | The directory to create the module, relative to your project source. | string          |               |
+| --kind       | kind of module                                                       | class \| values | values        |
+| --skipTests  | Do not create "spec.ts" test files for the new module.               | boolean         | false         |
+| --sourceRoot | The path to your project's source root                               | string          | src           |
 
 ## prettier
 
