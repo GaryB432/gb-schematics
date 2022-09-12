@@ -6,7 +6,7 @@ This package contains a collection of [Schematics](https://github.com/angular/an
 
 You will need the [Reference Schematics CLI](https://www.npmjs.com/package/@angular-devkit/schematics-cli) tooling to execute these schematics.
 
-If you're using [Nx: Smart, Fast and Extensible Build System](https://nx.dev/) you might also like [GaryB432/gb-nx: Some miscellaneous NX plugins](https://github.com/GaryB432/gb-nx).
+If you're using [Nx: Smart, Fast and Extensible Build System](https://nx.dev/) you might also like [my miscellaneous NX plugins](https://github.com/GaryB432/gb-nx).
 
 > npm i @angular-devkit/schematics-cli -g
 
