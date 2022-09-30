@@ -107,4 +107,24 @@ describe('module', () => {
 
     expect(tree.files).toContain('/apps/project/src/a/b/c/d/tester.ts');
   });
+
+  it('works with project root and path', async () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    const tree = await runner
+      .runSchematicAsync<Options>(
+        'module',
+        {
+          name: 'banana',
+          directory: 'abc/def',
+          kind: undefined,
+          skipTests: undefined,
+          sourceRoot: 'test/root/src',
+        },
+        ftree
+      )
+      .toPromise();
+
+    expect(tree.files).toContain('/test/root/src/abc/def/banana.ts');
+  });
 });
