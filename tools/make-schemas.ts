@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/no-var-requires: 0 */
-import colors from 'ansi-colors';
+import colors from 'chalk';
 import { readFile, writeFile } from 'fs/promises';
 import { compile, JSONSchema } from 'json-schema-to-typescript';
 import { join, parse, ParsedPath, posix } from 'path';
@@ -16,6 +16,7 @@ interface PackageConfig {
 
 const argv = require('minimist')(process.argv.slice(2)) as {
   _: string[];
+  d: boolean;
   stamp: string;
 };
 argv.stamp = argv.stamp ?? '';
@@ -39,7 +40,9 @@ async function writeSchemaTypeDef(
     .filter((p) => p.length > 0)
     .join('.');
   const outName = join(root, path.dir, fname);
-  void (await writeFile(outName, dts));
+  if (!argv.d) {
+    void (await writeFile(outName, dts));
+  }
 
   return outName;
 }
@@ -85,6 +88,10 @@ async function main() {
     } else {
       console.log(colors.white(k), colors.gray('no schema'));
     }
+  }
+
+  if (argv.d) {
+    console.log(colors.yellowBright('Nothing written. Dry run.'));
   }
 }
 void main();
