@@ -1,4 +1,4 @@
-import { <%= classify(moduleName) %> } from '<%= srcPath %><%= dasherize(moduleName) %>';
+import { <%= classify(moduleName) %> } from '<%= srcPath %><%= classify(moduleName) %>';
 
 describe('<%= classify(moduleName) %>', () => {
   let <%= camelize(moduleName) %>: <%= classify(moduleName) %>;

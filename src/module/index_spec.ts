@@ -42,6 +42,27 @@ describe('module', () => {
       .toPromise();
 
     expect(tree.files).toEqual(['/src/Tester.spec.ts', '/src/Tester.ts']);
+    const fcontent = tree.readContent('/src/Tester.spec.ts');
+    expect(fcontent).toContain("import { Tester } from './Tester';");
+  });
+
+  it('imports from correct file', async () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    const tree = await runner
+      .runSchematicAsync<Options>(
+        'module',
+        { name: 'tester', kind: 'values' },
+        ftree
+      )
+      .toPromise();
+
+    expect(tree.files).toEqual(['/src/tester.spec.ts', '/src/tester.ts']);
+    const fcontent = tree.readContent('/src/tester.spec.ts');
+    expect(fcontent).not.toContain("from './Tester'");
+    expect(fcontent).toContain(
+      "import { add, greet, meaning } from './tester';"
+    );
   });
 
   it('works with directory', async () => {
