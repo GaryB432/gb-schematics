@@ -9,6 +9,7 @@ import {
 import {
   apply,
   applyTemplates,
+  chain,
   filter,
   MergeStrategy,
   mergeWith,
@@ -58,14 +59,21 @@ export default function (options: Options): Rule {
   const srcPath = './';
   const kind = options.kind || 'values';
 
-  return (_tree: Tree, _context: SchematicContext) => {
-    const templateSource = apply(url(`./files/${kind}`), [
-      opts.unitTestRunner === 'none'
-        ? filter((path) => !path.endsWith('.spec.ts.template'))
-        : noop(),
-      applyTemplates({ ...opts, ...strings, modulePath, moduleName, srcPath }),
-      move(sourceRoot),
-    ]);
-    return mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict);
-  };
+  return chain([
+    mergeWith(
+      apply(url(`./files/${kind}`), [
+        opts.unitTestRunner === 'none'
+          ? filter((path) => !path.endsWith('.spec.ts.template'))
+          : noop(),
+        applyTemplates({
+          ...opts,
+          ...strings,
+          modulePath,
+          moduleName,
+          srcPath,
+        }),
+        move(sourceRoot),
+      ])
+    ),
+  ]);
 }

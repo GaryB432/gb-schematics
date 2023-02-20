@@ -44,6 +44,28 @@ describe('module', () => {
     expect(tree.files).toEqual(['/src/Tester.spec.ts', '/src/Tester.ts']);
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     expect(fcontent).toContain("import { Tester } from './Tester';");
+    expect(fcontent).not.toContain(
+      "import { describe, expect, test } from 'vitest';"
+    );
+  });
+
+  it('handles vitest', async () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    const tree = await runner
+      .runSchematicAsync<Options>(
+        'module',
+        { name: 'tester', kind: 'class', unitTestRunner: 'vitest' },
+        ftree
+      )
+      .toPromise();
+
+    expect(tree.files).toEqual(['/src/Tester.spec.ts', '/src/Tester.ts']);
+    const fcontent = tree.readContent('/src/Tester.spec.ts');
+    expect(fcontent).toContain(
+      "import { describe, expect, test } from 'vitest';"
+    );
+    expect(fcontent).toContain("import { Tester } from './Tester';");
   });
 
   it('imports from correct file', async () => {

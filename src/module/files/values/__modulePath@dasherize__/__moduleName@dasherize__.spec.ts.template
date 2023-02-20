@@ -1,3 +1,4 @@
+<% if (unitTestRunner === 'vitest') { %>import { describe, expect, test } from 'vitest';<% } %>
 import { add, greet, meaning } from '<%= srcPath %><%= dasherize(moduleName) %>';
 
 describe('<%= classify(moduleName) %>', () => {

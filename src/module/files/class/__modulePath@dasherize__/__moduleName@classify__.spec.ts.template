@@ -1,3 +1,4 @@
+<% if (unitTestRunner === 'vitest') { %>import { describe, expect, test } from 'vitest';<% } %>
 import { <%= classify(moduleName) %> } from '<%= srcPath %><%= classify(moduleName) %>';
 
 describe('<%= classify(moduleName) %>', () => {
