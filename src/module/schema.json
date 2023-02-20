@@ -26,11 +26,15 @@
       "default": "values",
       "enum": ["class", "values"]
     },
-    "skipTests": {
+    "unitTestRunner": {
+      "type": "string",
+      "enum": ["jest", "vitest", "none"],
+      "description": "Test runner to use for unit tests."
+    },
+    "inSourceTests": {
       "type": "boolean",
-      "description": "Do not create \"spec.ts\" test files for the new module.",
       "default": false,
-      "x-user-analytics": 12
+      "description": "When using Vitest, separate spec files will not be generated and instead will be included within the source files."
     },
     "sourceRoot": {
       "type": "string",

@@ -60,7 +60,7 @@ export default function (options: Options): Rule {
 
   return (_tree: Tree, _context: SchematicContext) => {
     const templateSource = apply(url(`./files/${kind}`), [
-      opts.skipTests
+      opts.unitTestRunner === 'none'
         ? filter((path) => !path.endsWith('.spec.ts.template'))
         : noop(),
       applyTemplates({ ...opts, ...strings, modulePath, moduleName, srcPath }),

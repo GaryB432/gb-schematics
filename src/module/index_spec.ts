@@ -22,7 +22,7 @@ describe('module', () => {
     const tree = await runner
       .runSchematicAsync<Options>(
         'module',
-        { name: 'tester', skipTests: true },
+        { name: 'tester', unitTestRunner: 'none' },
         ftree
       )
       .toPromise();
@@ -139,7 +139,7 @@ describe('module', () => {
           name: 'banana',
           directory: 'abc/def',
           kind: undefined,
-          skipTests: undefined,
+          unitTestRunner: 'none',
           sourceRoot: 'test/root/src',
         },
         ftree
