@@ -3,7 +3,6 @@ import {
   dirname,
   join,
   normalize,
-  Path,
   strings,
 } from '@angular-devkit/core';
 import {
@@ -11,13 +10,10 @@ import {
   applyTemplates,
   chain,
   filter,
-  MergeStrategy,
   mergeWith,
   move,
   noop,
   Rule,
-  SchematicContext,
-  Tree,
   url,
 } from '@angular-devkit/schematics';
 import { Options } from './schema';
@@ -29,12 +25,10 @@ export interface ModuleOptions {
   test?: boolean;
 }
 
-interface Location {
-  name: string;
-  path: Path;
-}
-
-function parseName(path: string, name: string): Location {
+export function parseName(
+  path: string,
+  name: string
+): { path: string; name: string } {
   const nameWithoutPath = basename(normalize(name));
   const namePath = dirname(join(normalize(path), name));
 
