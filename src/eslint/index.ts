@@ -1,18 +1,16 @@
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
+  MergeStrategy,
   apply,
   applyTemplates,
   branchAndMerge,
   chain,
-  MergeStrategy,
   mergeWith,
   noop,
-  Rule,
   schematic,
-  SchematicContext,
-  Tree,
   url,
 } from '@angular-devkit/schematics';
-import { Options } from './schema';
+import type { Options } from './schema';
 
 export function eslint(options: Options): Rule {
   return (tree: Tree, context: SchematicContext) => {

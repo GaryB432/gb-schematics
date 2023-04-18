@@ -1,8 +1,8 @@
 /* eslint @typescript-eslint/no-var-requires: 0 */
 import colors from 'chalk';
 import { readFile, writeFile } from 'fs/promises';
-import { compile, JSONSchema } from 'json-schema-to-typescript';
-import { join, parse, ParsedPath, posix } from 'path';
+import { compile, type JSONSchema } from 'json-schema-to-typescript';
+import { join, parse, posix, type ParsedPath } from 'path';
 
 interface SchemaDefined {
   schema: string;

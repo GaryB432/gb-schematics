@@ -1,12 +1,12 @@
 import {
+  MergeStrategy,
   apply,
   applyTemplates,
-  MergeStrategy,
   mergeWith,
-  Rule,
-  SchematicContext,
-  Tree,
   url,
+  type Rule,
+  type SchematicContext,
+  type Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 

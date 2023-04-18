@@ -5,6 +5,7 @@ import {
   normalize,
   strings,
 } from '@angular-devkit/core';
+import type { Rule } from '@angular-devkit/schematics';
 import {
   apply,
   applyTemplates,
@@ -13,10 +14,9 @@ import {
   mergeWith,
   move,
   noop,
-  Rule,
   url,
 } from '@angular-devkit/schematics';
-import { Options } from './schema';
+import type { Options } from './schema';
 
 export interface ModuleOptions {
   kind?: 'class' | 'values';
@@ -28,7 +28,7 @@ export interface ModuleOptions {
 export function parseName(
   path: string,
   name: string
-): { path: string; name: string } {
+): { name: string; path: string } {
   const nameWithoutPath = basename(normalize(name));
   const namePath = dirname(join(normalize(path), name));
 

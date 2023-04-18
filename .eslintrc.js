@@ -14,5 +14,6 @@ module.exports = {
   rules: {
     'prettier/prettier': 'warn',
     '@typescript-eslint/unbound-method': 'error',
+    "@typescript-eslint/consistent-type-imports": "error",
   },
 };

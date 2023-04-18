@@ -1,24 +1,22 @@
+import type { Path } from '@angular-devkit/core';
 import {
   basename,
   dirname,
   join,
   normalize,
-  Path,
   strings,
 } from '@angular-devkit/core';
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
+  MergeStrategy,
   apply,
   applyTemplates,
   chain,
-  MergeStrategy,
   mergeWith,
   move,
-  Rule,
-  SchematicContext,
-  Tree,
   url,
 } from '@angular-devkit/schematics';
-import { Options } from './schema';
+import type { Options } from './schema';
 import { makeTestRoute } from './utils';
 
 interface Location {

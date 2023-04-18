@@ -16,10 +16,8 @@
 //   });
 // });
 
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import type { UnitTestTree } from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
 //  import { Schema as ApplicationOptions } from '../application/schema';
 //  import { Schema as WorkspaceOptions } from '../workspace/schema';
