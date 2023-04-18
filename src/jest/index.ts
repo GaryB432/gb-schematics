@@ -9,6 +9,7 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { readPackageJson } from '../package-config';
 
 interface Options {
   skipInstall: boolean;
@@ -53,15 +54,20 @@ export function jestFactory(options: Options): Rule {
     // return tree;
     // return mergeWith(templatedSource, MergeStrategy.AllowOverwriteConflict);
 
-    const buff = tree.read('package.json');
-    if (!buff) throw new Error('no package.json');
-
-    const packageJson = JSON.parse(buff.toString());
+    const packageJson = readPackageJson(tree);
     packageJson.devDependencies = packageJson.devDependencies || {};
+    packageJson.devDependencies = {
+      ...packageJson.devDependencies,
+      '@types/jest': '^29.5.0',
+      jest: '^29.5.0',
+      'jest-environment-jsdom': '^29.5.0',
+      'jest-junit': '^16.0.0',
+      prettier: '^2.4.1',
+      'ts-jest': '^29.0.0',
+      typescript: '^5.0.0',
+    };
     packageJson.scripts = packageJson.scripts || {};
-
-    packageJson.devDependencies['prettier'] = '^2.4.1';
-    packageJson.scripts['format'] = 'prettier --write .';
+    packageJson.scripts['test'] = 'npx jest';
 
     tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
     if (!options.skipInstall) {

@@ -18,12 +18,12 @@
 
 import type { UnitTestTree } from '@angular-devkit/schematics/testing';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
-import { join } from 'path';
+import { readPackageJson } from '../package-config';
 //  import { Schema as ApplicationOptions } from '../application/schema';
 //  import { Schema as WorkspaceOptions } from '../workspace/schema';
 //  import { Schema as AppShellOptions } from './schema';
 
-describe('App Shell Schematic', () => {
+describe('Jest Schematic', () => {
   const schematicRunner = new SchematicTestRunner(
     'gb-schematics',
     require.resolve('../collection.json')
@@ -91,6 +91,21 @@ describe('App Shell Schematic', () => {
       '/package.json',
       '/jest.config.js',
     ]);
+  });
+
+  it('should add packages', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync('jest', {}, appTree)
+      .toPromise();
+    const filePath = '/package.json';
+    const content = tree.readContent(filePath);
+    const pkg = readPackageJson(tree);
+    // expect(getPackageVersionFromPackageJson(tree, 'jest-junit')).toEqual(
+    //   '^16.0.0'
+    // );
+    expect(pkg.devDependencies!['jest']).toEqual('^29.5.0');
+    expect(pkg.devDependencies!['typescript']).toEqual('^5.0.0');
+    // expect(content).toMatch(/import { RouterModule } from '@angular\/router';/);
   });
 
   //  it('should add app shell configuration', async () => {

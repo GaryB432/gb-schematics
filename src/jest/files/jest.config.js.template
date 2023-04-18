@@ -2,6 +2,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageReporters: ['cobertura', 'text'],
   collectCoverageFrom: ['./src/**/*.ts'],
+  testMatch: ['**/?(*.)+(spec|testx).[t]s?(x)'],
   reporters: [
     'default',
     [
@@ -11,5 +12,5 @@ module.exports = {
   ],
   moduleFileExtensions: ['ts', 'js'],
   testEnvironment: 'jsdom',
-  transform: { '^.+\\.(ts|js|json|html)$': 'ts-jest' },
+  transform: { '^.+\\.(ts|json|html)$': 'ts-jest' },
 };
