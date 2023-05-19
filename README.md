@@ -10,8 +10,6 @@ If you're using [Nx: Smart, Fast and Extensible Build System](https://nx.dev/) y
 
 > npm i @angular-devkit/schematics-cli -g
 
-🔥 Now including [SvelteKit](https://kit.svelte.dev/) (@sveltejs/kit@1.0.0-next.401)
-
 # Development
 
 > npx ts-node tools/make-schemas --stamp generated
