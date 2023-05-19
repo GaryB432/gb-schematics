@@ -22,7 +22,7 @@ function sortObjectByKeys(obj: Record<string, string>) {
 
 /**
  * Reads a package json from the given tree
- * @param tree 
+ * @param tree
  * @returns a PackageJson object from the given tree
  */
 export function readPackageJson(tree: Tree): PackageJson {

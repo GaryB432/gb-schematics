@@ -1,4 +1,4 @@
-<% if (unitTestRunner === 'vitest') { %>import { describe, expect, test } from 'vitest';<% } %>
+<% if (unitTestRunner !== 'none') { %>import { describe, expect, test } from '<%= globalTestModule %>';<% } %>
 import { add, greet, meaning } from '<%= srcPath %><%= dasherize(moduleName) %>';
 
 describe('<%= classify(moduleName) %>', () => {

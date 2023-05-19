@@ -5,6 +5,7 @@ import {
   normalize,
   strings,
 } from '@angular-devkit/core';
+
 import type { Rule } from '@angular-devkit/schematics';
 import {
   apply,
@@ -18,12 +19,11 @@ import {
 } from '@angular-devkit/schematics';
 import type { Options } from './schema';
 
-export interface ModuleOptions {
-  kind?: 'class' | 'values';
-  name: string;
-  packageName?: string;
-  test?: boolean;
-}
+const globalTestRunners = {
+  jest: '@jest/globals',
+  none: '',
+  vitest: 'vitest',
+};
 
 export function parseName(
   path: string,
@@ -52,6 +52,7 @@ export default function (options: Options): Rule {
   const moduleName = opts.name;
   const srcPath = './';
   const kind = options.kind || 'values';
+  const globalTestModule = globalTestRunners[opts.unitTestRunner ?? 'none'];
 
   return chain([
     mergeWith(
@@ -62,6 +63,7 @@ export default function (options: Options): Rule {
         applyTemplates({
           ...opts,
           ...strings,
+          globalTestModule,
           modulePath,
           moduleName,
           srcPath,

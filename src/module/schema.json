@@ -18,7 +18,7 @@
     "directory": {
       "type": "string",
       "format": "path",
-      "description": "The directory to create the module, relative to your project source."
+      "description": "The directory to create the module, relative to the project source."
     },
     "kind": {
       "type": "string",
@@ -29,6 +29,7 @@
     "unitTestRunner": {
       "type": "string",
       "enum": ["jest", "vitest", "none"],
+      "default": "jest",
       "description": "Test runner to use for unit tests."
     },
     "inSourceTests": {

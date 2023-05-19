@@ -56,7 +56,7 @@ describe('module', () => {
     expect(tree.files).toEqual(['/src/Tester.spec.ts', '/src/Tester.ts']);
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     expect(fcontent).toContain(
-      "import { describe, expect, test } from 'vitest';"
+      "import { beforeEach, describe, expect, test } from 'vitest';"
     );
     expect(fcontent).toContain("import { Tester } from './Tester';");
   });
