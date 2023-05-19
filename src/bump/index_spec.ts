@@ -12,10 +12,7 @@ describe('bump', () => {
       'package.json',
       JSON.stringify({ name: 'test', version: '1.2.3' })
     );
-    const tree = await runner
-      .runSchematicAsync('bump', { part: 'major' }, ftree)
-      .toPromise();
-
+    const tree = await runner.runSchematic('bump', { part: 'major' }, ftree);
     const buff = tree.read('package.json');
 
     const newPJ = buff ? JSON.parse(buff.toString()) : {};

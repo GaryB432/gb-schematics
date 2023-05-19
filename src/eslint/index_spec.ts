@@ -12,10 +12,7 @@ describe('eslint', () => {
       'package.json',
       JSON.stringify({ name: 'test', version: '1.2.3' })
     );
-    const tree = await runner
-      .runSchematicAsync('eslint', {}, ftree)
-      .toPromise();
-
+    const tree = await runner.runSchematic('eslint', {}, ftree);
     expect(tree.files).toContain('/.eslintrc.js');
   });
 });

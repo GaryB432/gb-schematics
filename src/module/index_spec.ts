@@ -10,38 +10,33 @@ describe('module', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>('module', { name: 'tester' }, ftree)
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      { name: 'tester' },
+      ftree
+    );
     expect(tree.files).toEqual(['/src/tester.spec.ts', '/src/tester.ts']);
   });
 
   it('skips tests', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>(
-        'module',
-        { name: 'tester', unitTestRunner: 'none' },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      { name: 'tester', unitTestRunner: 'none' },
+      ftree
+    );
     expect(tree.files).not.toContain('/tester.spec.ts');
   });
 
   it('classifies', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>(
-        'module',
-        { name: 'tester', kind: 'class' },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      { name: 'tester', kind: 'class' },
+      ftree
+    );
     expect(tree.files).toEqual(['/src/Tester.spec.ts', '/src/Tester.ts']);
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     expect(fcontent).toContain("import { Tester } from './Tester';");
@@ -53,14 +48,11 @@ describe('module', () => {
   it('handles vitest', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>(
-        'module',
-        { name: 'tester', kind: 'class', unitTestRunner: 'vitest' },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      { name: 'tester', kind: 'class', unitTestRunner: 'vitest' },
+      ftree
+    );
     expect(tree.files).toEqual(['/src/Tester.spec.ts', '/src/Tester.ts']);
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     expect(fcontent).toContain(
@@ -72,14 +64,11 @@ describe('module', () => {
   it('imports from correct file', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>(
-        'module',
-        { name: 'tester', kind: 'values' },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      { name: 'tester', kind: 'values' },
+      ftree
+    );
     expect(tree.files).toEqual(['/src/tester.spec.ts', '/src/tester.ts']);
     const fcontent = tree.readContent('/src/tester.spec.ts');
     expect(fcontent).not.toContain("from './Tester'");
@@ -91,84 +80,69 @@ describe('module', () => {
   it('works with directory', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>(
-        'module',
-        { name: 'tester', directory: 'a/b/c/d' },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      { name: 'tester', directory: 'a/b/c/d' },
+      ftree
+    );
     expect(tree.files).toContain('/src/a/b/c/d/tester.ts');
   });
 
   it('works with path name', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>(
-        'module',
-        { name: 'c/d/tester', directory: 'a/b' },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      { name: 'c/d/tester', directory: 'a/b' },
+      ftree
+    );
     expect(tree.files).toContain('/src/a/b/c/d/tester.ts');
   });
 
   it('works with project root', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>(
-        'module',
-        {
-          name: 'tester',
-          directory: 'a/b/c/d',
-          sourceRoot: 'apps/project/src',
-        },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      {
+        name: 'tester',
+        directory: 'a/b/c/d',
+        sourceRoot: 'apps/project/src',
+      },
+      ftree
+    );
     expect(tree.files).toContain('/apps/project/src/a/b/c/d/tester.ts');
   });
 
   it('works with project root and path', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>(
-        'module',
-        {
-          name: 'c/d/tester',
-          directory: 'a/b',
-          sourceRoot: 'apps/project/src',
-        },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      {
+        name: 'c/d/tester',
+        directory: 'a/b',
+        sourceRoot: 'apps/project/src',
+      },
+      ftree
+    );
     expect(tree.files).toContain('/apps/project/src/a/b/c/d/tester.ts');
   });
 
   it('works with project root and path', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync<Options>(
-        'module',
-        {
-          name: 'banana',
-          directory: 'abc/def',
-          kind: undefined,
-          unitTestRunner: 'none',
-          sourceRoot: 'test/root/src',
-        },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      {
+        name: 'banana',
+        directory: 'abc/def',
+        kind: undefined,
+        unitTestRunner: 'none',
+        sourceRoot: 'test/root/src',
+      },
+      ftree
+    );
     expect(tree.files).toContain('/test/root/src/abc/def/banana.ts');
   });
 });

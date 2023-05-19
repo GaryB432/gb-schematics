@@ -9,8 +9,8 @@
 //       JSON.stringify({ name: 'test', version: '1.2.3' })
 //     );
 //     const tree = await runner
-//       .runSchematicAsync('eslint', {}, ftree)
-//       .toPromise();
+//       .runSchematic('eslint', {}, ftree)
+//       ;
 
 //     expect(tree.files).toContain('/.eslintrc.js');
 //   });
@@ -49,41 +49,37 @@ describe('Jest Schematic', () => {
   let appTree: UnitTestTree;
 
   beforeEach(async () => {
-    appTree = await schematicRunner
-      .runSchematicAsync('typescript', {})
-      .toPromise();
+    appTree = await schematicRunner.runSchematic('typescript', {});
 
     appTree.create(
       '/package.json',
       JSON.stringify({ name: 'test', version: '1.2.3' })
     );
     //  appTree = await schematicRunner
-    //    .runSchematicAsync('application', appOptions, appTree)
-    //    .toPromise();
+    //    .runSchematic('application', appOptions, appTree)
+    //    ;
   });
 
   // it('should ensure the client app has a router-outlet', async () => {
   //   appTree = await schematicRunner
-  //     .runSchematicAsync('workspace', workspaceOptions)
-  //     .toPromise();
+  //     .runSchematic('workspace', workspaceOptions)
+  //     ;
   //   appTree = await schematicRunner
-  //     .runSchematicAsync(
+  //     .runSchematic(
   //       'application',
   //       { ...appOptions, routing: false },
   //       appTree
   //     )
-  //     .toPromise();
+  //     ;
   //   await expectAsync(
   //     schematicRunner
-  //       .runSchematicAsync('appShell', defaultOptions, appTree)
-  //       .toPromise()
+  //       .runSchematic('appShell', defaultOptions, appTree)
+  //
   //   ).toBeRejected();
   // });
 
   it('should add a universal app', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync('jest', {}, appTree)
-      .toPromise();
+    const tree = await schematicRunner.runSchematic('jest', {}, appTree);
     // const filePath = '/projects/bar/src/app/app.server.module.ts';
     // expect(tree.exists(filePath)).toEqual(true);
     expect(tree.files).toEqual([
@@ -94,9 +90,7 @@ describe('Jest Schematic', () => {
   });
 
   it('should add packages', async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync('jest', {}, appTree)
-      .toPromise();
+    const tree = await schematicRunner.runSchematic('jest', {}, appTree);
     const filePath = '/package.json';
     const content = tree.readContent(filePath);
     const pkg = readPackageJson(tree);
@@ -110,8 +104,8 @@ describe('Jest Schematic', () => {
 
   //  it('should add app shell configuration', async () => {
   //    const tree = await schematicRunner
-  //      .runSchematicAsync('appShell', defaultOptions, appTree)
-  //      .toPromise();
+  //      .runSchematic('appShell', defaultOptions, appTree)
+  //      ;
   //    const filePath = '/angular.json';
   //    const content = tree.readContent(filePath);
   //    const workspace = JSON.parse(content);
@@ -125,8 +119,8 @@ describe('Jest Schematic', () => {
 
   //  it('should add router module to client app module', async () => {
   //    const tree = await schematicRunner
-  //      .runSchematicAsync('appShell', defaultOptions, appTree)
-  //      .toPromise();
+  //      .runSchematic('appShell', defaultOptions, appTree)
+  //      ;
   //    const filePath = '/projects/bar/src/app/app.module.ts';
   //    const content = tree.readContent(filePath);
   //    expect(content).toMatch(/import { RouterModule } from '@angular\/router';/);
@@ -138,8 +132,8 @@ describe('Jest Schematic', () => {
   //    appTree.commitUpdate(updateRecorder);
 
   //    const tree = await schematicRunner
-  //      .runSchematicAsync('appShell', defaultOptions, appTree)
-  //      .toPromise();
+  //      .runSchematic('appShell', defaultOptions, appTree)
+  //      ;
   //    const filePath = '/projects/bar/src/app/app.module.ts';
   //    const content = tree.readContent(filePath);
   //    expect(content).toMatch(/import { RouterModule } from '@angular\/router';/);

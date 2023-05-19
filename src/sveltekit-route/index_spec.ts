@@ -8,10 +8,11 @@ describe('sveltekit-route', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync('sveltekit-route', { name: 'tester' }, ftree)
-      .toPromise();
-
+    const tree = await runner.runSchematic(
+      'sveltekit-route',
+      { name: 'tester' },
+      ftree
+    );
     expect(tree.files).toEqual([
       '/src/routes/tester/+page.svelte',
       '/src/routes/tester/+page.ts',
@@ -24,14 +25,11 @@ describe('sveltekit-route with endpoint', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync(
-        'sveltekit-route',
-        { name: 'tester', endpoint: true },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic(
+      'sveltekit-route',
+      { name: 'tester', endpoint: true },
+      ftree
+    );
     expect(tree.files).toEqual([
       '/src/routes/tester/+page.svelte',
       '/src/routes/tester/+page.ts',
@@ -42,14 +40,11 @@ describe('sveltekit-route with endpoint', () => {
   it('works with project root', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync(
-        'sveltekit-route',
-        { name: 'a/b/c/tester', projectRoot: 'apps/fun' },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic(
+      'sveltekit-route',
+      { name: 'a/b/c/tester', projectRoot: 'apps/fun' },
+      ftree
+    );
     expect(tree.files).toEqual([
       '/apps/fun/src/routes/a/b/c/tester/+page.svelte',
       '/apps/fun/src/routes/a/b/c/tester/+page.ts',
@@ -66,14 +61,11 @@ describe('sveltekit-route skipTests', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync(
-        'sveltekit-route',
-        { name: 'tester', skipTests: true },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic(
+      'sveltekit-route',
+      { name: 'tester', skipTests: true },
+      ftree
+    );
     expect(tree.files).toEqual([
       '/src/routes/tester/+page.svelte',
       '/src/routes/tester/+page.ts',
@@ -85,14 +77,11 @@ describe('sveltekit-route with path', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync(
-        'sveltekit-route',
-        { name: 'a/b/c/tester', endpoint: true, path: 'tbd' },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic(
+      'sveltekit-route',
+      { name: 'a/b/c/tester', endpoint: true, path: 'tbd' },
+      ftree
+    );
     expect(tree.files).toEqual([
       '/src/routes/tbd/a/b/c/tester/+page.svelte',
       '/src/routes/tbd/a/b/c/tester/+page.ts',
@@ -107,19 +96,16 @@ describe('sveltekit-route with path', () => {
   it('works with project root', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner
-      .runSchematicAsync(
-        'sveltekit-route',
-        {
-          name: 'a/b/c/tester',
-          endpoint: true,
-          path: 'tbd',
-          projectRoot: 'apps/fun',
-        },
-        ftree
-      )
-      .toPromise();
-
+    const tree = await runner.runSchematic(
+      'sveltekit-route',
+      {
+        name: 'a/b/c/tester',
+        endpoint: true,
+        path: 'tbd',
+        projectRoot: 'apps/fun',
+      },
+      ftree
+    );
     expect(tree.files).toEqual([
       '/apps/fun/src/routes/tbd/a/b/c/tester/+page.svelte',
       '/apps/fun/src/routes/tbd/a/b/c/tester/+page.ts',

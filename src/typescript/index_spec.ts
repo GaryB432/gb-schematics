@@ -7,10 +7,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('typescript', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = await runner
-      .runSchematicAsync('typescript', {}, Tree.empty())
-      .toPromise();
-
+    const tree = await runner.runSchematic('typescript', {}, Tree.empty());
     expect(tree.files).toContain('/tsconfig.json');
   });
 });
