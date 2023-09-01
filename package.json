@@ -1,6 +1,6 @@
 {
   "name": "gb-schematics",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Some schematics I like",
   "scripts": {
     "schemas": "npx ts-node tools/make-schemas",
@@ -25,11 +25,6 @@
     "url": "https://github.com/GaryB432/gb-schematics/issues"
   },
   "schematics": "./src/collection.json",
-  "dependencies": {
-    "@angular-devkit/core": "^16.0.2",
-    "@angular-devkit/schematics": "^16.0.2",
-    "semver": "^7.5.1"
-  },
   "devDependencies": {
     "@types/jasmine": "^4.3.1",
     "@types/node": "^20.2.1",
@@ -44,5 +39,10 @@
     "minimist": "^1.2.8",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@angular-devkit/core": "^16.2.1",
+    "@angular-devkit/schematics": "^16.2.1",
+    "semver": "^7.5.4"
   }
 }
