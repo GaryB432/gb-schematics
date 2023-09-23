@@ -40,7 +40,6 @@
     "sourceRoot": {
       "type": "string",
       "format": "path",
-      "default": "src",
       "description": "The path to your project's source root"
     }
   },

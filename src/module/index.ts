@@ -45,7 +45,7 @@ function normalizeOptions(options: Options): Options {
 export default function (options: Options): Rule {
   const opts = normalizeOptions(options);
   const directory = opts.directory ?? '';
-  const sourceRoot = opts.sourceRoot ?? 'src';
+  const sourceRoot = opts.sourceRoot ?? '';
   const parsedPath = parseName(directory, options.name);
   opts.name = parsedPath.name;
   const modulePath = parsedPath.path;

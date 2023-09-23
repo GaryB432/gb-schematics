@@ -1,6 +1,6 @@
 {
   "name": "gb-schematics",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "Some schematics I like",
   "scripts": {
     "schemas": "npx ts-node tools/make-schemas",

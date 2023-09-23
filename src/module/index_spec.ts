@@ -15,7 +15,7 @@ describe('module', () => {
       { name: 'tester' },
       ftree
     );
-    expect(tree.files).toEqual(['/src/tester.spec.ts', '/src/tester.ts']);
+    expect(tree.files).toEqual(['/tester.spec.ts', '/tester.ts']);
   });
 
   it('skips tests', async () => {
@@ -34,7 +34,7 @@ describe('module', () => {
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
       'module',
-      { name: 'tester', kind: 'class' },
+      { name: 'tester', kind: 'class', sourceRoot: 'src' },
       ftree
     );
     expect(tree.files).toEqual(['/src/Tester.spec.ts', '/src/Tester.ts']);
@@ -50,7 +50,12 @@ describe('module', () => {
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
       'module',
-      { name: 'tester', kind: 'class', unitTestRunner: 'vitest' },
+      {
+        name: 'tester',
+        kind: 'class',
+        unitTestRunner: 'vitest',
+        sourceRoot: 'src',
+      },
       ftree
     );
     expect(tree.files).toEqual(['/src/Tester.spec.ts', '/src/Tester.ts']);
@@ -66,7 +71,7 @@ describe('module', () => {
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
       'module',
-      { name: 'tester', kind: 'values' },
+      { name: 'tester', kind: 'values', sourceRoot: 'src' },
       ftree
     );
     expect(tree.files).toEqual(['/src/tester.spec.ts', '/src/tester.ts']);
@@ -85,10 +90,10 @@ describe('module', () => {
       { name: 'tester', directory: 'a/b/c/d' },
       ftree
     );
-    expect(tree.files).toContain('/src/a/b/c/d/tester.ts');
+    expect(tree.files).toContain('/a/b/c/d/tester.ts');
   });
 
-  it('works with path name', async () => {
+  it('works with path name (without sourceRoot)', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
@@ -96,7 +101,7 @@ describe('module', () => {
       { name: 'c/d/tester', directory: 'a/b' },
       ftree
     );
-    expect(tree.files).toContain('/src/a/b/c/d/tester.ts');
+    expect(tree.files).toContain('/a/b/c/d/tester.ts');
   });
 
   it('works with project root', async () => {
