@@ -73,3 +73,5 @@ export default function (options: Options): Rule {
     ),
   ]);
 }
+
+export { Options as GbModuleOptions } from './schema';

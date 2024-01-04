@@ -9,6 +9,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true,
     // "noUnusedLocals": true,
+    "declaration": true,
     "rootDir": "",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
