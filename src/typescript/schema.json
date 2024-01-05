@@ -5,16 +5,6 @@
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "includeTypescript": {
-      "type": "boolean",
-      "default": true,
-      "description": "Include Typescript"
-    },
-    "includePrettier": {
-      "type": "boolean",
-      "default": true,
-      "description": "Include Prettier"
-    },
     "skipInstall": {
       "type": "boolean",
       "default": false,

@@ -9,10 +9,7 @@ import {
   type Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-
-interface Options {
-  skipInstall: boolean;
-}
+import { Options } from './schema';
 
 export function typescript(options: Options): Rule {
   return (tree: Tree, context: SchematicContext) => {
