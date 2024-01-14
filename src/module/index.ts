@@ -53,6 +53,9 @@ export default function (options: Options): Rule {
   const srcPath = './';
   const kind = options.kind || 'values';
   const globalTestModule = globalTestRunners[opts.unitTestRunner ?? 'none'];
+  const moduleFileName = options.pascalCaseFiles
+    ? strings.classify(moduleName)
+    : strings.dasherize(moduleName);
 
   return chain([
     mergeWith(
@@ -66,6 +69,7 @@ export default function (options: Options): Rule {
           globalTestModule,
           modulePath,
           moduleName,
+          moduleFileName,
           srcPath,
         }),
         move(sourceRoot),

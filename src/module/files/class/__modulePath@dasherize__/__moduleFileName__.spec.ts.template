@@ -1,5 +1,5 @@
 <% if (unitTestRunner !== 'none') { %>import { beforeEach, describe, expect, test } from '<%= globalTestModule %>';<% } %>
-import { <%= classify(moduleName) %> } from '<%= srcPath %><%= classify(moduleName) %>';
+import { <%= classify(moduleName) %> } from '<%= srcPath %><%= moduleFileName %>';
 
 describe('<%= classify(moduleName) %>', () => {
   let <%= camelize(moduleName) %>: <%= classify(moduleName) %>;

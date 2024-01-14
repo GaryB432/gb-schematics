@@ -45,6 +45,30 @@ describe('module', () => {
     );
   });
 
+  it('does not classify', async () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      {
+        name: 'ProjectNamedTester',
+        kind: 'class',
+        sourceRoot: 'src',
+        pascalCaseFiles: false,
+      },
+      ftree
+    );
+    expect(tree.files).toEqual([
+      '/src/project-named-tester.spec.ts',
+      '/src/project-named-tester.ts',
+    ]);
+    const fcontent = tree.readContent('/src/project-named-tester.spec.ts');
+    expect(fcontent).toContain("import { ProjectNamedTester } from './project-named-tester';");
+    expect(fcontent).not.toContain(
+      "import { describe, expect, test } from 'vitest';"
+    );
+  });
+
   it('handles vitest', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
