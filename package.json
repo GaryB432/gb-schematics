@@ -23,9 +23,7 @@
   },
   "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/GaryB432/gb-schematics/issues"
-  },
+  "bugs": "https://github.com/GaryB432/gb-schematics/issues",
   "schematics": "./src/collection.json",
   "devDependencies": {
     "@types/jasmine": "^4.3.1",
