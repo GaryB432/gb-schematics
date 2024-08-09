@@ -14,10 +14,13 @@ export interface PackageJson {
 function sortObjectByKeys(obj: Record<string, string>) {
   return Object.keys(obj)
     .sort()
-    .reduce((result, key) => {
-      result[key] = obj[key];
-      return result;
-    }, {} as Record<string, string>);
+    .reduce(
+      (result, key) => {
+        result[key] = obj[key];
+        return result;
+      },
+      {} as Record<string, string>
+    );
 }
 
 /**
