@@ -63,7 +63,9 @@ describe('module', () => {
       '/src/project-named-tester.ts',
     ]);
     const fcontent = tree.readContent('/src/project-named-tester.spec.ts');
-    expect(fcontent).toContain("import { ProjectNamedTester } from './project-named-tester';");
+    expect(fcontent).toContain(
+      "import { ProjectNamedTester } from './project-named-tester';"
+    );
     expect(fcontent).not.toContain(
       "import { describe, expect, test } from 'vitest';"
     );
