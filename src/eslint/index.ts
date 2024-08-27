@@ -24,15 +24,17 @@ export function eslint(options: Options): Rule {
     if (json) {
       const pkgJson = {
         scripts: {
-          lint: `eslint **/*.ts`,
+          lint: `eslint .`,
         },
         devDependencies: {
-          '@typescript-eslint/eslint-plugin': '^5.30.6',
-          '@typescript-eslint/parser': '^5.30.6',
-          eslint: '^8.20.0',
-          'eslint-config-prettier': '^8.5.0',
-          'eslint-plugin-gb': '^1.2.0',
-          'eslint-plugin-prettier': '^4.2.1',
+          '@eslint/js': '^9.9.1',
+          '@types/eslint__js': '^8.42.3',
+          eslint: '^9.9.1',
+          'eslint-plugin-gb': '^9.0.0',
+          'typescript-eslint': '^8.3.0',
+        },
+        peerDependencies: {
+          typescript: '^5.5.4',
         },
       };
 
@@ -42,8 +44,13 @@ export function eslint(options: Options): Rule {
         ...npk.devDependencies,
         ...pkgJson.devDependencies,
       };
+      const peerDependencies = {
+        ...npk.peerDependencies,
+        ...pkgJson.peerDependencies,
+      };
       npk.scripts = scripts;
       npk.devDependencies = devDependencies;
+      npk.peerDependencies = peerDependencies;
       tree.overwrite(packageJsonPath, JSON.stringify(npk, null, 2));
     }
 
