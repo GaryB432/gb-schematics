@@ -10,9 +10,8 @@ module.exports = {
     jest: true,
   },
   plugins: ['gb'],
-  extends: ['plugin:gb/recommended', 'plugin:prettier/recommended'],
+  extends: ['plugin:gb/recommended'],
   rules: {
-    'prettier/prettier': 'warn',
     '@typescript-eslint/unbound-method': 'error',
     "@typescript-eslint/consistent-type-imports": "error",
   },
