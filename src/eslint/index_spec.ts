@@ -1,7 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import {
+  type UnitTestTree,
   SchematicTestRunner,
-  UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 
@@ -27,15 +27,15 @@ describe('eslint', () => {
       peerDependencies: Record<string, unknown>;
     };
     expect(Object.keys(pJ.peerDependencies)).toBeDefined();
-    // expect(Object.keys(pJ.devDependencies)).toEqual([
-    //   '@eslint/js',
-    //   '@types/eslint__js',
-    //   'eslint',
-    //   'eslint-plugin-gb',
-    //   'typescript-eslint',
-    //   'typescript',
-    //   'prettier',
-    // ]);
+    expect(Object.keys(pJ.devDependencies)).toEqual([
+      '@eslint/js',
+      '@types/eslint__js',
+      'eslint',
+      'eslint-plugin-gb',
+      'typescript-eslint',
+      'typescript',
+      'prettier',
+    ]);
 
     // expect(2 + 2).toEqual(5);
   });
