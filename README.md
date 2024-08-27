@@ -12,7 +12,7 @@ If you're using [Nx: Smart, Fast and Extensible Build System](https://nx.dev/) y
 
 # Development
 
-> npx ts-node tools/make-schemas --stamp generated
+> npx tsx tools/make-schemas --stamp generated
 
 # Schematics
 

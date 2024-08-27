@@ -7,15 +7,15 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...gb.configs['flat/recommended'],
+  // {
+  //   languageOptions: {
+  //     globals: {
+  //       ...globals.browser,
+  //       ...globals.node,
+  //     },
+  //   },
+  // },
   {
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    },
-  },
-  {
-    ignores: ['node_modules/', '**/*.js'],
+    ignores: ['node_modules/', '**/*.js', '**/*.d.ts'],
   }
 );
