@@ -26,7 +26,6 @@ describe('eslint', () => {
       devDependencies: Record<string, unknown>;
       peerDependencies: Record<string, unknown>;
     };
-    console.log(pJ);
     expect(Object.keys(pJ.peerDependencies)).toBeDefined();
     // expect(Object.keys(pJ.devDependencies)).toEqual([
     //   '@eslint/js',
