@@ -9,7 +9,7 @@ import {
   type Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { Options } from './schema';
+import { type Options } from './schema';
 
 export function typescript(options: Options): Rule {
   return (tree: Tree, context: SchematicContext) => {

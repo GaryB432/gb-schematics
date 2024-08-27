@@ -14,6 +14,7 @@ interface PackageConfig {
   schematics?: string;
 }
 
+// eslint-disable-next-line
 const argv = require('minimist')(process.argv.slice(2)) as {
   _: string[];
   d: boolean;
