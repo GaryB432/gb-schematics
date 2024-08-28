@@ -13,8 +13,11 @@ export function bump(options: Options): Rule {
         name: string;
         version: string;
       };
-      pj.version = semverInc(pj.version, options.part) ?? pj.version;
+      const oldOne = pj.version;
+      const newOne = semverInc(pj.version, options.part) ?? pj.version;
+      pj.version = newOne;
       tree.overwrite(packageJsonPath, `${JSON.stringify(pj, null, 2)}\n`);
+      context.logger.info(`${oldOne} ➡️ ${newOne}`)
       if (!options.skipInstall) {
         context.addTask(new NodePackageInstallTask());
       }

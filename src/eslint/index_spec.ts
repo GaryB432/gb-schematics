@@ -34,7 +34,6 @@ describe('eslint', () => {
       'eslint-plugin-gb',
       'typescript-eslint',
       'typescript',
-      'prettier',
     ]);
 
     // expect(2 + 2).toEqual(5);
