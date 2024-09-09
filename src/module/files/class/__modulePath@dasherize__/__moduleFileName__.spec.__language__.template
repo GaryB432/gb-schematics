@@ -1,4 +1,4 @@
-<% if (unitTestRunner !== 'none') { %>import { beforeEach, describe, expect, test } from '<%= globalTestModule %>';<% } %>
+<% if (unitTestRunner !== 'none' && language === 'ts') { %>import { beforeEach, describe, expect, test } from '<%= globalTestModule %>';<% } %>
 import { <%= classify(moduleName) %> } from '<%= srcPath %><%= moduleFileName %>';
 
 describe('<%= classify(moduleName) %>', () => {

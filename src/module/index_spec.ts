@@ -66,9 +66,9 @@ describe('module', () => {
     expect(fcontent).toContain(
       "import { ProjectNamedTester } from './project-named-tester';"
     );
-    expect(fcontent).not.toContain(
-      "import { describe, expect, test } from 'vitest';"
-    );
+    expect(fcontent).not.toContain("} from 'vitest';");
+
+    expect(fcontent).toMatch(/let projectNamedTester: ProjectNamedTester/);
   });
 
   it('handles vitest', async () => {
@@ -194,7 +194,7 @@ describe('utility functions', () => {
 });
 
 describe('js module', () => {
-  it('works', async () => {
+  it('makes class', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
@@ -203,5 +203,26 @@ describe('js module', () => {
       ftree
     );
     expect(tree.files).toEqual(['/tester.spec.js', '/tester.js']);
+    expect(tree.read('/tester.spec.js')?.toString()).toContain(
+      "import { add, greet, meaning } from './tester.js';"
+    );
+    expect(tree.read('/tester.js')?.toString()).toContain(
+      'export function greet(name) {'
+    );
+  });
+
+  it('makes values', async () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      { name: 'tester', language: 'js', kind: 'values' },
+      ftree
+    );
+    expect(tree.files).toEqual(['/tester.spec.js', '/tester.js']);
+    expect(tree.readContent('/tester.spec.js')).toContain(
+      "import { add, greet, meaning } from './tester.js';"
+    );
+    expect(tree.readContent('/tester.js')).not.toMatch(/: (string|number)/);
   });
 });

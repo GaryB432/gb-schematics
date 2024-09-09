@@ -1,5 +1,6 @@
-<% if (unitTestRunner !== 'none') { %>import { describe, expect, test } from '<%= globalTestModule %>';<% } %>
-import { add, greet, meaning } from '<%= srcPath %><%= dasherize(moduleName) %>';
+<% if (unitTestRunner !== 'none' && language === 'ts') { %>import { describe, expect, test } from '<%= globalTestModule %>';<% } %>
+
+import { add, greet, meaning } from '<%= srcPath %><%= dasherize(moduleName) %><% if (language === 'js') { %>.js<% } %>';
 
 describe('<%= classify(moduleName) %>', () => {
   test('adds', () => {
