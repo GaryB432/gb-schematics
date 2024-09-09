@@ -1,8 +1,9 @@
 <% if (unitTestRunner !== 'none') { %>import { beforeEach, describe, expect, test } from '<%= globalTestModule %>';<% } %>
-import { <%= classify(moduleName) %> } from '<%= srcPath %><%= moduleFileName %>';
+import { <%= classify(moduleName) %> } from '<%= srcPath %><%= moduleFileName %><% if (language === 'js') { %>.js<% } %>';
 
 describe('<%= classify(moduleName) %>', () => {
-  let <%= camelize(moduleName) %>: <%= classify(moduleName) %>;
+  let <%= camelize(moduleName) %><% if (language === 'ts') { %>: <%= classify(moduleName) %><% } %>;
+
   beforeEach(() => {
     <%= camelize(moduleName) %> = new <%= classify(moduleName) %>(2);
   });
