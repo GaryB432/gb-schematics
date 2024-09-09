@@ -1,10 +1,10 @@
 export class <%= classify(moduleName) %> {
-  public constructor(private counter: number) {}
-  public add(a: number): number {
+  public constructor(private counter<% if (language === 'ts') { %>: number<% } %>) {}
+  public add(a<% if (language === 'ts') { %>: number<% } %>)<% if (language === 'ts') { %>: number<% } %> {
     this.counter += a;
     return this.counter;
   }
-  public greet(name: string): string {
-    return `<%= classify(moduleName) %> says: hello to ${name}`;
+  public greet(name: string)<% if (language === 'ts') { %>: string<% } %> {
+    return `<%= classify(moduleName) %> says hello to ${name}`;
   }
 }

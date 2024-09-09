@@ -69,6 +69,7 @@ describe('module', () => {
     expect(fcontent).not.toContain("} from 'vitest';");
 
     expect(fcontent).toMatch(/let projectNamedTester: ProjectNamedTester/);
+    expect(tree.readContent('/src/project-named-tester.ts')).toMatch(/: (string|number)/);
   });
 
   it('handles vitest', async () => {
@@ -209,6 +210,7 @@ describe('js module', () => {
     expect(tree.read('/tester.js')?.toString()).toContain(
       'export function greet(name) {'
     );
+    expect(tree.readContent('/tester.js')).not.toMatch(/: ^4/);
   });
 
   it('makes values', async () => {
