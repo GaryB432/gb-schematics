@@ -1,6 +1,6 @@
 {
   "name": "gb-schematics",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "description": "Some schematics I like",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
