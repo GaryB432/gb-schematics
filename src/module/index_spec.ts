@@ -192,3 +192,16 @@ describe('utility functions', () => {
     });
   });
 });
+
+describe('js module', () => {
+  it('works', async () => {
+    const runner = new SchematicTestRunner('schematics', collectionPath);
+    const ftree = Tree.empty();
+    const tree = await runner.runSchematic<Options>(
+      'module',
+      { name: 'tester', language: 'js' },
+      ftree
+    );
+    expect(tree.files).toEqual(['/tester.spec.js', '/tester.js']);
+  });
+});
