@@ -53,7 +53,7 @@ export default function (opts: Options): Rule {
     const parsedPath = parseName(options.path, options.name);
     options.name = parsedPath.name;
     options.path = parsedPath.path;
-    const templateSource = apply(url('./files/v2/runes'), [
+    const templateSource = apply(url('./files/v0'), [
       applyTemplates({
         ...strings,
         ...options,

@@ -46,7 +46,7 @@ export default function (options: Options): Rule {
     if (!tree.exists(normalize(join(projectRoot, 'svelte.config.js')))) {
       context.logger.warn(`no svelte configuration found in '${projectRoot}'`);
     }
-    const templateSource = apply(url('./files/v2/runes'), [
+    const templateSource = apply(url('./files'), [
       applyTemplates({ ...opts, ...strings }),
       move(normalize(join(projectRoot, 'src', parsedPath.path))),
     ]);
