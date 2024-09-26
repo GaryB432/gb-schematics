@@ -37,6 +37,7 @@ function normalizeOptions(options: Options): Options {
 }
 
 export default function (options: Options): Rule {
+  if (!options.runes) throw new Error('only runes mode is supported');
   const opts = normalizeOptions(options);
   const directory = opts.directory ?? 'lib/components';
   const projectRoot = (opts.projectRoot ?? '.') as Path;

@@ -40,10 +40,11 @@ function normalizeOptions(o: Options): Required<Options> {
   const endpoint = o.endpoint ?? false;
   const skipTests = o.skipTests ?? false;
   const projectRoot = o.projectRoot ?? '.';
-  return { ...o, path, style, skipTests, endpoint, projectRoot };
+  return { ...o, path, style, skipTests, endpoint, projectRoot, runes: true };
 }
 
 export default function (opts: Options): Rule {
+  if (!opts.runes) throw new Error('only runes mode is supported');
   return async (tree: Tree, context: SchematicContext) => {
     const options = normalizeOptions(opts);
     if (!tree.exists(join(options.projectRoot as Path, 'svelte.config.js'))) {
