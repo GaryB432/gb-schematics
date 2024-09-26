@@ -13,7 +13,9 @@ describe('sveltekit-component', () => {
       { name: 'tester' },
       ftree
     );
-    expect(tree.files).toEqual(['/src/lib/components/Tester.svelte']);
+    expect(tree.files).toEqual(
+      jasmine.arrayWithExactContents(['/src/lib/components/Tester.svelte'])
+    );
   });
 
   it('works with directory', async () => {
@@ -24,7 +26,9 @@ describe('sveltekit-component', () => {
       { name: 'tester', directory: 'a/b/c/d' },
       ftree
     );
-    expect(tree.files).toEqual(['/src/a/b/c/d/Tester.svelte']);
+    expect(tree.files).toEqual(
+      jasmine.arrayWithExactContents(['/src/a/b/c/d/Tester.svelte'])
+    );
   });
 
   it('works with path name', async () => {
@@ -35,7 +39,9 @@ describe('sveltekit-component', () => {
       { name: 'c/d/tester', directory: 'a/b' },
       ftree
     );
-    expect(tree.files).toEqual(['/src/a/b/c/d/Tester.svelte']);
+    expect(tree.files).toEqual(
+      jasmine.arrayWithExactContents(['/src/a/b/c/d/Tester.svelte'])
+    );
   });
 
   it('works with project root', async () => {
@@ -46,7 +52,11 @@ describe('sveltekit-component', () => {
       { name: 'tester', directory: 'a/b/c/d', projectRoot: 'apps/project' },
       ftree
     );
-    expect(tree.files).toEqual(['/apps/project/src/a/b/c/d/Tester.svelte']);
+    expect(tree.files).toEqual(
+      jasmine.arrayWithExactContents([
+        '/apps/project/src/a/b/c/d/Tester.svelte',
+      ])
+    );
   });
 
   it('works with project root and path', async () => {
@@ -57,6 +67,10 @@ describe('sveltekit-component', () => {
       { name: 'c/d/tester', directory: 'a/b', projectRoot: 'apps/project' },
       ftree
     );
-    expect(tree.files).toEqual(['/apps/project/src/a/b/c/d/Tester.svelte']);
+    expect(tree.files).toEqual(
+      jasmine.arrayWithExactContents([
+        '/apps/project/src/a/b/c/d/Tester.svelte',
+      ])
+    );
   });
 });
