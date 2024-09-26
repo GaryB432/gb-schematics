@@ -49,11 +49,6 @@
       },
       "description": "The path to your project root, relative to the current workspace. Default is workingDirectory",
       "visible": false
-    },
-    "runes": {
-      "type": "boolean",
-      "description": "Use runes for reactivitty",
-      "default": true
     }
   },
   "required": ["name"]
