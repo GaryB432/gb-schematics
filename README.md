@@ -107,9 +107,10 @@ Add Class or general Module
 | ---- | ---- | ---- | ---- | 
 | --directory | The directory to create the module, relative to the project source. | string |  | 
 | --kind | kind of module | class \| values | values | 
-| --unitTestRunner | Test runner to use for unit tests. | jest \| vitest \| none | jest | 
+| --unitTestRunner | Test runner to use for unit tests. | jest \| vitest \| native \| none | jest | 
 | --inSourceTests | When using Vitest, separate spec files will not be generated and instead will be included within the source files. | boolean | false | 
 | --pascalCaseFiles | Use pascal case file names for class module. | boolean | true | 
+| --language | The language to use. | ts \| js | ts | 
 | --sourceRoot | The path to your project's source root | string |  |
 
 ## prettier

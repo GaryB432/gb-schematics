@@ -1,0 +1,30 @@
+<% if(language === 'ts'){ %>
+
+export class <%= classify(moduleName) %> {
+  public constructor(private counter: number) {}
+  public add(a: number): number {
+    this.counter += a;
+    return this.counter;
+  }
+  public greet(name: string): string {
+    return `<%= classify(moduleName) %> says: hello to ${name}`;
+  }
+}
+
+<% } else{ %>  
+
+export class <%= classify(moduleName) %> {
+  #counter = 0;
+  constructor(counter) {
+    this.#counter = counter;
+  }
+  add(a) {
+    this.#counter += a;
+    return this.#counter;
+  }
+  greet(name) {
+    return `<%= classify(moduleName) %> says: hello to ${name}`;
+  }
+}
+
+<% } %>

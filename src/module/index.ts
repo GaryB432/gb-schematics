@@ -21,6 +21,7 @@ import type { Options } from './schema';
 
 const globalTestRunners = {
   jest: '@jest/globals',
+  native: 'node:test',
   none: '',
   vitest: 'vitest',
 };
@@ -61,7 +62,7 @@ export default function (options: Options): Rule {
     mergeWith(
       apply(url(`./files/${kind}`), [
         opts.unitTestRunner === 'none'
-          ? filter((path) => !path.endsWith('.spec.ts.template'))
+          ? filter((path) => !path.endsWith('.spec.__language__.template'))
           : noop(),
         applyTemplates({
           ...opts,

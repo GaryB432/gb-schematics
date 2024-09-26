@@ -82,11 +82,13 @@ describe('Jest Schematic', () => {
     const tree = await schematicRunner.runSchematic('jest', {}, appTree);
     // const filePath = '/projects/bar/src/app/app.server.module.ts';
     // expect(tree.exists(filePath)).toEqual(true);
-    expect(tree.files).toEqual([
-      '/tsconfig.json',
-      '/package.json',
-      '/jest.config.js',
-    ]);
+    expect(tree.files).toEqual(
+      jasmine.arrayWithExactContents([
+        '/tsconfig.json',
+        '/package.json',
+        '/jest.config.js',
+      ])
+    );
   });
 
   it('should add packages', async () => {

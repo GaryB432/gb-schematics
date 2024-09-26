@@ -28,7 +28,7 @@
     },
     "unitTestRunner": {
       "type": "string",
-      "enum": ["jest", "vitest", "none"],
+      "enum": ["jest", "vitest", "native", "none"],
       "default": "jest",
       "description": "Test runner to use for unit tests."
     },
@@ -42,6 +42,12 @@
       "description": "Use pascal case file names for class module.",
       "alias": "P",
       "default": true
+    },
+    "language": {
+      "type": "string",
+      "enum": ["ts", "js"],
+      "description": "The language to use.",
+      "default": "ts"
     },
     "sourceRoot": {
       "type": "string",
