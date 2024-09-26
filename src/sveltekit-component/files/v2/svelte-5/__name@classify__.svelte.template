@@ -1,0 +1,15 @@
+<script lang="ts">
+	export let name = `<%= classify(name) %>`;
+	$: message = `${name} works`;
+</script>
+
+<article>
+	{message}
+</article>
+
+<style lang="<%= style %>">
+	article {
+		border: thin solid silver;
+		padding: 1em;
+	}
+</style>
