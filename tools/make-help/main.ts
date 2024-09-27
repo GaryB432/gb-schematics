@@ -49,8 +49,6 @@ function isFromArgv(d: Details): unknown {
 async function main() {
   const packageJ = await readJson<{ schematics: string }>('package.json');
 
-  console.log(packageJ.schematics);
-
   const collection = await readJson<Collection>(packageJ.schematics);
 
   for (const [k, v] of Object.entries(collection.schematics).sort((a, b) =>
@@ -124,4 +122,4 @@ async function main() {
   }
 }
 
-void main();
+main()
