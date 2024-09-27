@@ -26,7 +26,7 @@
     "style": {
       "description": "The value of style element lang attribute",
       "type": "string",
-      "default": "scss",
+      "default": "css",
       "enum": ["css", "scss", "none"],
       "x-user-analytics": 5
     },
@@ -49,6 +49,11 @@
       },
       "description": "The path to your project root, relative to the current workspace. Default is workingDirectory",
       "visible": false
+    },
+    "runes": {
+      "type": "boolean",
+      "description": "Use runes for reactivitty",
+      "default": true
     }
   },
   "required": ["name"]

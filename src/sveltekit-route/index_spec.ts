@@ -20,6 +20,9 @@ describe('sveltekit-route', () => {
         '/tests/tester.spec.ts',
       ])
     );
+    expect(tree.readContent('/src/routes/tester/+page.svelte')).toContain(
+      '$props()'
+    );
   });
 });
 
