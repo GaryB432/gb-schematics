@@ -33,6 +33,11 @@
     "projectRoot": {
       "type": "string",
       "description": "Svelte App root directory"
+    },
+    "runes": {
+      "type": "boolean",
+      "description": "Use runes for reactivitty",
+      "default": true
     }
   },
   "additionalProperties": false,

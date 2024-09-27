@@ -37,6 +37,7 @@ function normalizeOptions(options: Options): Options {
 }
 
 export default function (options: Options): Rule {
+  if (!options.runes) throw new Error('only runes mode is supported');
   const opts = normalizeOptions(options);
   const directory = opts.directory ?? 'lib/components';
   const projectRoot = (opts.projectRoot ?? '.') as Path;
@@ -46,7 +47,7 @@ export default function (options: Options): Rule {
     if (!tree.exists(normalize(join(projectRoot, 'svelte.config.js')))) {
       context.logger.warn(`no svelte configuration found in '${projectRoot}'`);
     }
-    const templateSource = apply(url('./files'), [
+    const templateSource = apply(url('./files/v2/runes'), [
       applyTemplates({ ...opts, ...strings }),
       move(normalize(join(projectRoot, 'src', parsedPath.path))),
     ]);

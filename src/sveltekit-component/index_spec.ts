@@ -16,6 +16,9 @@ describe('sveltekit-component', () => {
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents(['/src/lib/components/Tester.svelte'])
     );
+    expect(tree.readContent('/src/lib/components/Tester.svelte')).not.toContain(
+      'export let'
+    );
   });
 
   it('works with directory', async () => {
