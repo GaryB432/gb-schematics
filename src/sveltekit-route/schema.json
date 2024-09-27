@@ -26,7 +26,7 @@
     "style": {
       "description": "The value of style element lang attribute",
       "type": "string",
-      "default": "scss",
+      "default": "css",
       "enum": ["css", "scss", "none"],
       "x-user-analytics": 5
     },
