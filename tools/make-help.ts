@@ -34,8 +34,8 @@ function makeDescription(name: string, details: Details): string {
 
 function tableHeader(...cells: string[]): string {
   const ff = tableRow(...cells);
-  const fj = tableRow(...cells.map(() => '----'));
-  return [ff, fj].join('\n');
+  const fj = tableRow(...cells.map(() => '---'));
+  return ['<!-- prettier-ignore -->', ff, fj].join('\n');
 }
 
 function tableRow(...cells: string[]): string {

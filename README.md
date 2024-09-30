@@ -28,14 +28,14 @@ Bump package.json version
 
 <!-- prettier-ignore -->
 | ARGUMENT | DESCRIPTION | VALUE TYPE | 
-| ---- | ---- | ---- | 
+| --- | --- | --- | 
 | part | Which part to increment | major \| premajor \| minor \| preminor \| patch \| prepatch \| prerelease |
 
 ### Options
 
 <!-- prettier-ignore -->
 | OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| ---- | ---- | ---- | ---- | 
+| --- | --- | --- | --- | 
 | --skipInstall | Skip package installation | boolean | false |
 
 ## devops
@@ -50,14 +50,14 @@ Add platform devops pipeline
 
 <!-- prettier-ignore -->
 | ARGUMENT | DESCRIPTION | VALUE TYPE | 
-| ---- | ---- | ---- | 
+| --- | --- | --- | 
 | platform | Which Dev Ops pipeline | azure \| github |
 
 ### Options
 
 <!-- prettier-ignore -->
 | OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| ---- | ---- | ---- | ---- | 
+| --- | --- | --- | --- | 
 | --skipInstall | Skip package installation | boolean | false |
 
 ## eslint
@@ -72,9 +72,9 @@ Add eslint configuration.
 
 <!-- prettier-ignore -->
 | OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| ---- | ---- | ---- | ---- | 
+| --- | --- | --- | --- | 
 | --includeTypescript | Include Typescript | boolean | true | 
-| --includePrettier | Include Prettier | boolean | true | 
+| --includePrettier | Include Prettier | boolean | false | 
 | --skipInstall | Skip package installation | boolean | false |
 
 ## jest
@@ -97,14 +97,14 @@ Add Class or general Module
 
 <!-- prettier-ignore -->
 | ARGUMENT | DESCRIPTION | VALUE TYPE | 
-| ---- | ---- | ---- | 
+| --- | --- | --- | 
 | name | The name of the module. | string |
 
 ### Options
 
 <!-- prettier-ignore -->
 | OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| ---- | ---- | ---- | ---- | 
+| --- | --- | --- | --- | 
 | --directory | The directory to create the module, relative to the project source. | string |  | 
 | --kind | kind of module | class \| values | values | 
 | --unitTestRunner | Test runner to use for unit tests. | jest \| vitest \| native \| none | jest | 
@@ -133,17 +133,17 @@ Add a component to your sveltekit project
 
 <!-- prettier-ignore -->
 | ARGUMENT | DESCRIPTION | VALUE TYPE | 
-| ---- | ---- | ---- | 
+| --- | --- | --- | 
 | name | The name of the component. | string |
 
 ### Options
 
 <!-- prettier-ignore -->
 | OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| ---- | ---- | ---- | ---- | 
+| --- | --- | --- | --- | 
 | --directory | The directory to create the component, relative to your project source. | string |  | 
-| --language | Component script language (ts/js). | js \| ts | ts | 
-| --style | Component style language (css/scss). | css \| scss | scss | 
+| --language | Component script language (ts/js). | js \| ts | js | 
+| --style | Component style language (css/scss). | css \| scss | css | 
 | --projectRoot | Svelte App root directory | string |  |
 
 ## sveltekit-route
@@ -158,16 +158,16 @@ Add a route to your sveltekit project
 
 <!-- prettier-ignore -->
 | ARGUMENT | DESCRIPTION | VALUE TYPE | 
-| ---- | ---- | ---- | 
+| --- | --- | --- | 
 | name | The name of the route. | string |
 
 ### Options
 
 <!-- prettier-ignore -->
 | OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| ---- | ---- | ---- | ---- | 
+| --- | --- | --- | --- | 
 | --path | The path at which to create the route file, relative to the projectRoot. Default is a folder with the same name as the route in the project root. | string |  | 
-| --style | The value of style element lang attribute | css \| scss \| none | scss | 
+| --style | The value of style element lang attribute | css \| scss \| none | css | 
 | --skipTests | Do not create "spec.ts" test files for the new route. | boolean | false | 
 | --endpoint | Create an endpoint handler for your route. | boolean | true |
 
@@ -183,7 +183,7 @@ Add typescript.
 
 <!-- prettier-ignore -->
 | OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| ---- | ---- | ---- | ---- | 
+| --- | --- | --- | --- | 
 | --skipInstall | Skip package installation | boolean | false |
 
 see
