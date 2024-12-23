@@ -1,7 +1,6 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import { parseName } from '.';
 import type { Options } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -189,21 +188,6 @@ describe('module', () => {
       ftree
     );
     expect(tree.files).toContain('/test/root/src/abc/def/banana.ts');
-  });
-});
-
-describe('utility functions', () => {
-  it('parseName', () => {
-    expect(parseName('a/b/c/d', 'asdf/l/mnop/some.doc')).toEqual({
-      name: 'some.doc',
-      path: '/a/b/c/d/asdf/l/mnop',
-    });
-  });
-  it('parseName slash', () => {
-    expect(parseName('/a/b/c/d/', 'asdf/l/mnop/some.doc')).toEqual({
-      name: 'some.doc',
-      path: '/a/b/c/d/asdf/l/mnop',
-    });
   });
 });
 
