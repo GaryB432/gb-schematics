@@ -1,6 +1,6 @@
 {
   "name": "gb-schematics",
-  "version": "4.0.3",
+  "version": "5.0.0",
   "description": "Some schematics I like",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
@@ -41,8 +41,8 @@
     "typescript-eslint": "^8.3.0"
   },
   "dependencies": {
-    "@angular-devkit/core": "^18.1.4",
-    "@angular-devkit/schematics": "^18.1.4",
-    "semver": "^7.5.4"
+    "@angular-devkit/core": "^19.0.6",
+    "@angular-devkit/schematics": "^19.0.6",
+    "semver": "^7.6.3"
   }
 }
