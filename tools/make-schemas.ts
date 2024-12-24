@@ -27,7 +27,9 @@ async function writeSchemaTypeDef(
   sdef: SchemaDefined,
   path: ParsedPath
 ): Promise<string> {
-  const schemaObj = require(join(root, sdef.schema)) as JSONSchema;
+  const schemaObj = JSON.parse(
+    await readFile(join(root, sdef.schema), 'utf-8')
+  ) as JSONSchema;
   const { title } = schemaObj;
   schemaObj.title = 'options';
   const dts = await compile(schemaObj, 'options', {
@@ -60,7 +62,7 @@ interface Collection {
 }
 
 async function readJson<T>(path: string): Promise<T> {
-  return JSON.parse(await readFile(path, 'utf-8')) as T;
+  return JSON.parse((await readFile(path, 'utf-8'))) as T;
 }
 
 async function main() {
@@ -72,10 +74,12 @@ async function main() {
 
   const collection = await readJson<Collection>(packageJ.schematics);
 
+  const collParsed = parse(packageJ.schematics);
+
   for (const [k, v] of Object.entries(collection.schematics).sort()) {
     if (v.schema) {
       const schParsed = parse(v.schema);
-      const sfn = join(cwd, schParsed.dir, schParsed.base);
+      const sfn = join(collParsed.dir, schParsed.dir, schParsed.base);
       const n = await writeSchemaTypeDef(cwd, { schema: sfn }, parse(sfn));
       console.log(
         colors.white(k),
