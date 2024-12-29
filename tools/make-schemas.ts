@@ -27,8 +27,9 @@ async function writeSchemaTypeDef(
   sdef: SchemaDefined,
   path: ParsedPath
 ): Promise<string> {
-  const schemaContent = await readFile(join(root, sdef.schema));
-  const schemaObj = JSON.parse(schemaContent.toString()) as JSONSchema;
+  const schemaObj = JSON.parse(
+    await readFile(join(root, sdef.schema), 'utf-8')
+  ) as JSONSchema;
   const { title } = schemaObj;
   schemaObj.title = 'options';
   const dts = await compile(schemaObj, 'options', {
@@ -61,7 +62,7 @@ interface Collection {
 }
 
 async function readJson<T>(path: string): Promise<T> {
-  return JSON.parse((await readFile(path)).toString()) as T;
+  return JSON.parse((await readFile(path, 'utf-8'))) as T;
 }
 
 async function main() {

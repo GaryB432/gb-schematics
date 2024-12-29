@@ -1,6 +1,6 @@
 {
   "name": "gb-schematics",
-  "version": "4.0.3",
+  "version": "5.0.0",
   "description": "Some schematics I like",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
@@ -25,24 +25,24 @@
   "bugs": "https://github.com/GaryB432/gb-schematics/issues",
   "schematics": "./src/collection.json",
   "devDependencies": {
-    "@eslint/js": "^9.9.1",
+    "@eslint/js": "^9.17.0",
     "@types/eslint__js": "^8.42.3",
-    "@types/jasmine": "^4.3.1",
-    "@types/node": "^20.2.1",
+    "@types/jasmine": "^5.1.5",
+    "@types/node": "^22.10.2",
     "@types/semver": "^7.5.8",
-    "eslint": "^9.9.1",
-    "eslint-plugin-gb": "^9.0.0",
-    "jasmine": "^5.0.0",
-    "json-schema-to-typescript": "^13.0.1",
+    "eslint": "^9.17.0",
+    "eslint-plugin-gb": "^9.1.0",
+    "jasmine": "^5.5.0",
+    "json-schema-to-typescript": "^15.0.3",
     "minimist": "^1.2.8",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.3.0"
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.2"
   },
   "dependencies": {
-    "@angular-devkit/core": "^18.1.4",
-    "@angular-devkit/schematics": "^18.1.4",
-    "semver": "^7.5.4"
+    "@angular-devkit/core": "^19.0.6",
+    "@angular-devkit/schematics": "^19.0.6",
+    "semver": "^7.6.3"
   }
 }

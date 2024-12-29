@@ -1,10 +1,4 @@
-import {
-  basename,
-  dirname,
-  join,
-  normalize,
-  strings,
-} from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 
 import type { Rule } from '@angular-devkit/schematics';
 import {
@@ -17,6 +11,7 @@ import {
   noop,
   url,
 } from '@angular-devkit/schematics';
+import { parseName } from '../utility/parse-name';
 import type { Options } from './schema';
 
 const globalTestRunners = {
@@ -25,19 +20,6 @@ const globalTestRunners = {
   none: '',
   vitest: 'vitest',
 };
-
-export function parseName(
-  path: string,
-  name: string
-): { name: string; path: string } {
-  const nameWithoutPath = basename(normalize(name));
-  const namePath = dirname(join(normalize(path), name));
-
-  return {
-    name: nameWithoutPath,
-    path: normalize('/' + namePath),
-  };
-}
 
 function normalizeOptions(options: Options): Options {
   return { ...options };
