@@ -26,13 +26,13 @@ describe('sveltekit-route', () => {
   });
 });
 
-describe('sveltekit-route with endpoint', () => {
+describe('sveltekit-route with server load', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
     const tree = await runner.runSchematic(
       'sveltekit-route',
-      { name: 'tester', endpoint: true },
+      { name: 'tester', load: 'server' },
       ftree
     );
     expect(tree.files).toEqual(
@@ -90,7 +90,7 @@ describe('sveltekit-route with path', () => {
     const ftree = Tree.empty();
     const tree = await runner.runSchematic(
       'sveltekit-route',
-      { name: 'a/b/c/tester', endpoint: true, path: 'tbd' },
+      { name: 'a/b/c/tester', load: 'none', path: 'tbd' },
       ftree
     );
     expect(tree.files).toEqual(
@@ -113,7 +113,7 @@ describe('sveltekit-route with path', () => {
       'sveltekit-route',
       {
         name: 'a/b/c/tester',
-        endpoint: true,
+        load: 'none',
         path: 'tbd',
         projectRoot: 'apps/fun',
       },

@@ -34,10 +34,11 @@
       "description": "Do not create \"spec.ts\" test files for the new route.",
       "default": false
     },
-    "endpoint": {
-      "type": "boolean",
-      "description": "Create an endpoint handler for your route.",
-      "default": true
+    "load": {
+      "description": "Should the load function run on client and server (universal) or just server",
+      "type": "string",
+      "enum": ["universal", "server", "none"],
+      "default": "none"
     },
     "projectRoot": {
       "type": "string",
