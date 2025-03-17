@@ -36,7 +36,7 @@ function parseName(path: string, name: string): Location {
 
 function normalizeOptions(o: Options): Required<Options> {
   const path = o.path ?? '';
-  const style = o.style ?? 'none';
+  const style = o.style ?? 'css';
   const endpoint = o.endpoint ?? false;
   const skipTests = o.skipTests ?? false;
   const projectRoot = o.projectRoot ?? '.';
