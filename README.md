@@ -167,7 +167,7 @@ Add a route to your sveltekit project
 | OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
 | --- | --- | --- | --- | 
 | --path | The path at which to create the route file, relative to the projectRoot. Default is a folder with the same name as the route in the project root. | string |  | 
-| --style | The value of style element lang attribute | css \| scss \| none | css | 
+| --style | The value of style element lang attribute | css \| scss | css | 
 | --skipTests | Do not create "spec.ts" test files for the new route. | boolean | false | 
 | --endpoint | Create an endpoint handler for your route. | boolean | true |
 
