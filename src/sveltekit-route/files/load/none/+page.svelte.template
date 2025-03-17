@@ -1,5 +1,5 @@
 <script lang="ts">
-    let subject = $state('<%= name %> route');
+  let subject = $state('<%= name %> route');
 	let title = $derived(`${subject} - Generated`);
 </script>
 
