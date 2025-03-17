@@ -53,21 +53,24 @@ export default function (opts: Options): Rule {
     const parsedPath = parseName(options.path, options.name);
     options.name = parsedPath.name;
     options.path = parsedPath.path;
-    const templateSource = apply(url('./files/v2/runes'), [
-      applyTemplates({
-        ...strings,
-        ...options,
-      }),
-      move(
-        join(
-          options.projectRoot as Path,
-          'src',
-          'routes',
-          parsedPath.path,
-          parsedPath.name
-        )
-      ),
-    ]);
+    const templateSource = apply(
+      url(join('.' as Path, 'files', 'load', options.load)),
+      [
+        applyTemplates({
+          ...strings,
+          ...options,
+        }),
+        move(
+          join(
+            options.projectRoot as Path,
+            'src',
+            'routes',
+            parsedPath.path,
+            parsedPath.name
+          )
+        ),
+      ]
+    );
     const route = makeTestRoute(options.path, options.name);
     const testSource = apply(url('./files/test'), [
       applyTemplates({
