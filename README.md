@@ -38,53 +38,6 @@ Bump package.json version
 | --- | --- | --- | --- | 
 | --skipInstall | Skip package installation | boolean | false |
 
-## devops
-
-```
-schematics gb-schematics:devops [platform]
-```
-
-Add platform devops pipeline
-
-### Arguments
-
-<!-- prettier-ignore -->
-| ARGUMENT | DESCRIPTION | VALUE TYPE | 
-| --- | --- | --- | 
-| platform | Which Dev Ops pipeline | azure \| github |
-
-### Options
-
-<!-- prettier-ignore -->
-| OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| --- | --- | --- | --- | 
-| --skipInstall | Skip package installation | boolean | false |
-
-## eslint
-
-```
-schematics gb-schematics:eslint
-```
-
-Add eslint configuration.
-
-### Options
-
-<!-- prettier-ignore -->
-| OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| --- | --- | --- | --- | 
-| --includeTypescript | Include Typescript | boolean | true | 
-| --includePrettier | Include Prettier | boolean | false | 
-| --skipInstall | Skip package installation | boolean | false |
-
-## jest
-
-```
-schematics gb-schematics:jest
-```
-
-Add Jest testing
-
 ## module
 
 ```
@@ -113,14 +66,6 @@ Add Class or general Module
 | --language | The language to use. | ts \| js | ts | 
 | --sourceRoot | The path to your project's source root | string |  |
 
-## prettier
-
-```
-schematics gb-schematics:prettier
-```
-
-Add prettier configuration.
-
 ## sveltekit-component
 
 ```
@@ -143,8 +88,7 @@ Add a component to your sveltekit project
 | --- | --- | --- | --- | 
 | --directory | The directory to create the component, relative to your project source. | string |  | 
 | --language | Component script language (ts/js). | js \| ts | js | 
-| --style | Component style language (css/scss). | css \| scss | css | 
-| --projectRoot | Svelte App root directory | string |  |
+| --style | Component style language (css/scss). | css \| scss | css |
 
 ## sveltekit-route
 
@@ -170,21 +114,6 @@ Add a route to your sveltekit project
 | --style | The value of style element lang attribute | css \| scss | css | 
 | --skipTests | Do not create "spec.ts" test files for the new route. | boolean | false | 
 | --load | Should the load function run on client and server (universal) or just server | universal \| server \| none | none |
-
-## typescript
-
-```
-schematics gb-schematics:typescript
-```
-
-Add typescript.
-
-### Options
-
-<!-- prettier-ignore -->
-| OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE | 
-| --- | --- | --- | --- | 
-| --skipInstall | Skip package installation | boolean | false |
 
 see
 

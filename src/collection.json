@@ -6,28 +6,10 @@
       "schema": "./bump/schema.json",
       "factory": "./bump/index#bump"
     },
-    "devops": {
-      "description": "Add platform devops pipeline",
-      "schema": "./devops/schema.json",
-      "factory": "./devops/index#devops"
-    },
-    "eslint": {
-      "description": "Add eslint configuration.",
-      "schema": "./eslint/schema.json",
-      "factory": "./eslint/index#eslint"
-    },
-    "jest": {
-      "description": "Add Jest testing",
-      "factory": "./jest/index#jestFactory"
-    },
     "module": {
       "description": "Add Class or general Module",
       "schema": "./module/schema.json",
       "factory": "./module"
-    },
-    "prettier": {
-      "description": "Add prettier configuration.",
-      "factory": "./prettier/index#prettier"
     },
     "sveltekit-component": {
       "description": "Add a component to your sveltekit project",
@@ -38,11 +20,6 @@
       "description": "Add a route to your sveltekit project",
       "schema": "./sveltekit-route/schema.json",
       "factory": "./sveltekit-route"
-    },
-    "typescript": {
-      "description": "Add typescript.",
-      "schema": "./typescript/schema.json",
-      "factory": "./typescript/index#typescript"
     }
   }
 }
