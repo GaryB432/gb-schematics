@@ -3,7 +3,7 @@
   "$id": "GbSchematicsSveltekitRoute",
   "title": "GB Schematics SveltekitRoute Options Schema",
   "type": "object",
-  "description": "Creates a new, generic route in the given or default project.",
+  "description": "Creates a new route in your svelte-kit project",
   "additionalProperties": false,
   "properties": {
     "path": {
@@ -27,19 +27,18 @@
       "description": "The value of style element lang attribute",
       "type": "string",
       "default": "css",
-      "enum": ["css", "scss", "none"],
-      "x-user-analytics": 5
+      "enum": ["css", "scss"]
     },
     "skipTests": {
       "type": "boolean",
       "description": "Do not create \"spec.ts\" test files for the new route.",
-      "default": false,
-      "x-user-analytics": 12
+      "default": false
     },
-    "endpoint": {
-      "type": "boolean",
-      "description": "Create an endpoint handler for your route.",
-      "default": true
+    "load": {
+      "description": "Should the load function run on client and server (universal) or just server",
+      "type": "string",
+      "enum": ["universal", "server", "none"],
+      "default": "none"
     },
     "projectRoot": {
       "type": "string",

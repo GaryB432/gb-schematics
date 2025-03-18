@@ -62,7 +62,7 @@ interface Collection {
 }
 
 async function readJson<T>(path: string): Promise<T> {
-  return JSON.parse((await readFile(path, 'utf-8'))) as T;
+  return JSON.parse(await readFile(path, 'utf-8')) as T;
 }
 
 async function main() {
