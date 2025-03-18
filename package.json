@@ -1,6 +1,6 @@
 {
   "name": "gb-schematics",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Some schematics I like",
   "main": "src/index.js",
   "typings": "src/index.d.ts",
@@ -43,6 +43,6 @@
   "dependencies": {
     "@angular-devkit/core": "^19.0.6",
     "@angular-devkit/schematics": "^19.0.6",
-    "semver": "^7.6.3"
+    "semver": "^7.7.1"
   }
 }
