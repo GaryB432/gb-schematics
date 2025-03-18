@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "GbSchematicsSveltekitComponent",
   "title": "GB Schematics SveltekitComponent Options Schema",
+  "description": "Creates a new component in your svelte-kit project",
   "type": "object",
   "properties": {
     "name": {

@@ -3,7 +3,7 @@
   "$id": "GbSchematicsSveltekitRoute",
   "title": "GB Schematics SveltekitRoute Options Schema",
   "type": "object",
-  "description": "Creates a new, generic route",
+  "description": "Creates a new route in your svelte-kit project",
   "additionalProperties": false,
   "properties": {
     "path": {
