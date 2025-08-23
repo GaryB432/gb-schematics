@@ -1,6 +1,6 @@
 <script<% if (language !== "js") { %> lang="<%= language %>"<% } %>>
 	let name = $state(`<%= classify(name) %>`);
-	let message = $derived(`${name} works`);
+	let message = $derived(`${name} is coming soon`);
 </script>
 
 <article>
