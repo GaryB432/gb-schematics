@@ -39,6 +39,25 @@
       },
       "description": "The path to your project root, relative to the current workspace. Default is workingDirectory",
       "visible": false
+    },
+    "minimal": {
+      "type": "boolean",
+      "description": "Create a minimal component with no extras",
+      "default": false
+    },
+    "prop": {
+      "type": ["array", "string"],
+      "description": "Properties for your component",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "design": {
+      "type": "string",
+      "description": "Style language (desktop/mobile).",
+      "enum": ["desktop", "mobile", "none"],
+      "default": "mobile"
     }
   },
   "additionalProperties": false,
