@@ -1,0 +1,10 @@
+packages:
+  - .
+  - packages/cli
+  - packages/schematics/gb
+  - tools/*
+ignoredBuiltDependencies:
+  - core-js
+onlyBuiltDependencies:
+  - esbuild
+version: 1
