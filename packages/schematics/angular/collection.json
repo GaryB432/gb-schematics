@@ -1,0 +1,23 @@
+{
+  "schematics": {
+    "workspace": {
+      "factory": "./workspace",
+      "schema": "./workspace/schema.json",
+      "description": "Create an Angular workspace.",
+      "hidden": true
+    },
+    "component": {
+      "aliases": ["c"],
+      "factory": "./component",
+      "description": "Create an Angular component.",
+      "schema": "./component/schema.json"
+    },
+    "tailwind": {
+      "factory": "./tailwind",
+      "schema": "./tailwind/schema.json",
+      "hidden": true,
+      "private": true,
+      "description": "[INTERNAL] Adds tailwind to a project. Intended for use for ng new/add."
+    }
+  }
+}

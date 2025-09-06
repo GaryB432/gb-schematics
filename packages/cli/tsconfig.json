@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "esnext",
+    "target": "es2022",
+    "lib": ["es2020"],
+    "types": ["node", "jest"],
+    "sourceMap": true,
+    "inlineSources": true,
+    "importHelpers": true
+  },
+  "exclude": ["schematic/files/", "**/*.spec.ts"]
+}
