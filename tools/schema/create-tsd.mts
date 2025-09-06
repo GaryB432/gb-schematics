@@ -1,8 +1,8 @@
 /* eslint @typescript-eslint/no-var-requires: 0 */
 import colors from 'ansi-colors';
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { compile, type JSONSchema } from 'json-schema-to-typescript';
-import { join, parse, posix, type ParsedPath } from 'path';
+import { join, parse, posix, type ParsedPath } from 'fs:path';
 
 interface SchemaDefined {
   schema: string;
@@ -14,12 +14,18 @@ interface PackageConfig {
   schematics?: string;
 }
 
-// eslint-disable-next-line
-const argv = require('minimist')(process.argv.slice(2)) as {
+// const argv = require('minimist')(process.argv.slice(2)) as {
+//   _: string[];
+//   d: boolean;
+//   stamp: string;
+// };
+
+const argv = { _: [], d: true, stamp: '' } as {
   _: string[];
   d: boolean;
   stamp: string;
 };
+
 argv.stamp = argv.stamp ?? '';
 
 async function writeSchemaTypeDef(
