@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/no-var-requires: 0 */
-import colors from 'chalk';
+import colors from 'ansi-colors';
 import { readFile, writeFile } from 'fs/promises';
 import { compile, type JSONSchema } from 'json-schema-to-typescript';
 import { join, parse, posix, type ParsedPath } from 'path';
