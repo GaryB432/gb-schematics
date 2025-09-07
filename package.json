@@ -44,5 +44,6 @@
     "@angular-devkit/core": "^19.0.6",
     "@angular-devkit/schematics": "^19.0.6",
     "semver": "^7.7.1"
-  }
+  },
+  "packageManager": "pnpm@10.15.1"
 }
