@@ -5,7 +5,10 @@
   "repository": {
     "url": "git+https://github.com/GaryB432/gb-schematics.git"
   },
-  "scripts": {"build":"tsc"},
+  "scripts": {
+    "build": "tsc",
+    "schema": "tsx ./tools/schema/create-tsd.mts -f \"./packages/**/.\" --no-discover"
+  },
   "bugs": "https://github.com/GaryB432/gb-schematics/issues",
   "devDependencies": {
     "@eslint/js": "^9.17.0",
