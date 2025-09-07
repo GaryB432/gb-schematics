@@ -1,8 +1,9 @@
 /* eslint @typescript-eslint/no-var-requires: 0 */
 import colors from 'ansi-colors';
-import { readFile, writeFile } from 'node:fs/promises';
 import { compile, type JSONSchema } from 'json-schema-to-typescript';
-import { join, parse, posix, type ParsedPath } from 'fs:path';
+import { readFile, writeFile } from 'node:fs/promises';
+import path, { join, parse, type ParsedPath } from 'node:path';
+import yap from 'yargs-parser';
 
 interface SchemaDefined {
   schema: string;
@@ -14,15 +15,10 @@ interface PackageConfig {
   schematics?: string;
 }
 
-// const argv = require('minimist')(process.argv.slice(2)) as {
-//   _: string[];
-//   d: boolean;
-//   stamp: string;
-// };
-
-const argv = { _: [], d: true, stamp: '' } as {
+const argv = yap(process.argv.slice(2)) as {
   _: string[];
   d: boolean;
+  f: string;
   stamp: string;
 };
 
@@ -37,8 +33,8 @@ async function writeSchemaTypeDef(
     await readFile(join(root, sdef.schema), 'utf-8')
   ) as JSONSchema;
   const { title } = schemaObj;
-  schemaObj.title = 'options';
-  const dts = await compile(schemaObj, 'options', {
+  schemaObj.title = 'schema';
+  const dts = await compile(schemaObj, 'hmmmmmmmmmmmmmmmmmm', {
     bannerComment: `/* eslint-disable */
     /* from ${sdef.schema}
         ${title}
@@ -55,7 +51,10 @@ async function writeSchemaTypeDef(
   return outName;
 }
 
-const cwd = posix.resolve('.');
+// const cwd = posix.resolve('.');
+
+const aroot = path.resolve(argv.f);
+console.log(colors.cyan(aroot));
 
 interface Schemtic {
   description: string;
@@ -72,13 +71,15 @@ async function readJson<T>(path: string): Promise<T> {
 }
 
 async function main() {
-  const packageJ = await readJson<PackageConfig>('package.json');
+  const packageJ = await readJson<PackageConfig>(join(aroot, 'package.json'));
 
   if (!packageJ.schematics) {
     throw new Error('no schematics');
   }
 
-  const collection = await readJson<Collection>(packageJ.schematics);
+  const collection = await readJson<Collection>(
+    join(aroot, packageJ.schematics)
+  );
 
   const collParsed = parse(packageJ.schematics);
 
@@ -86,7 +87,7 @@ async function main() {
     if (v.schema) {
       const schParsed = parse(v.schema);
       const sfn = join(collParsed.dir, schParsed.dir, schParsed.base);
-      const n = await writeSchemaTypeDef(cwd, { schema: sfn }, parse(sfn));
+      const n = await writeSchemaTypeDef(aroot, { schema: sfn }, parse(sfn));
       console.log(
         colors.white(k),
         colors.green('✔'),
