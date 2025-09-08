@@ -3,14 +3,19 @@
     "workspace": {
       "factory": "./workspace",
       "schema": "./workspace/schema.json",
-      "description": "Create an Angular workspace.",
+      "description": "Create an Bangular workspace.",
       "hidden": true
     },
     "component": {
       "aliases": ["c"],
       "factory": "./component",
-      "description": "Create an Angular component.",
+      "description": "Create an Bangular component.",
       "schema": "./component/schema.json"
+    },
+    "module": {
+      "factory": "./module",
+      "description": "Create an Bangular module.",
+      "schema": "./module/schema.json"
     },
     "tailwind": {
       "factory": "./tailwind",
