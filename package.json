@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "schema": "tsx ./tools/schema/create-tsd.mts --package ./packages/schematics/bangular --package ./packages/schematics/gb --package ./packages/cli"
+    "schema": "pnpx tsx ./tools/schema/create-tsd.mts --package ./packages/schematics/bangular --package ./packages/schematics/gb --package ./packages/cli"
   },
   "bugs": "https://github.com/GaryB432/gb-schematics/issues",
   "devDependencies": {
