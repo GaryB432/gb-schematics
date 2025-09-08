@@ -60,7 +60,7 @@ export default createProjectSchematic<ComponentOptions>((options, { project, tre
     (options.addTypeToClassName && options.type ? strings.classify(options.type) : '');
   validateClassName(classifiedName);
 
-  const skipStyleFile = options.inlineStyle || options.style === Style.None;
+  const skipStyleFile = options.inlineStyle || options.style === Style.none;
   const templateSource = apply(url('./files'), [
     options.skipTests ? filter((path) => !path.endsWith('.spec.ts.template')) : noop(),
     skipStyleFile ? filter((path) => !path.endsWith('.__style__.template')) : noop(),
