@@ -37,7 +37,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: pnpm ci
       - run: pnpm run schema
       - run: pnpm run build
       - run: pnpm test
