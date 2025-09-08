@@ -2,9 +2,9 @@ import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import semverInc from 'semver/functions/inc';
 
-import type { Options } from './schema';
+import type { Schema } from './schema';
 
-export function bump(options: Options): Rule {
+export function bump(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const packageJsonPath = './package.json';
     const json = tree.read(packageJsonPath);

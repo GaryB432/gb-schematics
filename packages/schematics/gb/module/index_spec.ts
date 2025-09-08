@@ -1,7 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import type { Options } from './schema';
+import type { Schema } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -9,7 +9,7 @@ describe('module', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'tester' },
       ftree
@@ -23,7 +23,7 @@ describe('module', () => {
   it('skips tests', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'tester', unitTestRunner: 'none' },
       ftree
@@ -34,7 +34,7 @@ describe('module', () => {
   it('classifies', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'tester', kind: 'class', sourceRoot: 'src' },
       ftree
@@ -52,7 +52,7 @@ describe('module', () => {
   it('does not classify', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'ProjectNamedTester',
@@ -83,7 +83,7 @@ describe('module', () => {
   it('handles vitest', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'tester',
@@ -106,7 +106,7 @@ describe('module', () => {
   it('imports from correct file', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'tester', kind: 'values', sourceRoot: 'src' },
       ftree
@@ -124,7 +124,7 @@ describe('module', () => {
   it('works with directory', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'tester', directory: 'a/b/c/d' },
       ftree
@@ -135,7 +135,7 @@ describe('module', () => {
   it('works with path name (without sourceRoot)', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'c/d/tester', directory: 'a/b' },
       ftree
@@ -146,7 +146,7 @@ describe('module', () => {
   it('works with project root', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'tester',
@@ -161,7 +161,7 @@ describe('module', () => {
   it('works with project root and path', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'c/d/tester',
@@ -176,7 +176,7 @@ describe('module', () => {
   it('works with project root and path', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'banana',
@@ -195,7 +195,7 @@ describe('js module', () => {
   it('makes class', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'tester', language: 'js' },
       ftree
@@ -215,7 +215,7 @@ describe('js module', () => {
   it('makes values', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'tester', language: 'js', kind: 'values' },
       ftree
