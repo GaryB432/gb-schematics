@@ -8,7 +8,7 @@
     "stripInternal": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "skipLibCheck": true,
     "strict": true,
     "target": "es2023",
