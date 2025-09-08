@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mySchematic(options: any): Rule {
   return (tree: Tree, context: SchematicContext) => {
     // Show the options for this Schematics.

@@ -60,6 +60,7 @@ export default function (options: Schema): Rule {
           collectionPath = p;
         }
       }
+      // eslint-disable-next-line no-empty
     } catch {}
 
     let source = apply(url('./schematic-files'), [

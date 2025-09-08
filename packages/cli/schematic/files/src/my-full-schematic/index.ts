@@ -12,6 +12,7 @@ import {
 
 // Instead of `any`, it would make sense here to get a schema-to-dts package and output the
 // interfaces so you get type-safe options.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function (options: any): Rule {
   // The chain rule allows us to chain multiple rules and apply them one after the other.
   return chain([

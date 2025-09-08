@@ -473,8 +473,8 @@ function parseArgs(args: string[]): Options {
   const { _, ...options } = yargsParser(args, {
     boolean: booleanArgs as unknown as string[],
     default: {
-      'interactive': true,
-      'debug': null,
+      interactive: true,
+      debug: null,
       'dry-run': null,
     },
     configuration: {

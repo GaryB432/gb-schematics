@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree, chain, schematic } from '@angular-devkit/
 
 // A factory is a RuleFactory. It takes the options that might have been coming from the command
 // line or another schematic. These can be defined in a schema.json, which will validate
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function (options: any): Rule {
   // The chain rule allows us to chain multiple rules and apply them one after the other.
   return chain([
