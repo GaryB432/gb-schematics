@@ -1,6 +1,7 @@
 # Outputs
 packages/**/*.d.ts
 packages/**/*.js
+coverage/
 
 # IDEs
 .idea/
