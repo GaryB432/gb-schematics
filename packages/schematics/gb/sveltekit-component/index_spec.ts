@@ -1,6 +1,8 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import * as jasmine from '../utility/fake/jasmine';
+
 
 const collectionPath = path.join(__dirname, '../collection.json');
 

@@ -12,7 +12,7 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import { parseName } from '../utility/parse-name';
-import type { Options } from './schema';
+import type { Schema } from './schema';
 
 const globalTestRunners = {
   jest: '@jest/globals',
@@ -21,11 +21,11 @@ const globalTestRunners = {
   vitest: 'vitest',
 };
 
-function normalizeOptions(options: Options): Options {
+function normalizeOptions(options: Schema): Schema {
   return { ...options };
 }
 
-export default function (options: Options): Rule {
+export default function (options: Schema): Rule {
   const opts = normalizeOptions(options);
   const directory = opts.directory ?? '';
   const sourceRoot = opts.sourceRoot ?? '';

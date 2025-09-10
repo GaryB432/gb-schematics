@@ -15,7 +15,7 @@ import {
   move,
   url,
 } from '@angular-devkit/schematics';
-import type { Options } from './schema';
+import type { Schema } from './schema';
 
 interface Location {
   name: string;
@@ -32,11 +32,11 @@ function parseName(path: string, name: string): Location {
   };
 }
 
-function normalizeOptions(options: Options): Options {
+function normalizeOptions(options: Schema): Schema {
   return { ...options };
 }
 
-export default function (options: Options): Rule {
+export default function (options: Schema): Rule {
   const opts = normalizeOptions(options);
   const directory = opts.directory ?? 'lib/components';
   const projectRoot = (opts.projectRoot ?? '.') as Path;

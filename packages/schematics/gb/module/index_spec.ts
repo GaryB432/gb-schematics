@@ -1,7 +1,8 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import type { Options } from './schema';
+import * as jasmine from '../utility/fake/jasmine';
+import { Kind, Language, UnitTestRunner, type Schema } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -9,23 +10,23 @@ describe('module', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'tester' },
       ftree
     );
 
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/tester.spec.ts', '/tester.ts'])
+      jasmine.arrayWithExactContents(['/tester.ts', '/tester.spec.ts'])
     );
   });
 
   it('skips tests', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
-      { name: 'tester', unitTestRunner: 'none' },
+      { name: 'tester', unitTestRunner: UnitTestRunner.none },
       ftree
     );
     expect(tree.files).not.toContain('/tester.spec.ts');
@@ -34,13 +35,13 @@ describe('module', () => {
   it('classifies', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
-      { name: 'tester', kind: 'class', sourceRoot: 'src' },
+      { name: 'tester', kind: Kind.class, sourceRoot: 'src' },
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/Tester.spec.ts', '/src/Tester.ts'])
+      jasmine.arrayWithExactContents(['/src/Tester.ts', '/src/Tester.spec.ts'])
     );
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     expect(fcontent).toContain("import { Tester } from './Tester';");
@@ -52,11 +53,11 @@ describe('module', () => {
   it('does not classify', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'ProjectNamedTester',
-        kind: 'class',
+        kind: Kind.class,
         sourceRoot: 'src',
         pascalCaseFiles: false,
       },
@@ -64,8 +65,8 @@ describe('module', () => {
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
-        '/src/project-named-tester.spec.ts',
         '/src/project-named-tester.ts',
+        '/src/project-named-tester.spec.ts',
       ])
     );
     const fcontent = tree.readContent('/src/project-named-tester.spec.ts');
@@ -83,18 +84,18 @@ describe('module', () => {
   it('handles vitest', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'tester',
-        kind: 'class',
-        unitTestRunner: 'vitest',
+        kind: Kind.class,
+        unitTestRunner: UnitTestRunner.vitest,
         sourceRoot: 'src',
       },
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/Tester.spec.ts', '/src/Tester.ts'])
+      jasmine.arrayWithExactContents([ '/src/Tester.ts', '/src/Tester.spec.ts'])
     );
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     expect(fcontent).toContain(
@@ -106,13 +107,13 @@ describe('module', () => {
   it('imports from correct file', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
-      { name: 'tester', kind: 'values', sourceRoot: 'src' },
+      { name: 'tester', kind: Kind.values, sourceRoot: 'src' },
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/tester.spec.ts', '/src/tester.ts'])
+      jasmine.arrayWithExactContents(['/src/tester.ts', '/src/tester.spec.ts', ])
     );
     const fcontent = tree.readContent('/src/tester.spec.ts');
     expect(fcontent).not.toContain("from './Tester'");
@@ -124,7 +125,7 @@ describe('module', () => {
   it('works with directory', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'tester', directory: 'a/b/c/d' },
       ftree
@@ -135,7 +136,7 @@ describe('module', () => {
   it('works with path name (without sourceRoot)', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       { name: 'c/d/tester', directory: 'a/b' },
       ftree
@@ -146,7 +147,7 @@ describe('module', () => {
   it('works with project root', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'tester',
@@ -161,7 +162,7 @@ describe('module', () => {
   it('works with project root and path', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'c/d/tester',
@@ -176,13 +177,13 @@ describe('module', () => {
   it('works with project root and path', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
       {
         name: 'banana',
         directory: 'abc/def',
         kind: undefined,
-        unitTestRunner: 'none',
+        unitTestRunner: UnitTestRunner.none,
         sourceRoot: 'test/root/src',
       },
       ftree
@@ -195,13 +196,13 @@ describe('js module', () => {
   it('makes class', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
-      { name: 'tester', language: 'js' },
+      { name: 'tester', language: Language.js },
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/tester.spec.js', '/tester.js'])
+      jasmine.arrayWithExactContents(['/tester.js', '/tester.spec.js'])
     );
     expect(tree.read('/tester.spec.js')?.toString()).toContain(
       "import { add, greet, meaning } from './tester.js';"
@@ -215,13 +216,13 @@ describe('js module', () => {
   it('makes values', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic<Options>(
+    const tree = await runner.runSchematic<Schema>(
       'module',
-      { name: 'tester', language: 'js', kind: 'values' },
+      { name: 'tester', language: Language.js, kind: Kind.values },
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/tester.spec.js', '/tester.js'])
+      jasmine.arrayWithExactContents(['/tester.js', '/tester.spec.js'])
     );
     expect(tree.readContent('/tester.spec.js')).toContain(
       "import { add, greet, meaning } from './tester.js';"

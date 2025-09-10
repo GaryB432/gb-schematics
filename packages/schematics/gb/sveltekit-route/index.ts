@@ -16,7 +16,7 @@ import {
   move,
   url,
 } from '@angular-devkit/schematics';
-import type { Options } from './schema';
+import { Load, Schema, Style } from './schema';
 import { makeTestRoute } from './utils';
 
 interface Location {
@@ -34,16 +34,16 @@ function parseName(path: string, name: string): Location {
   };
 }
 
-function normalizeOptions(o: Options): Required<Options> {
+function normalizeOptions(o: Schema): Required<Schema> {
   const path = o.path ?? '';
-  const style = o.style ?? 'css';
-  const load = o.load ?? 'none';
+  const style = o.style ?? Style.css;
+  const load = o.load ?? Load.none;
   const skipTests = o.skipTests ?? false;
   const projectRoot = o.projectRoot ?? '.';
   return { ...o, path, style, skipTests, load, projectRoot };
 }
 
-export default function (opts: Options): Rule {
+export default function (opts: Schema): Rule {
   return async (tree: Tree, context: SchematicContext) => {
     const options = normalizeOptions(opts);
     if (!tree.exists(join(options.projectRoot as Path, 'svelte.config.js'))) {

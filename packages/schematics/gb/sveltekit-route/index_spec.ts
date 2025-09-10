@@ -1,6 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import * as jasmine from '../utility/fake/jasmine';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -16,8 +17,8 @@ describe('sveltekit-route', () => {
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
         '/src/routes/tester/+page.svelte',
-        // '/src/routes/tester/+page.ts',
         '/tests/tester.spec.ts',
+        // '/src/routes/tester/+page.ts',
       ])
     );
     expect(tree.readContent('/src/routes/tester/+page.svelte')).toContain(
@@ -37,8 +38,8 @@ describe('sveltekit-route with server load', () => {
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
-        '/src/routes/tester/+page.svelte',
         '/src/routes/tester/+page.server.ts',
+        '/src/routes/tester/+page.svelte',
         '/tests/tester.spec.ts',
       ])
     );
