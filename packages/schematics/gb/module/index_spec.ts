@@ -17,7 +17,7 @@ describe('module', () => {
     );
 
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/tester.spec.ts', '/tester.ts'])
+      jasmine.arrayWithExactContents(['/tester.ts', '/tester.spec.ts'])
     );
   });
 
@@ -41,7 +41,7 @@ describe('module', () => {
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/Tester.spec.ts', '/src/Tester.ts'])
+      jasmine.arrayWithExactContents(['/src/Tester.ts', '/src/Tester.spec.ts'])
     );
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     expect(fcontent).toContain("import { Tester } from './Tester';");
@@ -65,8 +65,8 @@ describe('module', () => {
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
-        '/src/project-named-tester.spec.ts',
         '/src/project-named-tester.ts',
+        '/src/project-named-tester.spec.ts',
       ])
     );
     const fcontent = tree.readContent('/src/project-named-tester.spec.ts');
@@ -95,7 +95,7 @@ describe('module', () => {
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/Tester.spec.ts', '/src/Tester.ts'])
+      jasmine.arrayWithExactContents([ '/src/Tester.ts', '/src/Tester.spec.ts'])
     );
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     expect(fcontent).toContain(
@@ -113,7 +113,7 @@ describe('module', () => {
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/tester.spec.ts', '/src/tester.ts'])
+      jasmine.arrayWithExactContents(['/src/tester.ts', '/src/tester.spec.ts', ])
     );
     const fcontent = tree.readContent('/src/tester.spec.ts');
     expect(fcontent).not.toContain("from './Tester'");
@@ -202,7 +202,7 @@ describe('js module', () => {
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/tester.spec.js', '/tester.js'])
+      jasmine.arrayWithExactContents(['/tester.js', '/tester.spec.js'])
     );
     expect(tree.read('/tester.spec.js')?.toString()).toContain(
       "import { add, greet, meaning } from './tester.js';"
@@ -222,7 +222,7 @@ describe('js module', () => {
       ftree
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/tester.spec.js', '/tester.js'])
+      jasmine.arrayWithExactContents(['/tester.js', '/tester.spec.js'])
     );
     expect(tree.readContent('/tester.spec.js')).toContain(
       "import { add, greet, meaning } from './tester.js';"
