@@ -28,15 +28,16 @@
       "@schematics/angular/utility": ["./packages/schematics/angular/utility/index"]
     }
   },
+  // "include": [],
   "exclude": [
-    "dist/**/*",
-    "dist-schema/**",
     "**/node_modules/**/*",
-    "packages/schematics/**/index_spec.ts",
-    "packages/angular_devkit/schematics_cli/schematic/files/**/*",
-    "modules/testing/builder/projects/**/*",
-    "tools/**/*",
-    "packages/angular_devkit/build_angular/test/**/*",
-    "packages/angular_devkit/build_webpack/test/**/*",
   ]
+  // "dist/**/*",
+  // "dist-schema/**",
+  // "packages/schematics/**/index_spec.ts",
+  // "packages/angular_devkit/schematics_cli/schematic/files/**/*",
+  // "modules/testing/builder/projects/**/*",
+  // "tools/**/*",
+  // "packages/angular_devkit/build_angular/test/**/*",
+  // "packages/angular_devkit/build_webpack/test/**/*",
 }
