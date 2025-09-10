@@ -38,6 +38,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: pnpm install
+      - run: pnpx eslint .
       - run: pnpm run schema
-      - run: pnpm run build
-      # - run: pnpm test
+      - run: pnpm --recursive build
+      - run: pnpm --recursive test
