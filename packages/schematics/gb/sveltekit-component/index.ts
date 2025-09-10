@@ -15,7 +15,7 @@ import {
   move,
   url,
 } from '@angular-devkit/schematics';
-import type { Options } from './schema';
+import type { Schema as Options } from './schema';
 
 interface Location {
   name: string;

@@ -12,7 +12,7 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import { parseName } from '../utility/parse-name';
-import type { Options } from './schema';
+import type { Schema as Options } from './schema';
 
 const globalTestRunners = {
   jest: '@jest/globals',
