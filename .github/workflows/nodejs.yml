@@ -1,23 +1,44 @@
-name: Node.js CI
-
+name: main-ci
 on:
   push:
+    branches:
+      - 'master'
   pull_request:
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  basic-pnpm:
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [18.x, 20.x]
-
+        node-version: [20.x, 22.x]
+        os: [ubuntu-24.04, windows-2025, macos-15]
+    runs-on: ${{ matrix.os }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+        # See https://github.com/pnpm/action-setup
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: true
+
+        # See https://github.com/actions/setup-node
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+        #   cache-dependency-path: examples/basic-pnpm/pnpm-lock.yaml
+
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run schemas
-      - run: npm test
+      - run: pnpm install
+      - run: pnpx eslint .
+      - run: pnpm run schema
+      - run: pnpm --recursive build
+      - run: pnpm --recursive test

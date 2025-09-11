@@ -1,0 +1,31 @@
+{
+  "name": "@gb-schematics/schematics",
+  "version": "6.0.0-alpha.1",
+  "description": "Some Schematics I still like",
+  "homepage": "https://github.com/GaryB432/gb-schematics/blob/master/packages/schematics/gb/README.md",
+  "keywords": [
+    "blueprints",
+    "code generation",
+    "schematics"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "pnpx jest"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./utility": "./utility/index.js",
+    "./utility/*": "./utility/*.js",
+    "./*": "./*.js"
+  },
+  "schematics": "./collection.json",
+  "dependencies": {
+    "@angular-devkit/core": "19.2.15",
+    "@angular-devkit/schematics": "19.2.15",
+    "jsonc-parser": "3.3.1"
+  },
+  "repository": {
+    "url": "git+https://github.com/GaryB432/gb-schematics.git"
+  },
+  "bugs": "https://github.com/GaryB432/gb-schematics/issues"
+}
