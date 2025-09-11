@@ -77,6 +77,6 @@ export default {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '<rootDir>/../../../coverage/packages/schemtics/gb',
+  coverageDirectory: '<rootDir>/../../../coverage/packages/schematics/gb',
   // setupFilesAfterEnv:['<rootDir>/setupTests.js']
 };
