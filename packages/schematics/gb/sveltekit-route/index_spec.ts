@@ -38,8 +38,8 @@ describe('sveltekit-route with server load', () => {
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
-        '/src/routes/tester/+page.svelte',
         '/src/routes/tester/+page.server.ts',
+        '/src/routes/tester/+page.svelte',
         '/tests/tester.spec.ts',
       ])
     );
