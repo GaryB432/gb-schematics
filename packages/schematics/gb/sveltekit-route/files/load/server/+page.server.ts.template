@@ -1,5 +1,0 @@
-import type { PageServerLoad } from './$types';
-
-export const load = (async (ctx) => {
-	return { subject: `<%= name %> route (${ctx.route.id})` };
-}) satisfies PageServerLoad;

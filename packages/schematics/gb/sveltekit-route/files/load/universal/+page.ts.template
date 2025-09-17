@@ -1,6 +1,0 @@
-import type { PageLoad } from './$types';
-
-export const load = (async (ctx) => {
-	console.log(ctx.route.id);
-	return { subject: `<%= name %> route (${ctx.route.id})` };
-}) satisfies PageLoad;

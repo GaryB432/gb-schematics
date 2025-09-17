@@ -1,9 +1,0 @@
-export function greet(name<% if (language === 'ts') { %>: string<% } %>)<% if (language === 'ts') { %>: string<% } %> {
-  return `<%= moduleName  %> says: hello to ${name}`;
-}
-export function add(a<% if (language === 'ts') { %>: number<% } %>, b<% if (language === 'ts') { %>: number<% } %>)<% if (language === 'ts') { %>: number<% } %> {
-  return a + b;
-}
-export const meaning<% if (language === 'ts') { %>: { life: number }<% } %> = {
-  life: 42,
-};

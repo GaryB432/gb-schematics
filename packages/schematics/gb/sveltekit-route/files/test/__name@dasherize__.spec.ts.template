@@ -1,6 +1,0 @@
-import { expect, test } from '@playwright/test';
-
-test('<%= camelize(name) %> page has expected div', async ({ page }) => {
-	await page.goto('<%= route %>');
-	expect(await page.textContent('article > div')).toBe('<%= path %>/<%= name %> route works');
-});
