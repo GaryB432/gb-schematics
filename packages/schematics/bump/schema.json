@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "GbSchematicsEslint",
+  "title": "GB Schematics Eslint Options Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "part": {
+      "type": "string",
+      "description": "Which part to increment",
+      "enum": [
+        "major",
+        "premajor",
+        "minor",
+        "preminor",
+        "patch",
+        "prepatch",
+        "prerelease"
+      ],
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "skipInstall": {
+      "type": "boolean",
+      "default": false,
+      "description": "Skip package installation"
+    }
+  },
+  "required": ["part"]
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "GbSchematicsSveltekitComponent",
+  "title": "GB Schematics SveltekitComponent Options Schema",
+  "description": "Creates a new component in your svelte-kit project",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the component.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use for the component?"
+    },
+    "directory": {
+      "type": "string",
+      "format": "path",
+      "description": "The directory to create the component, relative to your project source."
+    },
+    "language": {
+      "type": "string",
+      "description": "Component script language (ts/js).",
+      "enum": ["js", "ts"],
+      "default": "js"
+    },
+    "style": {
+      "type": "string",
+      "description": "Component style language (css/scss).",
+      "enum": ["css", "scss"],
+      "default": "css"
+    },
+    "projectRoot": {
+      "type": "string",
+      "format": "path",
+      "$default": {
+        "$source": "workingDirectory"
+      },
+      "description": "The path to your project root, relative to the current workspace. Default is workingDirectory",
+      "visible": false
+    }
+  },
+  "additionalProperties": false,
+  "required": ["name"]
+}

@@ -1,14 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "moduleResolution": "node",
-    "module": "esnext",
-    "target": "es2022",
-    "lib": ["es2020"],
-    "types": ["node"],
-    "sourceMap": true,
-    "inlineSources": true,
-    "importHelpers": true
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tsbuildinfo",
+    "module": "NodeNext",
+    "target": "ES2022",
+    "lib": ["ES2022"]
   },
-  "exclude": ["schematic/files/", "**/*.spec.ts"]
+  "include": ["src"],
+  "references": [{ "path": "../../libraries/appliances" }]
 }

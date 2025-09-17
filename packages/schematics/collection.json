@@ -1,0 +1,25 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "bump": {
+      "description": "Bump package.json version",
+      "schema": "./bump/schema.json",
+      "factory": "./bump/index#bump"
+    },
+    "module": {
+      "description": "Add Class or general Module",
+      "schema": "./module/schema.json",
+      "factory": "./module"
+    },
+    "sveltekit-component": {
+      "description": "Add a component to your sveltekit project",
+      "schema": "./sveltekit-component/schema.json",
+      "factory": "./sveltekit-component"
+    },
+    "sveltekit-route": {
+      "description": "Add a route to your sveltekit project",
+      "schema": "./sveltekit-route/schema.json",
+      "factory": "./sveltekit-route"
+    }
+  }
+}
