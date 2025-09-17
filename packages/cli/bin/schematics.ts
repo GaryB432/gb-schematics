@@ -30,7 +30,10 @@ import yargsParser, { camelCase, decamelize } from 'yargs-parser';
  * @param str The argument to parse.
  * @return {{collection: string, schematic: (string)}}
  */
-function parseSchematicName(str: string | null): { collection: string; schematic: string | null } {
+function parseSchematicName(str: string | null): {
+  collection: string;
+  schematic: string | null;
+} {
   let collection = '@angular-devkit/schematics-cli';
 
   let schematic = str;
@@ -55,7 +58,11 @@ export interface MainOptions {
   stderr?: ProcessOutput;
 }
 
-function _listSchematics(workflow: NodeWorkflow, collectionName: string, logger: logging.Logger) {
+function _listSchematics(
+  workflow: NodeWorkflow,
+  collectionName: string,
+  logger: logging.Logger
+) {
   try {
     const collection = workflow.engine.createCollection(collectionName);
     logger.info(collection.listSchematicNames().join('\n'));
@@ -98,7 +105,9 @@ function _createPromptProvider(): schema.PromptProvider {
                 return true;
               }
 
-              return definition.validator(Object.values(values).map(({ value }) => value));
+              return definition.validator(
+                Object.values(values).map(({ value }) => value)
+              );
             },
             default: definition.multiselect ? undefined : definition.default,
             choices: definition.items?.map((item) =>
@@ -107,7 +116,8 @@ function _createPromptProvider(): schema.PromptProvider {
                     name: item,
                     value: item,
                     checked:
-                      definition.multiselect && Array.isArray(definition.default)
+                      definition.multiselect &&
+                      Array.isArray(definition.default)
                         ? definition.default?.includes(item)
                         : item === definition.default,
                   }
@@ -116,11 +126,12 @@ function _createPromptProvider(): schema.PromptProvider {
                     name: item.label,
                     value: item.value,
                     checked:
-                      definition.multiselect && Array.isArray(definition.default)
+                      definition.multiselect &&
+                      Array.isArray(definition.default)
                         ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
                           definition.default?.includes(item.value as any)
                         : item.value === definition.default,
-                  },
+                  }
             ),
           });
           break;
@@ -134,7 +145,8 @@ function _createPromptProvider(): schema.PromptProvider {
                 return true;
               }
 
-              let lastValidation: ReturnType<typeof definition.validator> = false;
+              let lastValidation: ReturnType<typeof definition.validator> =
+                false;
               for (const type of definition.propertyTypes) {
                 let potential;
                 switch (type) {
@@ -243,11 +255,11 @@ export async function main({
   }
 
   /** Get the collection an schematic name from the first argument. */
-  const { collection: collectionName, schematic: schematicName } = parseSchematicName(
-    _.shift() || null,
-  );
+  const { collection: collectionName, schematic: schematicName } =
+    parseSchematicName(_.shift() || null);
 
-  const isLocalCollection = collectionName.startsWith('.') || collectionName.startsWith('/');
+  const isLocalCollection =
+    collectionName.startsWith('.') || collectionName.startsWith('/');
 
   /** Gather the arguments for later use. */
   const debugPresent = cliOptions.debug !== null;
@@ -279,7 +291,7 @@ export async function main({
 
   if (debug) {
     logger.info(
-      `Debug mode enabled${isLocalCollection ? ' by default for local collections' : ''}.`,
+      `Debug mode enabled${isLocalCollection ? ' by default for local collections' : ''}.`
     );
   }
 
@@ -311,19 +323,19 @@ export async function main({
       case 'error':
         error = true;
         logger.error(
-          `ERROR! ${eventPath} ${event.description == 'alreadyExist' ? 'already exists' : 'does not exist'}.`,
+          `ERROR! ${eventPath} ${event.description == 'alreadyExist' ? 'already exists' : 'does not exist'}.`
         );
         break;
       case 'update':
         loggingQueue.push(
           // TODO: `as unknown` was necessary during TS 5.9 update. Figure out a long-term solution.
-          `${colors.cyan('UPDATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`,
+          `${colors.cyan('UPDATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`
         );
         break;
       case 'create':
         loggingQueue.push(
           // TODO: `as unknown` was necessary during TS 5.9 update. Figure out a long-term solution.
-          `${colors.green('CREATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`,
+          `${colors.green('CREATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`
         );
         break;
       case 'delete':
@@ -331,7 +343,7 @@ export async function main({
         break;
       case 'rename':
         loggingQueue.push(
-          `${colors.blue('RENAME')} ${eventPath} => ${removeLeadingSlash(event.to)}`,
+          `${colors.blue('RENAME')} ${eventPath} => ${removeLeadingSlash(event.to)}`
         );
         break;
     }
@@ -359,7 +371,7 @@ export async function main({
 
   // Pass the rest of the arguments as the smart default "argv". Then delete it.
   workflow.registry.addSmartDefaultProvider('argv', (schema) =>
-    'index' in schema ? _[Number(schema['index'])] : _,
+    'index' in schema ? _[Number(schema['index'])] : _
   );
 
   // Add prompts.
@@ -393,7 +405,7 @@ export async function main({
       logger.info(
         `Dry run enabled${
           dryRunPresent ? '' : ' by default in debug mode'
-        }. No files written to disk.`,
+        }. No files written to disk.`
       );
     }
 
@@ -490,13 +502,15 @@ function parseArgs(args: string[]): Options {
   const cliOptions: Options['cliOptions'] = {};
 
   const isCliOptions = (
-    key: ElementType<typeof booleanArgs> | string,
+    key: ElementType<typeof booleanArgs> | string
   ): key is ElementType<typeof booleanArgs> =>
     booleanArgs.includes(key as ElementType<typeof booleanArgs>);
 
   for (const [key, value] of Object.entries(options)) {
     if (/[A-Z]/.test(key)) {
-      throw new Error(`Unknown argument ${key}. Did you mean ${decamelize(key)}?`);
+      throw new Error(
+        `Unknown argument ${key}. Did you mean ${decamelize(key)}?`
+      );
     }
 
     if (isCliOptions(key)) {
@@ -516,7 +530,9 @@ function parseArgs(args: string[]): Options {
 function isTTY(): boolean {
   const isTruthy = (value: undefined | string) => {
     // Returns true if value is a string that is anything but 0 or false.
-    return value !== undefined && value !== '0' && value.toUpperCase() !== 'FALSE';
+    return (
+      value !== undefined && value !== '0' && value.toUpperCase() !== 'FALSE'
+    );
   };
 
   // If we force TTY, we always return true.

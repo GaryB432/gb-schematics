@@ -1,4 +1,10 @@
-import { Rule, SchematicContext, Tree, chain, schematic } from '@angular-devkit/schematics';
+import {
+  Rule,
+  SchematicContext,
+  Tree,
+  chain,
+  schematic,
+} from '@angular-devkit/schematics';
 
 // A factory is a RuleFactory. It takes the options that might have been coming from the command
 // line or another schematic. These can be defined in a schema.json, which will validate

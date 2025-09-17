@@ -20,7 +20,8 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { Schema } from './schema';
 
 export default function (options: Schema): Rule {
-  const schematicsVersion = require('@angular-devkit/schematics/package.json').version;
+  const schematicsVersion =
+    require('@angular-devkit/schematics/package.json').version;
   const coreVersion = require('@angular-devkit/core/package.json').version;
 
   return (_, context) => {
@@ -28,7 +29,7 @@ export default function (options: Schema): Rule {
       new NodePackageInstallTask({
         workingDirectory: options.name,
         packageManager: options.packageManager,
-      }),
+      })
     );
 
     return mergeWith(
@@ -43,10 +44,10 @@ export default function (options: Schema): Rule {
             schematicsVersion,
             dot: '.',
             dasherize: strings.dasherize,
-          }),
+          })
         ),
         move(options.name),
-      ]),
+      ])
     );
   };
 }

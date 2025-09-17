@@ -6,7 +6,13 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import { JsonObject, Path, isJsonObject, normalize, strings } from '@angular-devkit/core';
+import {
+  JsonObject,
+  Path,
+  isJsonObject,
+  normalize,
+  strings,
+} from '@angular-devkit/core';
 import {
   Rule,
   SchematicContext,
@@ -25,22 +31,31 @@ import { Schema } from './schema';
 function addSchematicToCollectionJson(
   collectionPath: Path,
   schematicName: string,
-  description: JsonObject,
+  description: JsonObject
 ): Rule {
   return (tree: Tree) => {
     const collectionJson = tree.readJson(collectionPath);
 
-    if (!isJsonObject(collectionJson) || !isJsonObject(collectionJson.schematics)) {
-      throw new Error('Invalid collection.json; schematics needs to be an object.');
+    if (
+      !isJsonObject(collectionJson) ||
+      !isJsonObject(collectionJson.schematics)
+    ) {
+      throw new Error(
+        'Invalid collection.json; schematics needs to be an object.'
+      );
     }
 
     collectionJson['schematics'][schematicName] = description;
-    tree.overwrite(collectionPath, JSON.stringify(collectionJson, undefined, 2));
+    tree.overwrite(
+      collectionPath,
+      JSON.stringify(collectionJson, undefined, 2)
+    );
   };
 }
 
 export default function (options: Schema): Rule {
-  const schematicsVersion = require('@angular-devkit/schematics/package.json').version;
+  const schematicsVersion =
+    require('@angular-devkit/schematics/package.json').version;
   const coreVersion = require('@angular-devkit/core/package.json').version;
 
   // Verify if we need to create a full project, or just add a new schematic.
@@ -95,17 +110,24 @@ export default function (options: Schema): Rule {
         new NodePackageInstallTask({
           workingDirectory: options.name,
           packageManager: options.packageManager,
-        }),
+        })
       );
     }
 
     return chain([
       mergeWith(source),
-      addSchematicToCollectionJson(collectionPath, strings.dasherize(options.name), {
-        description: 'A blank schematic.',
-        factory:
-          './' + strings.dasherize(options.name) + '/index#' + strings.camelize(options.name),
-      }),
+      addSchematicToCollectionJson(
+        collectionPath,
+        strings.dasherize(options.name),
+        {
+          description: 'A blank schematic.',
+          factory:
+            './' +
+            strings.dasherize(options.name) +
+            '/index#' +
+            strings.camelize(options.name),
+        }
+      ),
     ]);
   };
 }

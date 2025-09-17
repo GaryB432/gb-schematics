@@ -16,7 +16,11 @@ describe('my-full-schematic', () => {
 
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = await runner.runSchematic('my-full-schematic', { name: 'str' }, Tree.empty());
+    const tree = await runner.runSchematic(
+      'my-full-schematic',
+      { name: 'str' },
+      Tree.empty()
+    );
 
     // Listing files
     expect(tree.files.sort()).toEqual(['/allo', '/hola', '/test1', '/test2']);

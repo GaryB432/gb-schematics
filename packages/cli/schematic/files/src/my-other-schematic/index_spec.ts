@@ -7,7 +7,11 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('my-other-schematic', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = await runner.runSchematic('my-other-schematic', {}, Tree.empty());
+    const tree = await runner.runSchematic(
+      'my-other-schematic',
+      {},
+      Tree.empty()
+    );
 
     expect(tree.files.sort()).toEqual(['/allo', '/hola']);
   });
