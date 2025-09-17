@@ -1,9 +1,6 @@
 packages:
-  - .
-  - packages/cli
-  - packages/schematics/bangular
-  - packages/schematics/gb
-  - tools/schema
+  - packages/*
+  - tools/*
 ignoredBuiltDependencies:
   - core-js
 onlyBuiltDependencies:
