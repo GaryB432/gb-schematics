@@ -1,17 +1,23 @@
-# Outputs
-packages/**/*.d.ts
-packages/**/*.js
+# # Outputs
+# src/**/*.js
+# src/**/*.js.map
+# src/**/*.d.ts
+# tools/**/*.js
+# tools/**/*.js.map
+# tools/**/*.d.ts
+packages/*/coverage
+packages/*/dist
 
-# IDEs
-.idea/
-jsconfig.json
-.vscode/
+# # IDEs
+# .idea/
+# jsconfig.json
+# .vscode/
 
-# Misc
+# # Misc
 node_modules/
-npm-debug.log*
-yarn-error.log*
+# npm-debug.log*
+# yarn-error.log*
 
-# Mac OSX Finder files.
-**/.DS_Store
-.DS_Store
+# # Mac OSX Finder files.
+# **/.DS_Store
+# .DS_Store
