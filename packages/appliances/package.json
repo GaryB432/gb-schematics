@@ -14,6 +14,8 @@
     "victor": "^1.1.0"
   },
   "devDependencies": {
+    "@types/node": "^24.5.2",
+    "@types/victor": "^1.1.5",
     "vitest": "^3.2.4"
   }
 }
