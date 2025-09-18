@@ -19,29 +19,27 @@ export default defineConfig({
       include: ['packages/*/src/**', 'tools/*/src/**'],
     },
 
-    // globals: true,
-
-    // The `projects` key is where you define the test configurations for each workspace.
-    // This allows Vitest to run tests for multiple projects with a single command.
     projects: [
-      // Web project configuration for `apps/bakery`
       {
         test: {
           name: 'bakery', // A unique name for the project
           include: [
-            'packages/bakery/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+            'packages/bakery/*/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+            'home/gary/repos/gb-schematics/packages/bakery/src/counter.spec.ts',
+            'packages/bakery/src/counter.spec.ts',
+            'src/counter.spec.ts',
+            '**/*.spec.ts',
           ],
           globals: true,
           environment: 'node',
         },
       },
 
-      // Node project configuration for `libraries/appliances`
       {
         test: {
           name: 'appliances', // A unique name for the project
           include: [
-            'packages/appliances/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+            'packages/appliances/*/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
           ],
           globals: true,
           environment: 'node',

@@ -2,7 +2,9 @@
   "extends": "./tsconfig.base.json",
   "files": [],
   "references": [
+    { "path": "./packages/appliances" },
     { "path": "./packages/bakery" },
-    { "path": "./packages/appliances" }
+    { "path": "./packages/cli" },
+    { "path": "./packages/schematics" }
   ]
 }
