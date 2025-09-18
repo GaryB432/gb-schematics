@@ -1,8 +1,8 @@
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import semverInc from 'semver/functions/inc';
+import semverInc from 'semver/functions/inc.js';
 
-import type { Options } from './schema.js';
+import type { Schema as Options } from './schema.js';
 
 export function bump(options: Options): Rule {
   return (tree: Tree, context: SchematicContext) => {

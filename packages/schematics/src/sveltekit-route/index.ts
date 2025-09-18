@@ -16,7 +16,7 @@ import {
   move,
   url,
 } from '@angular-devkit/schematics';
-import type { Options } from './schema.js';
+import { Load, Style, type Schema as Options } from './schema.js';
 import { makeTestRoute } from './utils.js';
 
 interface Location {
@@ -36,8 +36,8 @@ function parseName(path: string, name: string): Location {
 
 function normalizeOptions(o: Options): Required<Options> {
   const path = o.path ?? '';
-  const style = o.style ?? 'css';
-  const load = o.load ?? 'none';
+  const style = o.style ?? Style.css;
+  const load = o.load ?? Load.none;
   const skipTests = o.skipTests ?? false;
   const projectRoot = o.projectRoot ?? '.';
   return { ...o, path, style, skipTests, load, projectRoot };

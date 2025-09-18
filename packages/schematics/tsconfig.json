@@ -5,10 +5,11 @@
     "tsBuildInfoFile": "./node_modules/.tsbuildinfo",
     "module": "NodeNext",
     "target": "ES2022",
+    "outDir": "../../tmp/schematics-dist",
+    "types": ["vitest/globals"],
     "lib": ["ES2022"]
   },
-  "outDir": "the_dist_from_tsconfig",
   "include": ["src"],
 
-  "exclude": ["*spec.ts"]
+  "exclude": ["**/*spec.ts"]
 }
