@@ -1,7 +1,8 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import type { Schema as Options } from './schema.js';
+import { Kind, Language, UnitTestRunner, type Schema as Options } from './schema.js';
+import { describe, expect, it } from 'vitest';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -25,7 +26,7 @@ describe('module', () => {
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
       'module',
-      { name: 'tester', unitTestRunner: 'none' },
+      { name: 'tester', unitTestRunner: UnitTestRunner.none },
       ftree
     );
     expect(tree.files).not.toContain('/tester.spec.ts');
@@ -36,7 +37,7 @@ describe('module', () => {
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
       'module',
-      { name: 'tester', kind: 'class', sourceRoot: 'src' },
+      { name: 'tester', kind: Kind.class, sourceRoot: 'src' },
       ftree
     );
     expect(tree.files).toEqual(
@@ -56,7 +57,7 @@ describe('module', () => {
       'module',
       {
         name: 'ProjectNamedTester',
-        kind: 'class',
+        kind: Kind.class,
         sourceRoot: 'src',
         pascalCaseFiles: false,
       },
@@ -87,8 +88,8 @@ describe('module', () => {
       'module',
       {
         name: 'tester',
-        kind: 'class',
-        unitTestRunner: 'vitest',
+        kind: Kind.class,
+        unitTestRunner: UnitTestRunner.vitest,
         sourceRoot: 'src',
       },
       ftree
@@ -108,7 +109,7 @@ describe('module', () => {
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
       'module',
-      { name: 'tester', kind: 'values', sourceRoot: 'src' },
+      { name: 'tester', kind: Kind.values, sourceRoot: 'src' },
       ftree
     );
     expect(tree.files).toEqual(
@@ -182,7 +183,7 @@ describe('module', () => {
         name: 'banana',
         directory: 'abc/def',
         kind: undefined,
-        unitTestRunner: 'none',
+        unitTestRunner: UnitTestRunner.none,
         sourceRoot: 'test/root/src',
       },
       ftree
@@ -197,7 +198,7 @@ describe('js module', () => {
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
       'module',
-      { name: 'tester', language: 'js' },
+      { name: 'tester', language: Language.js },
       ftree
     );
     expect(tree.files).toEqual(
@@ -217,7 +218,7 @@ describe('js module', () => {
     const ftree = Tree.empty();
     const tree = await runner.runSchematic<Options>(
       'module',
-      { name: 'tester', language: 'js', kind: 'values' },
+      { name: 'tester', language: Language.js, kind: Kind.values },
       ftree
     );
     expect(tree.files).toEqual(
