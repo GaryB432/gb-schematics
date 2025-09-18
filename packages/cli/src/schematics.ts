@@ -16,11 +16,17 @@ import { UnsuccessfulWorkflowExecution } from '@angular-devkit/schematics';
 import { NodeWorkflow } from '@angular-devkit/schematics/tools/index.js';
 import ansiColors from 'ansi-colors';
 import { existsSync } from 'node:fs';
-import * as path from 'node:path';
+// import * as path from 'node:path';
 
-// import * as yap from 'yargs-parser';
+import * as yap from 'yargs-parser';
 
-import yargsParser, { camelCase, decamelize } from 'yargs-parser';
+const yargsParser = yap.default;
+const camelCase = yap.camelCase;
+const decamelize = yap.decamelize;
+
+// import yargsParser, { camelCase, decamelize } from 'yargs-parser';
+
+const { dirname } = import.meta;
 
 /**
  * Parse the name of schematic passed in argument, and return a {collection, schematic} named
@@ -102,9 +108,9 @@ function _createPromptProvider(): schema.PromptProvider {
             continue;
           }
 
-          answers[definition.id] = await (
-            definition.multiselect ? prompts.checkbox : prompts.select
-          )({
+          answers[definition.id] = await (definition.multiselect
+            ? prompts.checkbox
+            : prompts.select)({
             message: definition.message,
             validate: (values) => {
               if (!definition.validator) {
@@ -235,7 +241,7 @@ function getPackageManagerName() {
 }
 
 // eslint-disable-next-line max-lines-per-function
-export async function main({
+export async function jmain({
   args,
   stdout = process.stdout,
   stderr = process.stderr,
@@ -279,7 +285,7 @@ export async function main({
   const workflow = new NodeWorkflow(process.cwd(), {
     force,
     dryRun,
-    resolvePaths: [process.cwd(), __dirname],
+    resolvePaths: [process.cwd(), dirname],
     schemaValidation: true,
     packageManager: getPackageManagerName(),
   });
@@ -297,7 +303,9 @@ export async function main({
 
   if (debug) {
     logger.info(
-      `Debug mode enabled${isLocalCollection ? ' by default for local collections' : ''}.`,
+      `Debug mode enabled${
+        isLocalCollection ? ' by default for local collections' : ''
+      }.`,
     );
   }
 
@@ -329,19 +337,27 @@ export async function main({
       case 'error':
         error = true;
         logger.error(
-          `ERROR! ${eventPath} ${event.description == 'alreadyExist' ? 'already exists' : 'does not exist'}.`,
+          `ERROR! ${eventPath} ${
+            event.description == 'alreadyExist'
+              ? 'already exists'
+              : 'does not exist'
+          }.`,
         );
         break;
       case 'update':
         loggingQueue.push(
           // TODO: `as unknown` was necessary during TS 5.9 update. Figure out a long-term solution.
-          `${colors.cyan('UPDATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`,
+          `${colors.cyan('UPDATE')} ${eventPath} (${
+            (event.content as unknown as Buffer).length
+          } bytes)`,
         );
         break;
       case 'create':
         loggingQueue.push(
           // TODO: `as unknown` was necessary during TS 5.9 update. Figure out a long-term solution.
-          `${colors.green('CREATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`,
+          `${colors.green('CREATE')} ${eventPath} (${
+            (event.content as unknown as Buffer).length
+          } bytes)`,
         );
         break;
       case 'delete':
@@ -349,7 +365,9 @@ export async function main({
         break;
       case 'rename':
         loggingQueue.push(
-          `${colors.blue('RENAME')} ${eventPath} => ${removeLeadingSlash(event.to)}`,
+          `${colors.blue('RENAME')} ${eventPath} => ${removeLeadingSlash(
+            event.to,
+          )}`,
         );
         break;
     }
@@ -477,8 +495,11 @@ const booleanArgs = [
   'interactive',
 ] as const;
 
-type ElementType<T extends ReadonlyArray<unknown>> =
-  T extends ReadonlyArray<infer ElementType> ? ElementType : never;
+type ElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<
+  infer ElementType
+>
+  ? ElementType
+  : never;
 
 interface Options {
   _: string[];
@@ -550,11 +571,39 @@ function isTTY(): boolean {
   return !!process.stdout.isTTY && !isTruthy(process.env['CI']);
 }
 
-if (require.main === module) {
+// if (require.main === module) {
+//   const args = process.argv.slice(2);
+//   main({ args })
+//     .then((exitCode) => (process.exitCode = exitCode))
+//     .catch((e) => {
+//       throw e;
+//     });
+// }
+
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+// Get the file path of the current module
+const currentFilePath = fileURLToPath(import.meta.url);
+
+// Get the file path of the entry point script
+const entryPointPath = process.argv[1];
+
+// Compare them to see if this is the main module
+if (currentFilePath === entryPointPath) {
+  // This code block runs only when the file is executed directly.
   const args = process.argv.slice(2);
-  main({ args })
+  jmain({ args })
     .then((exitCode) => (process.exitCode = exitCode))
     .catch((e) => {
-      throw e;
+      console.error(e);
+      process.exit(1);
     });
+}
+
+// ... the rest of your module's code
+export function main({ args }: { args: string[] }): Promise<number> {
+  // Your main application logic
+  console.log(`Hello, this was run directly with arguments: ${args}`);
+  return Promise.resolve(0);
 }
