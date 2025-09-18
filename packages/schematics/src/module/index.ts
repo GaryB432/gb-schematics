@@ -11,8 +11,8 @@ import {
   noop,
   url,
 } from '@angular-devkit/schematics';
-import { parseName } from '../utility/parse-name';
-import type { Options } from './schema';
+import { parseName } from '../utility/parse-name.js';
+import type { Options } from './schema.js';
 
 const globalTestRunners = {
   jest: '@jest/globals',

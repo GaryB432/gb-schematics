@@ -1,4 +1,4 @@
-import { makeTestRoute } from './utils';
+import { makeTestRoute } from './utils.js';
 
 describe('utils', () => {
   it('makes route a', async () => {

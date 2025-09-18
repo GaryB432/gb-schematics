@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import { parseName } from './parse-name';
+import { parseName } from './parse-name.js';
 
 describe('parse-name', () => {
   it('should handle just the name', () => {

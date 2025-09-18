@@ -16,8 +16,8 @@ import {
   move,
   url,
 } from '@angular-devkit/schematics';
-import type { Options } from './schema';
-import { makeTestRoute } from './utils';
+import type { Options } from './schema.js';
+import { makeTestRoute } from './utils.js';
 
 interface Location {
   name: string;

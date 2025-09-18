@@ -1,15 +1,15 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022"],
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tsbuildinfo",
     "module": "NodeNext",
-    "outDir": "dist",
-    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+    "target": "ES2022",
+    "lib": ["ES2022"]
   },
+  "outDir": "dist",
   "include": ["src"],
-  "references": [
-    // This library may have its own internal dependencies
-    // { "path": "../../libraries/another-lib" }
-  ]
+
+  "exclude": ["*.spec.ts"],
+  "references": [{ "path": "../../packages/appliances" }]
 }
