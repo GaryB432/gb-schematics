@@ -29,7 +29,7 @@ export default function (options: Schema): Rule {
       new NodePackageInstallTask({
         workingDirectory: options.name,
         packageManager: options.packageManager,
-      })
+      }),
     );
 
     return mergeWith(
@@ -44,10 +44,10 @@ export default function (options: Schema): Rule {
             schematicsVersion,
             dot: '.',
             dasherize: strings.dasherize,
-          })
+          }),
         ),
         move(options.name),
-      ])
+      ]),
     );
   };
 }

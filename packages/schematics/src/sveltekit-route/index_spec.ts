@@ -11,17 +11,17 @@ describe('sveltekit-route', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'tester' },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
         '/src/routes/tester/+page.svelte',
         // '/src/routes/tester/+page.ts',
         '/tests/tester.spec.ts',
-      ])
+      ]),
     );
     expect(tree.readContent('/src/routes/tester/+page.svelte')).toContain(
-      "$state('tester route')"
+      "$state('tester route')",
     );
   });
 });
@@ -33,14 +33,14 @@ describe('sveltekit-route with server load', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'tester', load: 'server' },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
         '/src/routes/tester/+page.svelte',
         '/src/routes/tester/+page.server.ts',
         '/tests/tester.spec.ts',
-      ])
+      ]),
     );
   });
 
@@ -50,18 +50,18 @@ describe('sveltekit-route with server load', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'a/b/c/tester', projectRoot: 'apps/fun' },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
         '/apps/fun/src/routes/a/b/c/tester/+page.svelte',
         // '/apps/fun/src/routes/a/b/c/tester/+page.ts',
         '/apps/fun/tests/a/b/c/tester.spec.ts',
-      ])
+      ]),
     );
 
     expect(tree.readContent('/apps/fun/tests/a/b/c/tester.spec.ts')).toContain(
-      "await page.goto('/a/b/c/tester');"
+      "await page.goto('/a/b/c/tester');",
     );
   });
 });
@@ -73,13 +73,13 @@ describe('sveltekit-route skipTests', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'tester', skipTests: true },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
         '/src/routes/tester/+page.svelte',
         // '/src/routes/tester/+page.ts',
-      ])
+      ]),
     );
   });
 });
@@ -91,18 +91,18 @@ describe('sveltekit-route with path', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'a/b/c/tester', load: 'none', path: 'tbd' },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
         '/src/routes/tbd/a/b/c/tester/+page.svelte',
         // '/src/routes/tbd/a/b/c/tester/+page.ts',
         '/tests/tbd/a/b/c/tester.spec.ts',
-      ])
+      ]),
     );
 
     expect(tree.readContent('/tests/tbd/a/b/c/tester.spec.ts')).toContain(
-      "await page.goto('/tbd/a/b/c/tester');"
+      "await page.goto('/tbd/a/b/c/tester');",
     );
   });
 
@@ -117,18 +117,18 @@ describe('sveltekit-route with path', () => {
         path: 'tbd',
         projectRoot: 'apps/fun',
       },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
         '/apps/fun/src/routes/tbd/a/b/c/tester/+page.svelte',
         // '/apps/fun/src/routes/tbd/a/b/c/tester/+page.ts',
         '/apps/fun/tests/tbd/a/b/c/tester.spec.ts',
-      ])
+      ]),
     );
 
     expect(
-      tree.readContent('/apps/fun/tests/tbd/a/b/c/tester.spec.ts')
+      tree.readContent('/apps/fun/tests/tbd/a/b/c/tester.spec.ts'),
     ).toContain("await page.goto('/tbd/a/b/c/tester');");
   });
 });

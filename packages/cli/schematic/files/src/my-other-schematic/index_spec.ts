@@ -10,7 +10,7 @@ describe('my-other-schematic', () => {
     const tree = await runner.runSchematic(
       'my-other-schematic',
       {},
-      Tree.empty()
+      Tree.empty(),
     );
 
     expect(tree.files.sort()).toEqual(['/allo', '/hola']);

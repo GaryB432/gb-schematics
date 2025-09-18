@@ -10,7 +10,7 @@ describe('my-full-schematic', () => {
     // We test that
     const runner = new SchematicTestRunner('schematics', collectionPath);
     await expectAsync(
-      runner.runSchematic('my-full-schematic', {}, Tree.empty())
+      runner.runSchematic('my-full-schematic', {}, Tree.empty()),
     ).toBeRejected();
   });
 
@@ -19,7 +19,7 @@ describe('my-full-schematic', () => {
     const tree = await runner.runSchematic(
       'my-full-schematic',
       { name: 'str' },
-      Tree.empty()
+      Tree.empty(),
     );
 
     // Listing files

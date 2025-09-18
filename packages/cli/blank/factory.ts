@@ -31,7 +31,7 @@ import { Schema } from './schema';
 function addSchematicToCollectionJson(
   collectionPath: Path,
   schematicName: string,
-  description: JsonObject
+  description: JsonObject,
 ): Rule {
   return (tree: Tree) => {
     const collectionJson = tree.readJson(collectionPath);
@@ -41,14 +41,14 @@ function addSchematicToCollectionJson(
       !isJsonObject(collectionJson.schematics)
     ) {
       throw new Error(
-        'Invalid collection.json; schematics needs to be an object.'
+        'Invalid collection.json; schematics needs to be an object.',
       );
     }
 
     collectionJson['schematics'][schematicName] = description;
     tree.overwrite(
       collectionPath,
-      JSON.stringify(collectionJson, undefined, 2)
+      JSON.stringify(collectionJson, undefined, 2),
     );
   };
 }
@@ -110,7 +110,7 @@ export default function (options: Schema): Rule {
         new NodePackageInstallTask({
           workingDirectory: options.name,
           packageManager: options.packageManager,
-        })
+        }),
       );
     }
 
@@ -126,7 +126,7 @@ export default function (options: Schema): Rule {
             strings.dasherize(options.name) +
             '/index#' +
             strings.camelize(options.name),
-        }
+        },
       ),
     ]);
   };

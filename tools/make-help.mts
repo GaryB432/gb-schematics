@@ -54,7 +54,7 @@ async function main() {
   const collection = await readJson<Collection>(packageJ.schematics);
 
   for (const [k, v] of Object.entries(collection.schematics).sort((a, b) =>
-    a[0].localeCompare(b[0])
+    a[0].localeCompare(b[0]),
   )) {
     console.log(`## ${k}\n`);
     if (v.schema) {
@@ -71,7 +71,7 @@ async function main() {
       console.log(
         `schematics gb-schematics:${k} ${args
           .map((a) => `[${a[0]}]`)
-          .join(' ')}`
+          .join(' ')}`,
       );
       console.log('```\n');
       console.log(v.description);
@@ -85,19 +85,19 @@ async function main() {
             tableRow(
               c,
               makeDescription(c, d),
-              d.enum ? d.enum.join(' \\| ') : d.type
-            )
+              d.enum ? d.enum.join(' \\| ') : d.type,
+            ),
           );
         }
       }
 
       const schematidOptions = Object.entries(b.properties).filter(
-        ([_c, d]) => !isFromArgv(d)
+        ([_c, d]) => !isFromArgv(d),
       );
       if (schematidOptions.length > 0) {
         console.log('\n### Options\n');
         console.log(
-          tableHeader('OPTION', 'DESCRIPTION', 'VALUE TYPE', 'DEFAULT VALUE')
+          tableHeader('OPTION', 'DESCRIPTION', 'VALUE TYPE', 'DEFAULT VALUE'),
         );
         for (const [c, d] of schematidOptions) {
           const u = d.default ?? '';
@@ -109,8 +109,8 @@ async function main() {
               `--${c}`,
               makeDescription(c, d),
               d.enum ? d.enum.join(' \\| ') : d.type,
-              u.toString()
-            )
+              u.toString(),
+            ),
           );
         }
       }

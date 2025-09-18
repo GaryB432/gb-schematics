@@ -33,7 +33,9 @@ async function writeSchemaTypeDef(
   sdef: SchemaDefined,
   path: ParsedPath,
 ): Promise<string> {
-  const schemaObj = JSON.parse(await readFile(join(root, sdef.schema), 'utf-8')) as JSONSchema;
+  const schemaObj = JSON.parse(
+    await readFile(join(root, sdef.schema), 'utf-8'),
+  ) as JSONSchema;
   const { title } = schemaObj;
   schemaObj.title = 'schema';
   const dts = await compile(schemaObj, '', {
@@ -53,7 +55,9 @@ async function writeSchemaTypeDef(
     unreachableDefinitions: false,
     unknownAny: true,
   });
-  const fname = [path.name, argv.stamp, 'd', 'ts'].filter((p) => p.length > 0).join('.');
+  const fname = [path.name, argv.stamp, 'd', 'ts']
+    .filter((p) => p.length > 0)
+    .join('.');
   const outName = join(root, path.dir, fname);
   if (!argv.d) {
     void (await writeFile(outName, dts));
@@ -88,7 +92,9 @@ async function main() {
 
     console.log(colors.cyan(packageJ.name), colors.white(aroot));
 
-    const collection = await readJson<Collection>(join(aroot, packageJ.schematics));
+    const collection = await readJson<Collection>(
+      join(aroot, packageJ.schematics),
+    );
 
     const collParsed = parse(packageJ.schematics);
 

@@ -11,13 +11,13 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'tester' },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/lib/components/Tester.svelte'])
+      jasmine.arrayWithExactContents(['/src/lib/components/Tester.svelte']),
     );
     expect(tree.readContent('/src/lib/components/Tester.svelte')).not.toContain(
-      'export let'
+      'export let',
     );
   });
 
@@ -27,10 +27,10 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'tester', directory: 'a/b/c/d' },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/a/b/c/d/Tester.svelte'])
+      jasmine.arrayWithExactContents(['/src/a/b/c/d/Tester.svelte']),
     );
   });
 
@@ -40,10 +40,10 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'c/d/tester', directory: 'a/b' },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/a/b/c/d/Tester.svelte'])
+      jasmine.arrayWithExactContents(['/src/a/b/c/d/Tester.svelte']),
     );
   });
 
@@ -53,12 +53,12 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'tester', directory: 'a/b/c/d', projectRoot: 'apps/project' },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
         '/apps/project/src/a/b/c/d/Tester.svelte',
-      ])
+      ]),
     );
   });
 
@@ -68,12 +68,12 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'c/d/tester', directory: 'a/b', projectRoot: 'apps/project' },
-      ftree
+      ftree,
     );
     expect(tree.files).toEqual(
       jasmine.arrayWithExactContents([
         '/apps/project/src/a/b/c/d/Tester.svelte',
-      ])
+      ]),
     );
   });
 });

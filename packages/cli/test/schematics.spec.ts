@@ -38,7 +38,7 @@ describe('schematics-cli binary', () => {
   it('errors when using camel case listSchematics', async () => {
     const args = ['--listSchematics'];
     await expectAsync(main({ args, stdout, stderr })).toBeRejectedWithError(
-      'Unknown argument listSchematics. Did you mean list-schematics?'
+      'Unknown argument listSchematics. Did you mean list-schematics?',
     );
   });
 

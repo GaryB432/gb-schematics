@@ -28,7 +28,7 @@ function createRandomRectangle() {
   rect.setAttribute('height', size.y.toString());
   rect.setAttribute(
     'fill',
-    `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`
+    `rgb(${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)},${Math.floor(Math.random() * 255)})`,
   );
 
   svg.appendChild(rect);

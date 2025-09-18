@@ -56,7 +56,7 @@ export default function (options: Options): Rule {
           srcPath,
         }),
         move(sourceRoot),
-      ])
+      ]),
     ),
   ]);
 }

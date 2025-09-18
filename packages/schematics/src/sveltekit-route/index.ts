@@ -66,10 +66,10 @@ export default function (opts: Options): Rule {
             'src',
             'routes',
             parsedPath.path,
-            parsedPath.name
-          )
+            parsedPath.name,
+          ),
         ),
-      ]
+      ],
     );
     const route = makeTestRoute(options.path, options.name);
     const testSource = apply(url('./files/test'), [

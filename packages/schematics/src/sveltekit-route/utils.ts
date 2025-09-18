@@ -5,6 +5,6 @@ function deBracket(s: string): string {
 }
 export function makeTestRoute(path: string, name: string): string {
   return normalize(
-    '/'.concat(path).split('/').concat(name).map(deBracket).join('/')
+    '/'.concat(path).split('/').concat(name).map(deBracket).join('/'),
   );
 }

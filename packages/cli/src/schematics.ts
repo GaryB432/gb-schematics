@@ -8,7 +8,10 @@
  */
 
 import { JsonValue, logging, schema } from '@angular-devkit/core/index.js';
-import { ProcessOutput, createConsoleLogger } from '@angular-devkit/core/node/index.js';
+import {
+  ProcessOutput,
+  createConsoleLogger,
+} from '@angular-devkit/core/node/index.js';
 import { UnsuccessfulWorkflowExecution } from '@angular-devkit/schematics';
 import { NodeWorkflow } from '@angular-devkit/schematics/tools/index.js';
 import ansiColors from 'ansi-colors';
@@ -64,7 +67,7 @@ export interface MainOptions {
 function _listSchematics(
   workflow: NodeWorkflow,
   collectionName: string,
-  logger: logging.Logger
+  logger: logging.Logger,
 ) {
   try {
     const collection = workflow.engine.createCollection(collectionName);
@@ -109,7 +112,7 @@ function _createPromptProvider(): schema.PromptProvider {
               }
 
               return definition.validator(
-                Object.values(values).map(({ value }) => value)
+                Object.values(values).map(({ value }) => value),
               );
             },
             default: definition.multiselect ? undefined : definition.default,
@@ -134,7 +137,7 @@ function _createPromptProvider(): schema.PromptProvider {
                         ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
                           definition.default?.includes(item.value as any)
                         : item.value === definition.default,
-                  }
+                  },
             ),
           });
           break;
@@ -294,7 +297,7 @@ export async function main({
 
   if (debug) {
     logger.info(
-      `Debug mode enabled${isLocalCollection ? ' by default for local collections' : ''}.`
+      `Debug mode enabled${isLocalCollection ? ' by default for local collections' : ''}.`,
     );
   }
 
@@ -326,19 +329,19 @@ export async function main({
       case 'error':
         error = true;
         logger.error(
-          `ERROR! ${eventPath} ${event.description == 'alreadyExist' ? 'already exists' : 'does not exist'}.`
+          `ERROR! ${eventPath} ${event.description == 'alreadyExist' ? 'already exists' : 'does not exist'}.`,
         );
         break;
       case 'update':
         loggingQueue.push(
           // TODO: `as unknown` was necessary during TS 5.9 update. Figure out a long-term solution.
-          `${colors.cyan('UPDATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`
+          `${colors.cyan('UPDATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`,
         );
         break;
       case 'create':
         loggingQueue.push(
           // TODO: `as unknown` was necessary during TS 5.9 update. Figure out a long-term solution.
-          `${colors.green('CREATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`
+          `${colors.green('CREATE')} ${eventPath} (${(event.content as unknown as Buffer).length} bytes)`,
         );
         break;
       case 'delete':
@@ -346,7 +349,7 @@ export async function main({
         break;
       case 'rename':
         loggingQueue.push(
-          `${colors.blue('RENAME')} ${eventPath} => ${removeLeadingSlash(event.to)}`
+          `${colors.blue('RENAME')} ${eventPath} => ${removeLeadingSlash(event.to)}`,
         );
         break;
     }
@@ -374,7 +377,7 @@ export async function main({
 
   // Pass the rest of the arguments as the smart default "argv". Then delete it.
   workflow.registry.addSmartDefaultProvider('argv', (schema) =>
-    'index' in schema ? _[Number(schema['index'])] : _
+    'index' in schema ? _[Number(schema['index'])] : _,
   );
 
   // Add prompts.
@@ -408,7 +411,7 @@ export async function main({
       logger.info(
         `Dry run enabled${
           dryRunPresent ? '' : ' by default in debug mode'
-        }. No files written to disk.`
+        }. No files written to disk.`,
       );
     }
 
@@ -485,7 +488,7 @@ interface Options {
 
 /** Parse the command line. */
 function parseArgs(args: string[]): Options {
-  const { _, ...options } =  yargsParser(args, {
+  const { _, ...options } = yargsParser(args, {
     boolean: booleanArgs as unknown as string[],
     default: {
       interactive: true,
@@ -505,14 +508,14 @@ function parseArgs(args: string[]): Options {
   const cliOptions: Options['cliOptions'] = {};
 
   const isCliOptions = (
-    key: ElementType<typeof booleanArgs> | string
+    key: ElementType<typeof booleanArgs> | string,
   ): key is ElementType<typeof booleanArgs> =>
     booleanArgs.includes(key as ElementType<typeof booleanArgs>);
 
   for (const [key, value] of Object.entries(options)) {
     if (/[A-Z]/.test(key)) {
       throw new Error(
-        `Unknown argument ${key}. Did you mean ${decamelize(key)}?`
+        `Unknown argument ${key}. Did you mean ${decamelize(key)}?`,
       );
     }
 

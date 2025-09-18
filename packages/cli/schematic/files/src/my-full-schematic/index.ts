@@ -48,7 +48,7 @@ export default function (options: any): Rule {
           INDEX: options.index,
           name: options.name,
         }),
-      ])
+      ]),
     ),
   ]);
 }
