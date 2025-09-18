@@ -1,7 +1,5 @@
 packages:
-  - .
-  - packages/cli
-  - packages/schematics/gb
+  - packages/*
   - tools/*
 ignoredBuiltDependencies:
   - core-js

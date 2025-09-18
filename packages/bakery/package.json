@@ -1,0 +1,20 @@
+{
+  "name": "@gb-schematics/bakery",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest run -c ../../tsconfig.spec.json",
+    "typecheck": "tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@gb-schematics/appliances": "workspace:*",
+    "victor": "^1.1.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

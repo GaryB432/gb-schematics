@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    /* Base Compiler Options */
+    "strict": true,
+    "composite": true,
+    "declaration": true,
+    "module": "esnext",
+    "declarationMap": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+
+    /* Paths are defined here for IDE support and consistent internal linking */
+    "baseUrl": ".",
+    "paths": {
+      "@bakery/*": ["packages/bakery/src/*"],
+      "@appliances/*": ["packages/appliances/src/*"]
+    }
+  }
+}
