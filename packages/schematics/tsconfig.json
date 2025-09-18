@@ -5,7 +5,7 @@
     "tsBuildInfoFile": "./node_modules/.tsbuildinfo",
     "module": "NodeNext",
     "target": "ES2022",
-    "outDir": "../../tmp/schematics-dist",
+    "rootDir": "src",
     "types": ["vitest/globals"],
     "lib": ["ES2022"]
   },

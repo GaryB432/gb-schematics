@@ -8,6 +8,9 @@
 **/*.d.ts
 packages/*/coverage/
 packages/*/dist/
+packages/schematics/**/*.d.ts
+packages/schematics/**/*.js
+packages/schematics/**/*.map
 
 # # IDEs
 # .idea/
