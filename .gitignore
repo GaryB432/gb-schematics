@@ -5,8 +5,8 @@
 # tools/**/*.js
 # tools/**/*.js.map
 # tools/**/*.d.ts
-packages/*/coverage
-packages/*/dist
+packages/*/coverage/
+packages/*/dist/
 
 # # IDEs
 # .idea/
