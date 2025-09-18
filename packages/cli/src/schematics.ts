@@ -7,13 +7,16 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import { JsonValue, logging, schema } from '@angular-devkit/core';
-import { ProcessOutput, createConsoleLogger } from '@angular-devkit/core/node';
+import { JsonValue, logging, schema } from '@angular-devkit/core/index.js';
+import { ProcessOutput, createConsoleLogger } from '@angular-devkit/core/node/index.js';
 import { UnsuccessfulWorkflowExecution } from '@angular-devkit/schematics';
-import { NodeWorkflow } from '@angular-devkit/schematics/tools';
+import { NodeWorkflow } from '@angular-devkit/schematics/tools/index.js';
 import ansiColors from 'ansi-colors';
 import { existsSync } from 'node:fs';
 import * as path from 'node:path';
+
+// import * as yap from 'yargs-parser';
+
 import yargsParser, { camelCase, decamelize } from 'yargs-parser';
 
 /**
@@ -482,7 +485,7 @@ interface Options {
 
 /** Parse the command line. */
 function parseArgs(args: string[]): Options {
-  const { _, ...options } = yargsParser(args, {
+  const { _, ...options } =  yargsParser(args, {
     boolean: booleanArgs as unknown as string[],
     default: {
       interactive: true,
