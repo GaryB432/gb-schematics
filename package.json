@@ -19,7 +19,8 @@
     "build": "pnpm -r build",
     "test": "pnpm -r test",
     "lint": "pnpm -r lint",
-    "format": "pnpm -r format"
+    "format": "pnpm -r format",
+    "schema": "pnpx tsx ./tools/schema/create-tsd.mts --package ./packages/schematics --package ./packages/cli"
   },
   "keywords": [
     "schematics"
