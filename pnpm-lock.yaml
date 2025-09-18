@@ -96,6 +96,9 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
     devDependencies:
+      '@types/semver':
+        specifier: ^7.7.1
+        version: 7.7.1
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@24.5.2)
@@ -605,6 +608,9 @@ packages:
 
   '@types/node@24.5.2':
     resolution: {integrity: sha512-FYxk1I7wPv3K2XBaoyH2cTnocQEu8AOZ60hPbsyukMPLv5/5qr7V1i8PLHdl6Zf87I+xZXFvPCXYjiTFq+YSDQ==}
+
+  '@types/semver@7.7.1':
+    resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
 
   '@types/victor@1.1.5':
     resolution: {integrity: sha512-MKEWmrBbUdh9STOjJe5Yk2vZAkQSBaa9Tt0FRU5yiiGF+P6Yi+qmCMzpJjJDbqk1a9Wg9VMb0XzcECVr5FPSSA==}
@@ -1592,6 +1598,8 @@ snapshots:
   '@types/node@24.5.2':
     dependencies:
       undici-types: 7.12.0
+
+  '@types/semver@7.7.1': {}
 
   '@types/victor@1.1.5': {}
 

@@ -44,7 +44,7 @@ async function writeSchemaTypeDef(
 */`,
     cwd: root,
     declareExternallyReferenced: false,
-    enableConstEnums: true,
+    enableConstEnums: false,
     inferStringEnumKeysFromValues: true,
     format: true,
     ignoreMinAndMaxItems: false,
