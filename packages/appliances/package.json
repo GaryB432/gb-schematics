@@ -1,0 +1,21 @@
+{
+  "name": "@gb-schematics/appliances",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run",
+    "lint": "eslint src",
+    "format": "prettier --write src"
+  },
+  "dependencies": {
+    "victor": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "@types/victor": "^1.1.5",
+    "vitest": "^3.2.4"
+  }
+}

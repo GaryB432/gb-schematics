@@ -1,21 +1,28 @@
-# Outputs
-src/**/*.js
-src/**/*.js.map
-src/**/*.d.ts
-tools/**/*.js
-tools/**/*.js.map
-tools/**/*.d.ts
+# # Outputs
+# src/**/*.js
+# src/**/*.js.map
+# src/**/*.d.ts
+# tools/**/*.js
+# tools/**/*.js.map
+# tools/**/*.d.ts
+**/*.d.ts
+packages/*/coverage/
+packages/*/dist/
+packages/schematics/**/*.d.ts
+packages/schematics/**/*.js
+packages/schematics/**/*.map
 
-# IDEs
-.idea/
-jsconfig.json
-.vscode/
+# # IDEs
+# .idea/
+# jsconfig.json
+# .vscode/
 
-# Misc
+# # Misc
 node_modules/
-npm-debug.log*
-yarn-error.log*
+tmp/
+# npm-debug.log*
+# yarn-error.log*
 
-# Mac OSX Finder files.
-**/.DS_Store
-.DS_Store
+# # Mac OSX Finder files.
+# **/.DS_Store
+# .DS_Store

@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "react-jsx",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "noEmit": true, // Vite handles compilation
+    "tsBuildInfoFile": "./node_modules/.tsbuildinfo"
+  },
+  "include": ["src"],
+  "references": [{ "path": "../appliances" }]
+}

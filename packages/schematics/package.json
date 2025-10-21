@@ -1,0 +1,24 @@
+{
+  "name": "@gb-schematics/schematics",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run",
+    "lint": "eslint src",
+    "format": "prettier --write src"
+  },
+  "schematics": "./src/collection.json",
+  "dependencies": {
+    "@angular-devkit/core": "19.2.15",
+    "@angular-devkit/schematics": "19.2.15",
+    "semver": "^7.7.2",
+    "victor": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/semver": "^7.7.1",
+    "vitest": "^3.2.4"
+  }
+}

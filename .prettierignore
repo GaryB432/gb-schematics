@@ -1,3 +1,8 @@
 **/package*.json
+pnpm-lock.yaml
+packages/**/dist
+packages/**/coverage
+packages/schematics/**/files
+packages/cli/**/files
 *.d.ts
 *.js
