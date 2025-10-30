@@ -2,11 +2,8 @@
 // <%= classify(name) %>
 // <%= stamp %>
 
-<% if (language === 'ts') { %>
-  interface Props {
-  <% for (const item of properties) { %>
-    <%= item.name %>: <%= item.type %>;
-  <% } %>
+<% if (language === 'ts') { %>interface Props {<% for (const item of properties) { %>
+    <%= item.name %>: <%= item.type %>; <% } %>
   }
   let { <%= properties.map(p => p.name).join(', ') %> }: Props = $props();
 <% } else { %>
@@ -41,8 +38,7 @@
 </style>
 <% } %>
 
-<% for (const item of properties) { %>
-//  const <%= item.name %> = $state(<%= item.state %>);
+<% for (const item of properties) { %>//  const <%= item.name %> = $state(<%= item.state %>);
 <% } %>
 // <<%= classify(name) %> <%= properties.map(p => bracify(p.name)).join(' ') %>></<%= classify(name) %>>
 
