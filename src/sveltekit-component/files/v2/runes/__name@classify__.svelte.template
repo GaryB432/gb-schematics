@@ -1,54 +1,48 @@
 <script<% if (language !== "js") { %> lang="<%= language %>"<% } %>>
-	let name = $state(`<%= classify(name) %>`);
-	let message = $derived(`${name} is coming soon`);
+// <%= classify(name) %>
+// <%= stamp %>
+
+<% if (language === 'ts') { %>
+  interface Props {
+  <% for (const item of properties) { %>
+    <%= item.name %>: <%= item.type %>;
+  <% } %>
+  }
+  let { <%= properties.map(p => p.name).join(', ') %> }: Props = $props();
+<% } else { %>
+  <% for (const item of properties) { %>
+    let <%= item.name %> = $state(<%= item.state %>);
+  <% } %>	
+<% } %>
 </script>
 
+<h1><%= classify(name) %></h1>
+
 <article>
-	{message}
+  <% for (const item of properties) { %>
+  <div><%= item.name %></div>
+  <div>{<%= item.name %>}</div>
+<% } %>
 </article>
 
-<style<% if (style !== "css") { %> lang="<%= style %>"<% } %>>
+<% if (style !== "none") { %><style<% if (style !== "css") { %> lang="<%= style %>"<% } %>>
   article {
     --some-color: rgba(0, 0, 0, 0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     box-shadow:
       0 2px 2px 0 var(--some-color),
       0 12px 22px 0 var(--some-color);
-    max-width: 30ch;
+    max-width: 50vw;
     outline: 1px solid var(--some-color);
     overflow: hidden;
     padding: 0.5em;
-    text-align: center;
-  }
-
-  article:hover {
-    animation: tada 1s;
-  }
-
-  @keyframes tada {
-    from {
-      transform: scale3d(1, 1, 1);
-    }
-
-    10%,
-    20% {
-      transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
-    }
-
-    30%,
-    50%,
-    70%,
-    90% {
-      transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
-    }
-
-    40%,
-    60%,
-    80% {
-      transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
-    }
-
-    to {
-      transform: scale3d(1, 1, 1);
-    }
   }
 </style>
+<% } %>
+
+<% for (const item of properties) { %>
+//  const <%= item.name %> = $state(<%= item.state %>);
+<% } %>
+// <<%= classify(name) %> <%= properties.map(p => bracify(p.name)).join(' ') %>></<%= classify(name) %>>
+
