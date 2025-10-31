@@ -41,13 +41,32 @@ export default function (options: Options): Rule {
   const directory = opts.directory ?? 'lib/components';
   const projectRoot = (opts.projectRoot ?? '.') as Path;
   const parsedPath = parseName(directory, options.name);
+  options.props ??= [];
+  const properties = options.props.map((p) => {
+    let [name, type] = p.split(':');
+    type ??= 'unknown';
+    name = strings.dasherize(name);
+    const initialState: Record<string, string> = {
+      number: '0',
+      string: `"${name}"`,
+    };
+    const state = initialState[type] ?? 'undefined';
+
+    return { name, type, state };
+  });
   opts.name = parsedPath.name;
   return (tree: Tree, context: SchematicContext) => {
     if (!tree.exists(normalize(join(projectRoot, 'svelte.config.js')))) {
       context.logger.warn(`no svelte configuration found in '${projectRoot}'`);
     }
     const templateSource = apply(url('./files/v2/runes'), [
-      applyTemplates({ ...opts, ...strings }),
+      applyTemplates({
+        ...opts,
+        properties,
+        stamp: new Date().toLocaleDateString(),
+        ...strings,
+        bracify: (s: string) => '{'.concat(s).concat('}'),
+      }),
       move(normalize(join(projectRoot, 'src', parsedPath.path))),
     ]);
     return mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict);

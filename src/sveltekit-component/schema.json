@@ -19,16 +19,24 @@
       "format": "path",
       "description": "The directory to create the component, relative to your project source."
     },
+    "props": {
+      "type": "array",
+      "description": "Property for your component. Use \"name:type\" for explcit type.",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
     "language": {
       "type": "string",
-      "description": "Component script language (ts/js).",
+      "description": "Component script language.",
       "enum": ["js", "ts"],
       "default": "js"
     },
     "style": {
       "type": "string",
-      "description": "Component style language (css/scss).",
-      "enum": ["css", "scss"],
+      "description": "Component style language.",
+      "enum": ["none", "css", "scss"],
       "default": "css"
     },
     "projectRoot": {
