@@ -22,6 +22,10 @@
         "index": 0
       }
     },
+    "tag": {
+      "type": "string",
+      "description": "A tag to use with semantic version denotation"
+    },
     "skipInstall": {
       "type": "boolean",
       "default": false,

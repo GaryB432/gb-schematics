@@ -1,6 +1,6 @@
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import semverInc from 'semver/functions/inc';
+import semver from 'semver';
 
 import type { Options } from './schema';
 
@@ -14,7 +14,8 @@ export function bump(options: Options): Rule {
         version: string;
       };
       const oldOne = pj.version;
-      const newOne = semverInc(pj.version, options.part) ?? pj.version;
+      const newOne =
+        semver.inc(oldOne, options.part, options.tag ?? '') ?? pj.version;
       pj.version = newOne;
       tree.overwrite(packageJsonPath, `${JSON.stringify(pj, null, 2)}\n`);
       context.logger.info(`${oldOne} ➡️ ${newOne}`);

@@ -12,11 +12,15 @@ describe('bump', () => {
       'package.json',
       JSON.stringify({ name: 'test', version: '1.2.3' })
     );
-    const tree = await runner.runSchematic('bump', { part: 'major' }, ftree);
+    const tree = await runner.runSchematic(
+      'bump',
+      { part: 'prerelease', tag: 'too-fun' },
+      ftree
+    );
     const buff = tree.read('package.json');
 
     const newPJ = buff ? JSON.parse(buff.toString()) : {};
 
-    expect(newPJ.version).toBe('2.0.0');
+    expect(newPJ.version).toBe('1.2.4-too-fun.0');
   });
 });
