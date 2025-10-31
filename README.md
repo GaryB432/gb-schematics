@@ -14,8 +14,6 @@ If you're using [Nx: Smart, Fast and Extensible Build System](https://nx.dev/) y
 
 > npx tsx tools/make-schemas --stamp generated
 
-# Schematics
-
 ## bump
 
 ```
@@ -36,6 +34,7 @@ Bump package.json version
 <!-- prettier-ignore -->
 | OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE |
 | --- | --- | --- | --- |
+| --tag | A tag to use with semantic version denotation | string |  |
 | --skipInstall | Skip package installation | boolean | false |
 
 ## module

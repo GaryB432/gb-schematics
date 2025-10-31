@@ -1,4 +1,5 @@
 /* eslint @typescript-eslint/no-var-requires: 0 */
+import { createConsoleLogger } from '@angular-devkit/core/node';
 import colors from 'chalk';
 import { readFile, writeFile } from 'fs/promises';
 import { compile, type JSONSchema } from 'json-schema-to-typescript';
@@ -15,12 +16,14 @@ interface PackageConfig {
 }
 
 // eslint-disable-next-line
-const argv = require('minimist')(process.argv.slice(2)) as {
+const cliOptions = require('minimist')(process.argv.slice(2)) as {
   _: string[];
   d: boolean;
+  help: boolean;
   stamp: string;
+  verbose: boolean;
 };
-argv.stamp = argv.stamp ?? '';
+cliOptions.stamp = cliOptions.stamp ?? '';
 
 async function writeSchemaTypeDef(
   root: string,
@@ -38,11 +41,11 @@ async function writeSchemaTypeDef(
         ${title}
     */`,
   });
-  const fname = [path.name, argv.stamp, 'd', 'ts']
+  const fname = [path.name, cliOptions.stamp, 'd', 'ts']
     .filter((p) => p.length > 0)
     .join('.');
   const outName = join(root, path.dir, fname);
-  if (!argv.d) {
+  if (!cliOptions.d) {
     void (await writeFile(outName, dts));
   }
 
@@ -65,7 +68,21 @@ async function readJson<T>(path: string): Promise<T> {
   return JSON.parse(await readFile(path, 'utf-8')) as T;
 }
 
-async function main() {
+async function main(stdout = process.stdout, stderr = process.stderr) {
+  const logger = createConsoleLogger(!!cliOptions.verbose, stdout, stderr, {
+    info: (s) => s,
+    debug: (s) => s,
+    warn: (s) => colors.bold.yellow(s),
+    error: (s) => colors.bold.red(s),
+    fatal: (s) => colors.bold.red(s),
+  });
+
+  if (cliOptions.help) {
+    logger.info(getUsage());
+
+    return 0;
+  }
+
   const packageJ = await readJson<PackageConfig>('package.json');
 
   if (!packageJ.schematics) {
@@ -81,19 +98,27 @@ async function main() {
       const schParsed = parse(v.schema);
       const sfn = join(collParsed.dir, schParsed.dir, schParsed.base);
       const n = await writeSchemaTypeDef(cwd, { schema: sfn }, parse(sfn));
-      console.log(
-        colors.white(k),
-        colors.green('✔'),
-        colors.green(parse(sfn).dir),
-        colors.yellow(parse(n).base)
+      logger.info(
+        [
+          colors.white(k).padEnd(40).slice(0, 40),
+          ' ✔ ',
+          colors.green(parse(sfn).dir),
+          colors.yellow(parse(n).base),
+        ].join(' ')
       );
     } else {
-      console.log(colors.white(k), colors.gray('no schema'));
+      logger.info([colors.white(k), colors.gray('no schema')].join(' '));
     }
   }
 
-  if (argv.d) {
-    console.log(colors.yellowBright('Nothing written. Dry run.'));
+  if (cliOptions.d) {
+    logger.warn('Nothing written. Dry run.');
   }
+  logger.complete();
 }
+
+function getUsage(): string {
+  return `use some arguments`;
+}
+
 void main();
