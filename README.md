@@ -14,8 +14,6 @@ If you're using [Nx: Smart, Fast and Extensible Build System](https://nx.dev/) y
 
 > npx tsx tools/make-schemas --stamp generated
 
-./src/collection.json
-
 ## bump
 
 ```
