@@ -39,7 +39,7 @@ function tableHeader(...cells: string[]): string {
 }
 
 function tableRow(...cells: string[]): string {
-  return ['', ...cells, ''].join(' | ').slice(1);
+  return ['', ...cells, ''].join(' | ').trim();
 }
 
 function isFromArgv(d: Details): unknown {
@@ -48,8 +48,6 @@ function isFromArgv(d: Details): unknown {
 
 async function main() {
   const packageJ = await readJson<{ schematics: string }>('package.json');
-
-  console.log(packageJ.schematics);
 
   const collection = await readJson<Collection>(packageJ.schematics);
 
