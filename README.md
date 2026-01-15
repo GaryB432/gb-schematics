@@ -1,5 +1,9 @@
 # gb-schematics
 
+
+
+# VERSION 4
+
 [![npm version](https://badge.fury.io/js/gb-schematics.svg)](https://badge.fury.io/js/gb-schematics)
 
 This package contains a collection of [Schematics](https://github.com/angular/angular-cli/tree/main/packages/angular_devkit/schematics) for generating my favorite features.
