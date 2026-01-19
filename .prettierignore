@@ -1,3 +1,2 @@
-**/package*.json
-*.d.ts
-*.js
+legacy
+pnpm*.yaml
