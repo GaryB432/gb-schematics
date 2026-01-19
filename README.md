@@ -1,7 +1,5 @@
 # gb-schematics
 
-
-
 # VERSION 4
 
 [![npm version](https://badge.fury.io/js/gb-schematics.svg)](https://badge.fury.io/js/gb-schematics)
