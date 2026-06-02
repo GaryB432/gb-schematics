@@ -1,0 +1,19 @@
+{
+  "name": "@gb-schematics/schematics",
+  "version": "0.1.0",
+  "description": "GB Schematics collection",
+  "type": "module",
+  "schematics": "./dist/collection.json",
+  "scripts": {
+    "build": "rm -rf dist && tsc && copyfiles -u 1 \"src/**/*.json\" \"src/**/files/**/*\" dist",
+    "lint": "eslint src --ext .ts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@angular-devkit/core": "^19.0.0",
+    "@angular-devkit/schematics": "^19.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
