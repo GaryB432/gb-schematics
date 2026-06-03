@@ -8,15 +8,7 @@
     "part": {
       "type": "string",
       "description": "Which part to increment",
-      "enum": [
-        "major",
-        "premajor",
-        "minor",
-        "preminor",
-        "patch",
-        "prepatch",
-        "prerelease"
-      ],
+      "enum": ["major", "premajor", "minor", "preminor", "patch", "prepatch", "prerelease"],
       "$default": {
         "$source": "argv",
         "index": 0

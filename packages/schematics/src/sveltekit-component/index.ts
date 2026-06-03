@@ -1,11 +1,5 @@
 import type { Path } from '@angular-devkit/core';
-import {
-  basename,
-  dirname,
-  join,
-  normalize,
-  strings,
-} from '@angular-devkit/core';
+import { basename, dirname, join, normalize, strings } from '@angular-devkit/core';
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   MergeStrategy,
@@ -15,7 +9,7 @@ import {
   move,
   url,
 } from '@angular-devkit/schematics';
-import type { Options } from './schema';
+import type { Options } from './schema.generated.js';
 
 interface Location {
   name: string;

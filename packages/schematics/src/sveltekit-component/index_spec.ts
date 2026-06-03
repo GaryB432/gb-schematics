@@ -1,24 +1,27 @@
-import { Tree } from '@angular-devkit/schematics';
-import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
-import * as path from 'path';
+import assert from 'node:assert/strict';
+import { describe, it } from 'node:test';
 
-const collectionPath = path.join(__dirname, '../collection.json');
+import { Tree } from '@angular-devkit/schematics';
+import { SchematicTestRunner } from '@angular-devkit/schematics/testing/index.js';
+import { fileURLToPath } from 'node:url';
+import * as path from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function assertSameMembers(actual: string[], expected: string[]) {
+  assert.deepEqual([...actual].sort(), [...expected].sort());
+}
+
+const collectionPath = path.join(__dirname, '../../dist/collection.json');
 
 describe('sveltekit-component', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic(
-      'sveltekit-component',
-      { name: 'tester' },
-      ftree
-    );
-    expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/lib/components/Tester.svelte'])
-    );
-    expect(tree.readContent('/src/lib/components/Tester.svelte')).not.toContain(
-      'export let'
-    );
+    const tree = await runner.runSchematic('sveltekit-component', { name: 'tester' }, ftree);
+    assertSameMembers(tree.files, ['/src/lib/components/Tester.svelte']);
+    assert.ok(!tree.readContent('/src/lib/components/Tester.svelte').includes('export let'));
   });
 
   it('works with directory', async () => {
@@ -27,11 +30,9 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'tester', directory: 'a/b/c/d' },
-      ftree
+      ftree,
     );
-    expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/a/b/c/d/Tester.svelte'])
-    );
+    assertSameMembers(tree.files, ['/src/a/b/c/d/Tester.svelte']);
   });
 
   it('works with path name', async () => {
@@ -40,11 +41,9 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'c/d/tester', directory: 'a/b' },
-      ftree
+      ftree,
     );
-    expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents(['/src/a/b/c/d/Tester.svelte'])
-    );
+    assertSameMembers(tree.files, ['/src/a/b/c/d/Tester.svelte']);
   });
 
   it('works with project root', async () => {
@@ -53,13 +52,9 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'tester', directory: 'a/b/c/d', projectRoot: 'apps/project' },
-      ftree
+      ftree,
     );
-    expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents([
-        '/apps/project/src/a/b/c/d/Tester.svelte',
-      ])
-    );
+    assertSameMembers(tree.files, ['/apps/project/src/a/b/c/d/Tester.svelte']);
   });
 
   it('works with project root and path', async () => {
@@ -68,12 +63,8 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'c/d/tester', directory: 'a/b', projectRoot: 'apps/project' },
-      ftree
+      ftree,
     );
-    expect(tree.files).toEqual(
-      jasmine.arrayWithExactContents([
-        '/apps/project/src/a/b/c/d/Tester.svelte',
-      ])
-    );
+    assertSameMembers(tree.files, ['/apps/project/src/a/b/c/d/Tester.svelte']);
   });
 });

@@ -19,7 +19,7 @@ function sortObjectByKeys(obj: Record<string, string>) {
         result[key] = obj[key];
         return result;
       },
-      {} as Record<string, string>
+      {} as Record<string, string>,
     );
 }
 

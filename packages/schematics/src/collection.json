@@ -1,10 +1,10 @@
 {
-  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "$schema": "https://raw.githubusercontent.com/angular/angular-cli/main/packages/angular_devkit/schematics/collection-schema.json",
   "schematics": {
     "bump": {
-      "description": "Bump package.json version",
-      "schema": "./bump/schema.json",
-      "factory": "./bump/index#bump"
+      "description": "Bump package version using semver increment rules",
+      "factory": "./bump/index#bump",
+      "schema": "./bump/schema.json"
     },
     "module": {
       "description": "Add Class or general Module",
