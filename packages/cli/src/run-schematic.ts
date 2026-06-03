@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-explicit-any: 0,  @typescript-eslint/no-unused-vars: 1 */
 
-import { getSystemPath, normalize, virtualFs } from '@angular-devkit/core';
+import { getSystemPath, json, normalize, virtualFs } from '@angular-devkit/core';
 import { createConsoleLogger, NodeJsSyncHost } from '@angular-devkit/core/node/index.js';
 import { HostTree, SchematicEngine, type Tree } from '@angular-devkit/schematics';
 import { DryRunSink } from '@angular-devkit/schematics/src/sink/dryrun.js';
@@ -21,6 +21,7 @@ type JsonSchema = {
   additionalProperties?: boolean;
   required?: string[];
   properties?: Record<string, JsonSchemaProperty>;
+  [key: string]: unknown;
 };
 
 function canPrompt(): boolean {
@@ -78,150 +79,186 @@ function parseTypedValue(raw: string, type?: string): unknown {
   return raw;
 }
 
-function isValidType(value: unknown, type?: string): boolean {
-  if (!type) {
-    return true;
+function formatSchemaErrorPath(instancePath?: string, propertyName?: string): string {
+  if (instancePath && instancePath.length > 1) {
+    return `--${instancePath.slice(1).replace(/\//g, '.')}`;
   }
 
-  if (type === 'string') {
-    return typeof value === 'string';
+  if (propertyName) {
+    return `--${propertyName}`;
   }
 
-  if (type === 'boolean') {
-    return typeof value === 'boolean';
-  }
-
-  if (type === 'number') {
-    return typeof value === 'number' && !Number.isNaN(value);
-  }
-
-  if (type === 'integer') {
-    return typeof value === 'number' && Number.isInteger(value);
-  }
-
-  if (type === 'array') {
-    return Array.isArray(value);
-  }
-
-  if (type === 'object') {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
-  }
-
-  return true;
+  return 'options';
 }
 
-function formatAllowedValues(values: Array<string | number>): string {
-  return values.map((value) => JSON.stringify(value)).join(', ');
+function formatSchemaValidationErrors(
+  errors: readonly json.schema.SchemaValidatorError[],
+): string {
+  return errors
+    .map((error) => {
+      const missingProperty =
+        error.keyword === 'required' &&
+        typeof error.params === 'object' &&
+        error.params !== null &&
+        'missingProperty' in error.params
+          ? String((error.params as { missingProperty: string }).missingProperty)
+          : undefined;
+
+      const location = formatSchemaErrorPath(error.instancePath, missingProperty);
+      const message = error.message ?? 'Invalid value';
+
+      return `${location}: ${message}`;
+    })
+    .join('\n');
 }
 
-function validateOptionsAgainstSchema(
-  schema: JsonSchema,
-  options: Record<string, unknown>,
-): Record<string, unknown> {
-  const properties = schema.properties ?? {};
+function getMissingRequiredOptions(
+  errors: readonly json.schema.SchemaValidatorError[] = [],
+): string[] {
+  const missing = new Set<string>();
 
-  if (schema.additionalProperties === false) {
-    const unknownOptionNames = Object.keys(options).filter((name) => !(name in properties));
-    if (unknownOptionNames.length) {
-      const unknownFlags = unknownOptionNames.map((name) => `--${name}`).join(', ');
-      throw new Error(`Unknown option(s): ${unknownFlags}.`);
-    }
-  }
-
-  for (const [optionName, value] of Object.entries(options)) {
-    const schemaProp = properties[optionName];
-    if (!schemaProp || value === undefined) {
+  for (const error of errors) {
+    if (error.keyword !== 'required') {
       continue;
     }
 
-    if (!isValidType(value, schemaProp.type)) {
-      throw new Error(`Invalid value for --${optionName}: expected ${schemaProp.type}.`);
-    }
-
-    if (schemaProp.enum?.length && !schemaProp.enum.includes(value as string | number)) {
-      throw new Error(
-        `Invalid value for --${optionName}: ${JSON.stringify(value)}. Expected one of ${formatAllowedValues(schemaProp.enum)}.`,
-      );
+    if (
+      typeof error.params === 'object' &&
+      error.params !== null &&
+      'missingProperty' in error.params
+    ) {
+      const missingProperty = String((error.params as { missingProperty: string }).missingProperty);
+      if (missingProperty) {
+        missing.add(missingProperty);
+      }
     }
   }
 
-  return options;
+  return [...missing];
+}
+
+function createSchemaRegistry(): json.schema.CoreSchemaRegistry {
+  const registry = new json.schema.CoreSchemaRegistry();
+  registry.addPostTransform(json.schema.transforms.addUndefinedDefaults);
+  // Register known schematic formats up front to prevent noisy unknown-format warnings.
+  registry.addFormat({
+    name: 'path',
+    formatter: {
+      type: 'string',
+      validate: (value: string) => typeof value === 'string' && !value.includes('\0'),
+    },
+  });
+
+  return registry;
+}
+
+async function validateOptionsWithDevkitSchema(
+  registry: json.schema.CoreSchemaRegistry,
+  schema: JsonSchema,
+  options: Record<string, unknown>,
+): Promise<Record<string, unknown>> {
+  const validator = await registry.compile(schema as json.JsonObject);
+  const result = await validator(options as unknown as json.JsonValue);
+
+  if (!result.success) {
+    const errors = result.errors ?? [];
+    const details = result.errors?.length
+      ? `\n${formatSchemaValidationErrors(result.errors)}`
+      : '';
+    const validationError = new Error(`Invalid schematic options.${details}`) as Error & {
+      errors: readonly json.schema.SchemaValidatorError[];
+    };
+    validationError.errors = errors;
+    throw validationError;
+  }
+
+  return (result.data as Record<string, unknown>) ?? options;
 }
 
 async function resolveOptionsFromSchema(
   schema: JsonSchema,
   initialOptions: Record<string, unknown>,
 ) {
-  const required = schema.required ?? [];
   const properties = schema.properties ?? {};
   const resolvedOptions: Record<string, unknown> = { ...initialOptions };
+  const registry = createSchemaRegistry();
 
-  const missingRequired = required.filter((name) => !isProvided(resolvedOptions[name]));
-  if (!missingRequired.length) {
-    return validateOptionsAgainstSchema(schema, resolvedOptions);
-  }
+  for (;;) {
+    try {
+      return await validateOptionsWithDevkitSchema(registry, schema, resolvedOptions);
+    } catch (error: unknown) {
+      const validationErrors =
+        typeof error === 'object' &&
+        error !== null &&
+        'errors' in error &&
+        Array.isArray((error as { errors?: unknown[] }).errors)
+          ? ((error as { errors: json.schema.SchemaValidatorError[] }).errors ?? [])
+          : [];
 
-  if (!canPrompt()) {
-    const missingFlags = missingRequired.map((name) => `--${name}`).join(', ');
-    throw new Error(`Missing required option(s): ${missingFlags}.`);
-  }
+      const missingRequired = getMissingRequiredOptions(validationErrors).filter(
+        (name) => !isProvided(resolvedOptions[name]),
+      );
 
-  for (const optionName of missingRequired) {
-    const schemaProp = properties[optionName] ?? {};
-    const message = schemaProp.description || `Enter value for ${optionName}`;
-
-    if (schemaProp.enum?.length) {
-      const hasOnlyNumberEnumValues = schemaProp.enum.every((value) => typeof value === 'number');
-      const enumOptions = hasOnlyNumberEnumValues
-        ? schemaProp.enum.map((value) => ({
-            label: String(value),
-            value: value as number,
-          }))
-        : schemaProp.enum.map((value) => ({
-            label: String(value),
-            value: String(value),
-          }));
-
-      const picked = await (select as any)({
-        message,
-        options: enumOptions,
-      });
-      if (isCancel(picked)) {
-        cancel('Operation cancelled.');
-        process.exit(1);
+      if (!missingRequired.length || !canPrompt()) {
+        throw error;
       }
-      resolvedOptions[optionName] = picked;
-      continue;
-    }
 
-    if (schemaProp.type === 'boolean') {
-      const picked = await confirm({
-        message,
-        initialValue: Boolean(schemaProp.default ?? false),
-      });
-      if (isCancel(picked)) {
-        cancel('Operation cancelled.');
-        process.exit(1);
+      for (const optionName of missingRequired) {
+        const schemaProp = properties[optionName] ?? {};
+        const message = schemaProp.description || `Enter value for ${optionName}`;
+
+        if (schemaProp.enum?.length) {
+          const hasOnlyNumberEnumValues = schemaProp.enum.every((value) => typeof value === 'number');
+          const enumOptions = hasOnlyNumberEnumValues
+            ? schemaProp.enum.map((value) => ({
+                label: String(value),
+                value: value as number,
+              }))
+            : schemaProp.enum.map((value) => ({
+                label: String(value),
+                value: String(value),
+              }));
+
+          const picked = await (select as any)({
+            message,
+            options: enumOptions,
+          });
+          if (isCancel(picked)) {
+            cancel('Operation cancelled.');
+            process.exit(1);
+          }
+          resolvedOptions[optionName] = picked;
+          continue;
+        }
+
+        if (schemaProp.type === 'boolean') {
+          const picked = await confirm({
+            message,
+            initialValue: Boolean(schemaProp.default ?? false),
+          });
+          if (isCancel(picked)) {
+            cancel('Operation cancelled.');
+            process.exit(1);
+          }
+          resolvedOptions[optionName] = picked;
+          continue;
+        }
+
+        const entered = await text({
+          message,
+          placeholder: schemaProp.default ? String(schemaProp.default) : undefined,
+          validate: (value) => (value.trim().length ? undefined : `${optionName} is required`),
+        });
+
+        if (isCancel(entered)) {
+          cancel('Operation cancelled.');
+          process.exit(1);
+        }
+
+        resolvedOptions[optionName] = parseTypedValue(entered, schemaProp.type);
       }
-      resolvedOptions[optionName] = picked;
-      continue;
     }
-
-    const entered = await text({
-      message,
-      placeholder: schemaProp.default ? String(schemaProp.default) : undefined,
-      validate: (value) => (value.trim().length ? undefined : `${optionName} is required`),
-    });
-
-    if (isCancel(entered)) {
-      cancel('Operation cancelled.');
-      process.exit(1);
-    }
-
-    resolvedOptions[optionName] = parseTypedValue(entered, schemaProp.type);
   }
-
-  return validateOptionsAgainstSchema(schema, resolvedOptions);
 }
 
 export async function runSchematic(argv: any) {
