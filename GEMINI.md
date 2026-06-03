@@ -9,7 +9,7 @@ A modern monorepo for developing and consuming Angular-style schematics. This pr
 - **Monorepo Manager:** pnpm workspaces.
 - **Language:** TypeScript (ESM only).
 - **Packages:**
-  - `packages/cli`: A cac-based CLI that wraps the Angular Schematics engine. Uses `ora` for progress and `rxjs` for handling the schematics stream.
+  - `packages/cli`: A cac-based CLI that wraps the Angular Schematics engine. Uses `@clack/prompts` for prompts and spinners, and `rxjs` for handling the schematics stream.
   - `packages/schematics`: A collection of schematic rules and templates.
 
 ## Developer Workflows

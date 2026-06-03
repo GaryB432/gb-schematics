@@ -7,8 +7,7 @@ import { DryRunSink } from '@angular-devkit/schematics/src/sink/dryrun.js';
 import { HostSink } from '@angular-devkit/schematics/src/sink/host.js';
 import { BuiltinTaskExecutor } from '@angular-devkit/schematics/tasks/node/index.js';
 import { NodeModulesEngineHost } from '@angular-devkit/schematics/tools/index.js';
-import { cancel, confirm, isCancel, select, text } from '@clack/prompts';
-import ora from 'ora';
+import { cancel, confirm, isCancel, select, spinner, text } from '@clack/prompts';
 import { lastValueFrom, of } from 'rxjs';
 
 type JsonSchemaProperty = {
@@ -240,7 +239,8 @@ export async function runSchematic(argv: any) {
     ...options
   } = argv;
 
-  const spinner = ora('Resolving collection...').start();
+  const s = canPrompt() ? spinner() : null;
+  s?.start('Resolving collection...');
 
   try {
     const engineHost = new NodeModulesEngineHost();
@@ -268,7 +268,7 @@ export async function runSchematic(argv: any) {
       ? await resolveOptionsFromSchema(schemaJson, options as Record<string, unknown>)
       : options;
 
-    spinner.text = `Running schematic ${schematicName}...`;
+    s?.message(`Running schematic ${schematicName}...`);
 
     // Scope the host to CWD so schematic paths like /src/app resolve correctly
     const fsHost = new virtualFs.ScopedHost(new NodeJsSyncHost(), cwdRoot);
@@ -283,14 +283,14 @@ export async function runSchematic(argv: any) {
       }) as any,
     )) as Tree;
 
-    spinner.text = 'Committing changes...';
+    s?.message('Committing changes...');
 
     // Choose sink based on dryRun flag
     const sink = dryRun ? new DryRunSink(fsHost as any, force) : new HostSink(fsHost as any, force);
 
     await lastValueFrom(sink.commit(resultTree) as any);
 
-    spinner.succeed('Done!');
+    s?.stop('Done!');
 
     if (dryRun) {
       console.log('\nNOTE: Dry run enabled. No files were actually written.');
@@ -305,7 +305,7 @@ export async function runSchematic(argv: any) {
       }
     }
   } catch (error: any) {
-    spinner.fail(`Failed: ${error.message}`);
+    s?.stop(`Failed: ${error.message}`);
     if (verbose) {
       console.error(error);
     }
