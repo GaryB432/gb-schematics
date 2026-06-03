@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint src --ext .ts",
-    "test": "node --test",
+    "test": "pnpm run build && tsc -p tsconfig.spec.json && node --test dist/**/*_spec.js",
     "dev": "tsc --watch"
   },
   "dependencies": {

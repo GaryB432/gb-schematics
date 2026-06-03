@@ -263,7 +263,7 @@ async function resolveOptionsFromSchema(
 
 export async function runSchematic(argv: any) {
   const {
-    collection: collectionName,
+    collection: providedCollectionName,
     c: _collectionAlias,
     n: _nameAlias,
     '--': _passthroughArgs,
@@ -275,6 +275,11 @@ export async function runSchematic(argv: any) {
     verbose,
     ...options
   } = argv;
+
+  const collectionName =
+    typeof providedCollectionName === 'string' && providedCollectionName.length > 0
+      ? providedCollectionName
+      : '@gb-schematics/schematics';
 
   const s = canPrompt() ? spinner() : null;
   s?.start('Resolving collection...');
@@ -342,7 +347,11 @@ export async function runSchematic(argv: any) {
       }
     }
   } catch (error: any) {
-    s?.stop(`Failed: ${error.message}`);
+    if (s) {
+      s.stop(`Failed: ${error.message}`);
+    } else {
+      console.error(`Failed: ${error.message}`);
+    }
     if (verbose) {
       console.error(error);
     }
