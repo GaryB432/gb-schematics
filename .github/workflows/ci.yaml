@@ -1,5 +1,4 @@
 name: CI
-
 on:
   push:
     branches: [master]
@@ -9,6 +8,10 @@ jobs:
   validate:
     name: Lint, Build and Test
     runs-on: ubuntu-latest
+    # Added permissions so pkg-pr-new can post the preview installation links directly to your PR comments
+    permissions:
+      pull-requests: write
+      contents: read
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
@@ -46,3 +49,6 @@ jobs:
 
       - name: Run Tests
         run: pnpm run --recursive test
+
+      - name: Publish Preview Packages
+        run: pnpm dlx pkg-pr-new publish './workspaces/*'
