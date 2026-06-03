@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* eslint @typescript-eslint/no-explicit-any: 1 */
+
 import { cac } from 'cac';
 
 import { runSchematic } from './run-schematic.js';

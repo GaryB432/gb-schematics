@@ -1,11 +1,12 @@
+/* eslint @typescript-eslint/no-explicit-any: 0,  @typescript-eslint/no-unused-vars: 1 */
+
 import { getSystemPath, normalize, virtualFs } from '@angular-devkit/core';
-import { createConsoleLogger } from '@angular-devkit/core/node/index.js';
-import { NodeJsSyncHost } from '@angular-devkit/core/node/index.js';
-import { HostTree, SchematicEngine, Tree } from '@angular-devkit/schematics';
+import { createConsoleLogger, NodeJsSyncHost } from '@angular-devkit/core/node/index.js';
+import { HostTree, SchematicEngine, type Tree } from '@angular-devkit/schematics';
 import { DryRunSink } from '@angular-devkit/schematics/src/sink/dryrun.js';
 import { HostSink } from '@angular-devkit/schematics/src/sink/host.js';
-import { NodeModulesEngineHost } from '@angular-devkit/schematics/tools/index.js';
 import { BuiltinTaskExecutor } from '@angular-devkit/schematics/tasks/node/index.js';
+import { NodeModulesEngineHost } from '@angular-devkit/schematics/tools/index.js';
 import { cancel, confirm, isCancel, select, text } from '@clack/prompts';
 import ora from 'ora';
 import { lastValueFrom, of } from 'rxjs';
