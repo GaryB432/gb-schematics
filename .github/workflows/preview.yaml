@@ -7,6 +7,10 @@ on:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    # Added permissions so pkg-pr-new can post the preview installation links directly to your PR comments
+    permissions:
+      pull-requests: write
+      contents: read
     steps:
       - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v3
@@ -20,4 +24,4 @@ jobs:
       - run: pnpm install
       - run: pnpm build
 
-      - run: pnpm exec pkg-pr-new publish
+      - run: pnpm dlx pkg-pr-new publish './workspaces/*'
