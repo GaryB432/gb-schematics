@@ -15,6 +15,7 @@ type JsonSchemaProperty = {
   enum?: Array<string | number>;
   description?: string;
   default?: unknown;
+  'x-prompt'?: string | { message?: string };
 };
 
 type JsonSchema = {
@@ -77,6 +78,100 @@ function parseTypedValue(raw: string, type?: string): unknown {
     return type === 'integer' ? Math.trunc(parsed) : parsed;
   }
   return raw;
+}
+
+function getPromptMessage(schemaProp: JsonSchemaProperty, optionName: string): string {
+  const promptDef = schemaProp['x-prompt'];
+  if (typeof promptDef === 'string' && promptDef.trim().length) {
+    return promptDef;
+  }
+  if (
+    typeof promptDef === 'object' &&
+    promptDef !== null &&
+    typeof promptDef.message === 'string' &&
+    promptDef.message.trim().length
+  ) {
+    return promptDef.message;
+  }
+  return schemaProp.description || `Enter value for ${optionName}`;
+}
+
+function getPromptableOptionNames(
+  properties: Record<string, JsonSchemaProperty>,
+  options: Record<string, unknown>,
+): string[] {
+  return Object.entries(properties)
+    .filter(([optionName, schemaProp]) => !isProvided(options[optionName]) && isProvided(schemaProp['x-prompt']))
+    .map(([optionName]) => optionName);
+}
+
+async function promptForOption(
+  optionName: string,
+  schemaProp: JsonSchemaProperty,
+  resolvedOptions: Record<string, unknown>,
+  requiredOptionNames: ReadonlySet<string>,
+): Promise<void> {
+  const message = getPromptMessage(schemaProp, optionName);
+  const isRequired = requiredOptionNames.has(optionName);
+
+  if (schemaProp.enum?.length) {
+    const hasOnlyNumberEnumValues = schemaProp.enum.every((value) => typeof value === 'number');
+    const enumOptions = hasOnlyNumberEnumValues
+      ? schemaProp.enum.map((value) => ({
+          label: String(value),
+          value: value as number,
+        }))
+      : schemaProp.enum.map((value) => ({
+          label: String(value),
+          value: String(value),
+        }));
+
+    const picked = await (select as any)({
+      message,
+      options: enumOptions,
+    });
+    if (isCancel(picked)) {
+      cancel('Operation cancelled.');
+      process.exit(1);
+    }
+    resolvedOptions[optionName] = picked;
+    return;
+  }
+
+  if (schemaProp.type === 'boolean') {
+    const picked = await confirm({
+      message,
+      initialValue: Boolean(schemaProp.default ?? false),
+    });
+    if (isCancel(picked)) {
+      cancel('Operation cancelled.');
+      process.exit(1);
+    }
+    resolvedOptions[optionName] = picked;
+    return;
+  }
+
+  const entered = await text({
+    message,
+    placeholder: schemaProp.default ? String(schemaProp.default) : undefined,
+    validate: (value) => {
+      if (value.trim().length || !isRequired) {
+        return undefined;
+      }
+      return `${optionName} is required`;
+    },
+  });
+
+  if (isCancel(entered)) {
+    cancel('Operation cancelled.');
+    process.exit(1);
+  }
+
+  if (!entered.trim().length && !isRequired) {
+    return;
+  }
+
+  resolvedOptions[optionName] = parseTypedValue(entered, schemaProp.type);
 }
 
 function formatSchemaErrorPath(instancePath?: string, propertyName?: string): string {
@@ -180,8 +275,17 @@ async function resolveOptionsFromSchema(
   initialOptions: Record<string, unknown>,
 ) {
   const properties = schema.properties ?? {};
+  const requiredOptionNames = new Set(schema.required ?? []);
   const resolvedOptions: Record<string, unknown> = { ...initialOptions };
   const registry = createSchemaRegistry();
+
+  if (canPrompt()) {
+    const promptableOptions = getPromptableOptionNames(properties, resolvedOptions);
+    for (const optionName of promptableOptions) {
+      const schemaProp = properties[optionName] ?? {};
+      await promptForOption(optionName, schemaProp, resolvedOptions, requiredOptionNames);
+    }
+  }
 
   for (;;) {
     try {
@@ -205,57 +309,7 @@ async function resolveOptionsFromSchema(
 
       for (const optionName of missingRequired) {
         const schemaProp = properties[optionName] ?? {};
-        const message = schemaProp.description || `Enter value for ${optionName}`;
-
-        if (schemaProp.enum?.length) {
-          const hasOnlyNumberEnumValues = schemaProp.enum.every((value) => typeof value === 'number');
-          const enumOptions = hasOnlyNumberEnumValues
-            ? schemaProp.enum.map((value) => ({
-                label: String(value),
-                value: value as number,
-              }))
-            : schemaProp.enum.map((value) => ({
-                label: String(value),
-                value: String(value),
-              }));
-
-          const picked = await (select as any)({
-            message,
-            options: enumOptions,
-          });
-          if (isCancel(picked)) {
-            cancel('Operation cancelled.');
-            process.exit(1);
-          }
-          resolvedOptions[optionName] = picked;
-          continue;
-        }
-
-        if (schemaProp.type === 'boolean') {
-          const picked = await confirm({
-            message,
-            initialValue: Boolean(schemaProp.default ?? false),
-          });
-          if (isCancel(picked)) {
-            cancel('Operation cancelled.');
-            process.exit(1);
-          }
-          resolvedOptions[optionName] = picked;
-          continue;
-        }
-
-        const entered = await text({
-          message,
-          placeholder: schemaProp.default ? String(schemaProp.default) : undefined,
-          validate: (value) => (value.trim().length ? undefined : `${optionName} is required`),
-        });
-
-        if (isCancel(entered)) {
-          cancel('Operation cancelled.');
-          process.exit(1);
-        }
-
-        resolvedOptions[optionName] = parseTypedValue(entered, schemaProp.type);
+        await promptForOption(optionName, schemaProp, resolvedOptions, requiredOptionNames);
       }
     }
   }

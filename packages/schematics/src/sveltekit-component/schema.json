@@ -17,7 +17,8 @@
     "directory": {
       "type": "string",
       "format": "path",
-      "description": "The directory to create the component, relative to your project source."
+      "description": "The directory to create the component, relative to your project source.",
+      "x-prompt": "Directory to create the component in (leave empty for default)."
     },
     "props": {
       "type": "array",
@@ -31,12 +32,14 @@
       "type": "string",
       "description": "Component script language.",
       "enum": ["js", "ts"],
+      "x-prompt": "Select script language for the component.",
       "default": "js"
     },
     "style": {
       "type": "string",
       "description": "Component style language.",
       "enum": ["none", "css", "scss"],
+      "x-prompt": "Select style language for the component.",
       "default": "css"
     },
     "projectRoot": {

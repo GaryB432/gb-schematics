@@ -12,16 +12,19 @@
       "$default": {
         "$source": "argv",
         "index": 0
-      }
+      },
+      "x-prompt": "Select the version part to increment."
     },
     "tag": {
       "type": "string",
-      "description": "A tag to use with semantic version denotation"
+      "description": "A tag to use with semantic version denotation",
+      "x-prompt": "Prerelease tag (leave empty to skip)."
     },
     "skipInstall": {
       "type": "boolean",
       "default": false,
-      "description": "Skip package installation"
+      "description": "Skip package installation",
+      "x-prompt": "Skip package installation after bump?"
     }
   },
   "required": ["part"]

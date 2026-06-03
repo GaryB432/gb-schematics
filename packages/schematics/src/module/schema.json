@@ -18,41 +18,48 @@
     "directory": {
       "type": "string",
       "format": "path",
-      "description": "The directory to create the module, relative to the project source."
+      "description": "The directory to create the module, relative to the project source.",
+      "x-prompt": "Directory to create the module in (leave empty for default)."
     },
     "kind": {
       "type": "string",
       "description": "kind of module",
       "default": "values",
-      "enum": ["class", "values"]
+      "enum": ["class", "values"],
+      "x-prompt": "Select module kind."
     },
     "unitTestRunner": {
       "type": "string",
       "enum": ["jest", "vitest", "native", "none"],
       "default": "jest",
-      "description": "Test runner to use for unit tests."
+      "description": "Test runner to use for unit tests.",
+      "x-prompt": "Select unit test runner."
     },
     "inSourceTests": {
       "type": "boolean",
       "default": false,
-      "description": "When using Vitest, separate spec files will not be generated and instead will be included within the source files."
+      "description": "When using Vitest, separate spec files will not be generated and instead will be included within the source files.",
+      "x-prompt": "Use in-source tests (primarily for Vitest)?"
     },
     "pascalCaseFiles": {
       "type": "boolean",
       "description": "Use pascal case file names for class module.",
       "alias": "P",
-      "default": true
+      "default": true,
+      "x-prompt": "Use PascalCase file names for class modules?"
     },
     "language": {
       "type": "string",
       "enum": ["ts", "js"],
       "description": "The language to use.",
-      "default": "ts"
+      "default": "ts",
+      "x-prompt": "Select module language."
     },
     "sourceRoot": {
       "type": "string",
       "format": "path",
-      "description": "The path to your project's source root"
+      "description": "The path to your project's source root",
+      "x-prompt": "Project source root path (leave empty for default)."
     }
   },
   "required": ["name"]

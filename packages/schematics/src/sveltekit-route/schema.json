@@ -12,7 +12,8 @@
       "$default": {
         "$source": "workingDirectory"
       },
-      "description": "The path at which to create the route file, relative to the projectRoot. Default is a folder with the same name as the route in the project root."
+      "description": "The path at which to create the route file, relative to the projectRoot. Default is a folder with the same name as the route in the project root.",
+      "x-prompt": "Route path (leave empty for default)."
     },
     "name": {
       "type": "string",
@@ -27,18 +28,21 @@
       "description": "The value of style element lang attribute",
       "type": "string",
       "default": "css",
-      "enum": ["css", "scss"]
+      "enum": ["css", "scss"],
+      "x-prompt": "Select style language for the route component."
     },
     "skipTests": {
       "type": "boolean",
       "description": "Do not create \"spec.ts\" test files for the new route.",
-      "default": false
+      "default": false,
+      "x-prompt": "Skip creating route test files?"
     },
     "load": {
       "description": "Should the load function run on client and server (universal) or just server",
       "type": "string",
       "enum": ["universal", "server", "none"],
-      "default": "none"
+      "default": "none",
+      "x-prompt": "Select load mode for the route."
     },
     "projectRoot": {
       "type": "string",
