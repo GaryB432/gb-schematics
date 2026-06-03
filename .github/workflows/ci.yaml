@@ -7,7 +7,7 @@ on:
 
 jobs:
   validate:
-    name: Lint, Typecheck and Test
+    name: Lint, Build and Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -16,7 +16,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Enable Corepack
         run: corepack enable
@@ -41,7 +41,7 @@ jobs:
       - name: Run Lint
         run: pnpm run --recursive lint
 
-      - name: Run Typecheck
+      - name: Run Build
         run: pnpm run --recursive build
 
       - name: Run Tests
