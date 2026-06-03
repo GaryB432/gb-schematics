@@ -10,6 +10,19 @@ If you're using [Nx: Smart, Fast and Extensible Build System](https://nx.dev/) y
 
 > npm i @angular-devkit/schematics-cli -g
 
+## Architecture
+
+- [Devkit Runner Architecture Note](docs/devkit-runner-architecture.md)
+
+```mermaid
+flowchart LR
+	CLI["Our CLI"] --> RUN["Runner layer"]
+	RUN --> DEVKIT["Angular Devkit Engine"]
+	DEVKIT --> COLL["Schematic collection"]
+	COLL --> RULES["Rules and templates"]
+
+```
+
 # Development
 
 > npx tsx tools/make-schemas --stamp generated
