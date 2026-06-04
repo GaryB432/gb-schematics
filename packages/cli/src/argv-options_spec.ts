@@ -25,7 +25,13 @@ describe('argv-options', () => {
 
   describe('extractSchematicOptions', () => {
     it('extracts unknown long-form flags after generate schematic', () => {
-      const argv = ['generate', 'sveltekit-component', '--name', 'Widget', '--directory=src/lib'];
+      const argv = [
+        'generate',
+        'sveltekit-component',
+        '--name',
+        'Widget',
+        '--directory=src/lib',
+      ];
       const result = extractSchematicOptions(argv);
 
       assert.deepEqual(result, {
@@ -34,7 +40,13 @@ describe('argv-options', () => {
     });
 
     it('parses boolean-like string values for unknown flags', () => {
-      const argv = ['generate', 'module', '--flat', 'true', '--skip-tests=false'];
+      const argv = [
+        'generate',
+        'module',
+        '--flat',
+        'true',
+        '--skip-tests=false',
+      ];
       const result = extractSchematicOptions(argv);
 
       assert.deepEqual(result, {

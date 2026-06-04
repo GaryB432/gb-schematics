@@ -11,7 +11,9 @@ const knownOptionNames = new Set([
 ]);
 
 function toCamelCase(value: string): string {
-  return value.replace(/-([a-z])/g, (_, letter: string) => letter.toUpperCase());
+  return value.replace(/-([a-z])/g, (_, letter: string) =>
+    letter.toUpperCase(),
+  );
 }
 
 function parseSchematicValue(raw: string): unknown {
@@ -24,7 +26,9 @@ function parseSchematicValue(raw: string): unknown {
   return raw;
 }
 
-export function extractSchematicOptions(argv: string[]): Record<string, unknown> {
+export function extractSchematicOptions(
+  argv: string[],
+): Record<string, unknown> {
   const commandIndex = argv.findIndex((arg) => arg === 'generate');
   if (commandIndex === -1) {
     return {};
@@ -54,7 +58,11 @@ export function extractSchematicOptions(argv: string[]): Record<string, unknown>
 
       if (knownOptionNames.has(rawName) || knownOptionNames.has(optionName)) {
         index +=
-          inlineValue === undefined && argv[index + 1] && !argv[index + 1].startsWith('-') ? 2 : 1;
+          inlineValue === undefined &&
+          argv[index + 1] &&
+          !argv[index + 1].startsWith('-')
+            ? 2
+            : 1;
         continue;
       }
 
@@ -82,7 +90,9 @@ export function extractSchematicOptions(argv: string[]): Record<string, unknown>
   return extracted;
 }
 
-export function removeUnsetOptions(options: Record<string, unknown>): Record<string, unknown> {
+export function removeUnsetOptions(
+  options: Record<string, unknown>,
+): Record<string, unknown> {
   const cleaned: Record<string, unknown> = {};
 
   for (const [key, value] of Object.entries(options)) {

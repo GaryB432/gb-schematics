@@ -1,13 +1,32 @@
 /* eslint @typescript-eslint/no-explicit-any: 0,  @typescript-eslint/no-unused-vars: 1 */
 
-import { getSystemPath, json, normalize, virtualFs } from '@angular-devkit/core';
-import { createConsoleLogger, NodeJsSyncHost } from '@angular-devkit/core/node/index.js';
-import { HostTree, SchematicEngine, type Tree } from '@angular-devkit/schematics';
+import {
+  getSystemPath,
+  json,
+  normalize,
+  virtualFs,
+} from '@angular-devkit/core';
+import {
+  createConsoleLogger,
+  NodeJsSyncHost,
+} from '@angular-devkit/core/node/index.js';
+import {
+  HostTree,
+  SchematicEngine,
+  type Tree,
+} from '@angular-devkit/schematics';
 import { DryRunSink } from '@angular-devkit/schematics/src/sink/dryrun.js';
 import { HostSink } from '@angular-devkit/schematics/src/sink/host.js';
 import { BuiltinTaskExecutor } from '@angular-devkit/schematics/tasks/node/index.js';
 import { NodeModulesEngineHost } from '@angular-devkit/schematics/tools/index.js';
-import { cancel, confirm, isCancel, select, spinner, text } from '@clack/prompts';
+import {
+  cancel,
+  confirm,
+  isCancel,
+  select,
+  spinner,
+  text,
+} from '@clack/prompts';
 import { lastValueFrom, of } from 'rxjs';
 
 type JsonSchemaProperty = {
@@ -26,7 +45,9 @@ type JsonSchema = {
 };
 
 function canPrompt(): boolean {
-  return Boolean(process.stdin.isTTY && process.stdout.isTTY && !process.env.CI);
+  return Boolean(
+    process.stdin.isTTY && process.stdout.isTTY && !process.env.CI,
+  );
 }
 
 async function resolveSchematicName(
@@ -37,7 +58,9 @@ async function resolveSchematicName(
     return providedSchematicName;
   }
 
-  const availableSchematics = Object.keys(collection.description?.schematics ?? {});
+  const availableSchematics = Object.keys(
+    collection.description?.schematics ?? {},
+  );
 
   if (!availableSchematics.length) {
     throw new Error(
@@ -46,7 +69,9 @@ async function resolveSchematicName(
   }
 
   if (!canPrompt()) {
-    throw new Error('Missing schematic name. Use "generate <schematic>" in scripts and CI.');
+    throw new Error(
+      'Missing schematic name. Use "generate <schematic>" in scripts and CI.',
+    );
   }
 
   const selected = await select({
@@ -80,7 +105,10 @@ function parseTypedValue(raw: string, type?: string): unknown {
   return raw;
 }
 
-function getPromptMessage(schemaProp: JsonSchemaProperty, optionName: string): string {
+function getPromptMessage(
+  schemaProp: JsonSchemaProperty,
+  optionName: string,
+): string {
   const promptDef = schemaProp['x-prompt'];
   if (typeof promptDef === 'string' && promptDef.trim().length) {
     return promptDef;
@@ -101,7 +129,10 @@ function getPromptableOptionNames(
   options: Record<string, unknown>,
 ): string[] {
   return Object.entries(properties)
-    .filter(([optionName, schemaProp]) => !isProvided(options[optionName]) && isProvided(schemaProp['x-prompt']))
+    .filter(
+      ([optionName, schemaProp]) =>
+        !isProvided(options[optionName]) && isProvided(schemaProp['x-prompt']),
+    )
     .map(([optionName]) => optionName);
 }
 
@@ -115,7 +146,9 @@ async function promptForOption(
   const isRequired = requiredOptionNames.has(optionName);
 
   if (schemaProp.enum?.length) {
-    const hasOnlyNumberEnumValues = schemaProp.enum.every((value) => typeof value === 'number');
+    const hasOnlyNumberEnumValues = schemaProp.enum.every(
+      (value) => typeof value === 'number',
+    );
     const enumOptions = hasOnlyNumberEnumValues
       ? schemaProp.enum.map((value) => ({
           label: String(value),
@@ -174,7 +207,10 @@ async function promptForOption(
   resolvedOptions[optionName] = parseTypedValue(entered, schemaProp.type);
 }
 
-function formatSchemaErrorPath(instancePath?: string, propertyName?: string): string {
+function formatSchemaErrorPath(
+  instancePath?: string,
+  propertyName?: string,
+): string {
   if (instancePath && instancePath.length > 1) {
     return `--${instancePath.slice(1).replace(/\//g, '.')}`;
   }
@@ -196,10 +232,15 @@ function formatSchemaValidationErrors(
         typeof error.params === 'object' &&
         error.params !== null &&
         'missingProperty' in error.params
-          ? String((error.params as { missingProperty: string }).missingProperty)
+          ? String(
+              (error.params as { missingProperty: string }).missingProperty,
+            )
           : undefined;
 
-      const location = formatSchemaErrorPath(error.instancePath, missingProperty);
+      const location = formatSchemaErrorPath(
+        error.instancePath,
+        missingProperty,
+      );
       const message = error.message ?? 'Invalid value';
 
       return `${location}: ${message}`;
@@ -222,7 +263,9 @@ function getMissingRequiredOptions(
       error.params !== null &&
       'missingProperty' in error.params
     ) {
-      const missingProperty = String((error.params as { missingProperty: string }).missingProperty);
+      const missingProperty = String(
+        (error.params as { missingProperty: string }).missingProperty,
+      );
       if (missingProperty) {
         missing.add(missingProperty);
       }
@@ -240,7 +283,8 @@ function createSchemaRegistry(): json.schema.CoreSchemaRegistry {
     name: 'path',
     formatter: {
       type: 'string',
-      validate: (value: string) => typeof value === 'string' && !value.includes('\0'),
+      validate: (value: string) =>
+        typeof value === 'string' && !value.includes('\0'),
     },
   });
 
@@ -260,7 +304,9 @@ async function validateOptionsWithDevkitSchema(
     const details = result.errors?.length
       ? `\n${formatSchemaValidationErrors(result.errors)}`
       : '';
-    const validationError = new Error(`Invalid schematic options.${details}`) as Error & {
+    const validationError = new Error(
+      `Invalid schematic options.${details}`,
+    ) as Error & {
       errors: readonly json.schema.SchemaValidatorError[];
     };
     validationError.errors = errors;
@@ -280,28 +326,41 @@ async function resolveOptionsFromSchema(
   const registry = createSchemaRegistry();
 
   if (canPrompt()) {
-    const promptableOptions = getPromptableOptionNames(properties, resolvedOptions);
+    const promptableOptions = getPromptableOptionNames(
+      properties,
+      resolvedOptions,
+    );
     for (const optionName of promptableOptions) {
       const schemaProp = properties[optionName] ?? {};
-      await promptForOption(optionName, schemaProp, resolvedOptions, requiredOptionNames);
+      await promptForOption(
+        optionName,
+        schemaProp,
+        resolvedOptions,
+        requiredOptionNames,
+      );
     }
   }
 
   for (;;) {
     try {
-      return await validateOptionsWithDevkitSchema(registry, schema, resolvedOptions);
+      return await validateOptionsWithDevkitSchema(
+        registry,
+        schema,
+        resolvedOptions,
+      );
     } catch (error: unknown) {
       const validationErrors =
         typeof error === 'object' &&
         error !== null &&
         'errors' in error &&
         Array.isArray((error as { errors?: unknown[] }).errors)
-          ? ((error as { errors: json.schema.SchemaValidatorError[] }).errors ?? [])
+          ? ((error as { errors: json.schema.SchemaValidatorError[] }).errors ??
+            [])
           : [];
 
-      const missingRequired = getMissingRequiredOptions(validationErrors).filter(
-        (name) => !isProvided(resolvedOptions[name]),
-      );
+      const missingRequired = getMissingRequiredOptions(
+        validationErrors,
+      ).filter((name) => !isProvided(resolvedOptions[name]));
 
       if (!missingRequired.length || !canPrompt()) {
         throw error;
@@ -309,7 +368,12 @@ async function resolveOptionsFromSchema(
 
       for (const optionName of missingRequired) {
         const schemaProp = properties[optionName] ?? {};
-        await promptForOption(optionName, schemaProp, resolvedOptions, requiredOptionNames);
+        await promptForOption(
+          optionName,
+          schemaProp,
+          resolvedOptions,
+          requiredOptionNames,
+        );
       }
     }
   }
@@ -331,7 +395,8 @@ export async function runSchematic(argv: any) {
   } = argv;
 
   const collectionName =
-    typeof providedCollectionName === 'string' && providedCollectionName.length > 0
+    typeof providedCollectionName === 'string' &&
+    providedCollectionName.length > 0
       ? providedCollectionName
       : '@gb-schematics/schematics';
 
@@ -352,16 +417,26 @@ export async function runSchematic(argv: any) {
     });
     engineHost.registerTaskExecutor(BuiltinTaskExecutor.RunSchematic);
 
-    engineHost.registerOptionsTransform(((desc: any, options: any) => options) as any);
+    engineHost.registerOptionsTransform(
+      ((desc: any, options: any) => options) as any,
+    );
 
     const logger = createConsoleLogger(verbose);
 
     const collection = engine.createCollection(collectionName);
-    const schematicName = await resolveSchematicName(collection, providedSchematicName);
+    const schematicName = await resolveSchematicName(
+      collection,
+      providedSchematicName,
+    );
     const schematic = collection.createSchematic(schematicName);
-    const schemaJson = (schematic as any).description?.schemaJson as JsonSchema | undefined;
+    const schemaJson = (schematic as any).description?.schemaJson as
+      | JsonSchema
+      | undefined;
     const inputOptions = schemaJson
-      ? await resolveOptionsFromSchema(schemaJson, options as Record<string, unknown>)
+      ? await resolveOptionsFromSchema(
+          schemaJson,
+          options as Record<string, unknown>,
+        )
       : options;
 
     s?.message(`Running schematic ${schematicName}...`);
@@ -382,7 +457,9 @@ export async function runSchematic(argv: any) {
     s?.message('Committing changes...');
 
     // Choose sink based on dryRun flag
-    const sink = dryRun ? new DryRunSink(fsHost as any, force) : new HostSink(fsHost as any, force);
+    const sink = dryRun
+      ? new DryRunSink(fsHost as any, force)
+      : new HostSink(fsHost as any, force);
 
     await lastValueFrom(sink.commit(resultTree) as any);
 

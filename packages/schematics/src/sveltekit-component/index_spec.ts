@@ -19,9 +19,17 @@ describe('sveltekit-component', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic('sveltekit-component', { name: 'tester' }, ftree);
+    const tree = await runner.runSchematic(
+      'sveltekit-component',
+      { name: 'tester' },
+      ftree,
+    );
     assertSameMembers(tree.files, ['/src/lib/components/Tester.svelte']);
-    assert.ok(!tree.readContent('/src/lib/components/Tester.svelte').includes('export let'));
+    assert.ok(
+      !tree
+        .readContent('/src/lib/components/Tester.svelte')
+        .includes('export let'),
+    );
   });
 
   it('works with directory', async () => {

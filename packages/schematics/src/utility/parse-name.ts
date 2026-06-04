@@ -1,4 +1,10 @@
-import { type Path, basename, dirname, join, normalize } from '@angular-devkit/core';
+import {
+  type Path,
+  basename,
+  dirname,
+  join,
+  normalize,
+} from '@angular-devkit/core';
 
 export interface Location {
   name: string;

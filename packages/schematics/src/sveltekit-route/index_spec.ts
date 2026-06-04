@@ -19,10 +19,19 @@ describe('sveltekit-route', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    const tree = await runner.runSchematic('sveltekit-route', { name: 'tester' }, ftree);
-    assertSameMembers(tree.files, ['/src/routes/tester/+page.svelte', '/tests/tester.spec.ts']);
+    const tree = await runner.runSchematic(
+      'sveltekit-route',
+      { name: 'tester' },
+      ftree,
+    );
+    assertSameMembers(tree.files, [
+      '/src/routes/tester/+page.svelte',
+      '/tests/tester.spec.ts',
+    ]);
     assert.ok(
-      tree.readContent('/src/routes/tester/+page.svelte').includes("$state('tester route')"),
+      tree
+        .readContent('/src/routes/tester/+page.svelte')
+        .includes("$state('tester route')"),
     );
   });
 });

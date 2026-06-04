@@ -5,7 +5,10 @@ import { tmpdir } from 'node:os';
 import { describe, it } from 'node:test';
 import { spawnSync } from 'node:child_process';
 
-function createFixtureCollectionPackage(): { tmpRoot: string; collectionName: string } {
+function createFixtureCollectionPackage(): {
+  tmpRoot: string;
+  collectionName: string;
+} {
   const tmpRoot = mkdtempSync(join(tmpdir(), 'gb-schematics-cli-'));
   const collectionName = 'fixture-schematics';
   const pkgRoot = join(tmpRoot, 'node_modules', collectionName);

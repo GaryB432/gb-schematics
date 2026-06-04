@@ -29,8 +29,15 @@ describe('bump', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    ftree.create('package.json', JSON.stringify({ name: 'test', version: '1.2.3' }));
-    const tree = await runner.runSchematic('bump', { part: 'prerelease', tag: 'too-fun' }, ftree);
+    ftree.create(
+      'package.json',
+      JSON.stringify({ name: 'test', version: '1.2.3' }),
+    );
+    const tree = await runner.runSchematic(
+      'bump',
+      { part: 'prerelease', tag: 'too-fun' },
+      ftree,
+    );
     const buff = tree.read('package.json');
 
     const newPJ = buff ? JSON.parse(buff.toString()) : {};
@@ -41,9 +48,14 @@ describe('bump', () => {
   it('throws for invalid bump part values', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const ftree = Tree.empty();
-    ftree.create('package.json', JSON.stringify({ name: 'test', version: '1.2.3' }));
+    ftree.create(
+      'package.json',
+      JSON.stringify({ name: 'test', version: '1.2.3' }),
+    );
 
-    const allowedValuesMessage = bumpParts.map((part) => JSON.stringify(part)).join(', ');
+    const allowedValuesMessage = bumpParts
+      .map((part) => JSON.stringify(part))
+      .join(', ');
 
     await assert.rejects(
       runner.runSchematic('bump', { part: 'wtf' }, ftree),

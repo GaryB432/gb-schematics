@@ -1,5 +1,11 @@
 import type { Path } from '@angular-devkit/core';
-import { basename, dirname, join, normalize, strings } from '@angular-devkit/core';
+import {
+  basename,
+  dirname,
+  join,
+  normalize,
+  strings,
+} from '@angular-devkit/core';
 import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   MergeStrategy,
@@ -47,13 +53,24 @@ export default function (opts: Options): Rule {
     const parsedPath = parseName(options.path, options.name);
     options.name = parsedPath.name;
     options.path = parsedPath.path;
-    const templateSource = apply(url(join('.' as Path, 'files', 'load', options.load)), [
-      applyTemplates({
-        ...strings,
-        ...options,
-      }),
-      move(join(options.projectRoot as Path, 'src', 'routes', parsedPath.path, parsedPath.name)),
-    ]);
+    const templateSource = apply(
+      url(join('.' as Path, 'files', 'load', options.load)),
+      [
+        applyTemplates({
+          ...strings,
+          ...options,
+        }),
+        move(
+          join(
+            options.projectRoot as Path,
+            'src',
+            'routes',
+            parsedPath.path,
+            parsedPath.name,
+          ),
+        ),
+      ],
+    );
     const route = makeTestRoute(options.path, options.name);
     const testSource = apply(url('./files/test'), [
       applyTemplates({
@@ -63,7 +80,9 @@ export default function (opts: Options): Rule {
       }),
       move(join(options.projectRoot as Path, 'tests', parsedPath.path)),
     ]);
-    const rules = [mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict)];
+    const rules = [
+      mergeWith(templateSource, MergeStrategy.AllowOverwriteConflict),
+    ];
     if (!options.skipTests) {
       rules.push(mergeWith(testSource, MergeStrategy.AllowOverwriteConflict));
     }

@@ -20,7 +20,9 @@ cli
   .option('--verbose', 'Show extra logs')
   .action((schematic: string, options: any) => {
     const schematicOptions = extractSchematicOptions(process.argv.slice(2));
-    const cleanedOptions = removeUnsetOptions(options as Record<string, unknown>);
+    const cleanedOptions = removeUnsetOptions(
+      options as Record<string, unknown>,
+    );
 
     return runSchematic({
       ...cleanedOptions,
