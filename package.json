@@ -1,12 +1,11 @@
 {
   "name": "@gb-schematics/root",
-  "version": "6.0.0-alpha.0",
+  "version": "6.0.0-alpha.1",
   "private": true,
   "license": "MIT",
   "keywords": [
     "schematics"
   ],
-  "bugs": "https://github.com/GaryB432/gb-schematics/issues",
   "schematics": "./src/collection.json",
   "scripts": {
     "generate:schema-types": "node ./tools/generate-schema-types.mjs",
@@ -15,9 +14,6 @@
     "test": "pnpm -r test",
     "publish:cli": "pnpm --filter @gb-schematics/cli publish",
     "publish:schematics": "pnpm --filter @gb-schematics/schematics publish"
-  },
-  "engines": {
-    "node": ">=24"
   },
   "type": "module",
   "devDependencies": {
@@ -42,8 +38,5 @@
   },
   "overrides": {
     "rxjs": "^7.8.1"
-  },
-  "repository": {
-    "url": "git+https://github.com/GaryB432/gb-schematics.git"
   }
 }
