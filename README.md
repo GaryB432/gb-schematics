@@ -1,3 +1,18 @@
+# ℹ️ Announcement: We have moved to a scoped package!
+
+To better organize our tools and protect our namespace, `gb-schematics` has been renamed to **`@gb-schematics/schematics`**. 
+
+To receive the latest updates, features, and bug fixes, please migrate your project to the new package address.
+
+### How to upgrade:
+```bash
+npm uninstall gb-schematics
+npm install @gb-schematics/schematics
+```
+
+Thank you for being part of the community!
+***
+
 # gb-schematics
 
 ## Architecture
