@@ -8,7 +8,7 @@ import { extractSchematicOptions, removeUnsetOptions } from './argv-options.js';
 import { runSchematic } from './run-schematic.js';
 import { version } from './version.js';
 
-const cli = cac('gb-schematics-cli');
+const cli = cac('gb-schematics');
 
 cli
   .command('generate [schematic]', 'Run a schematic')

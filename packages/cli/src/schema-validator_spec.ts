@@ -50,8 +50,7 @@ describe('schema-validator', () => {
           error !== null &&
           'errors' in error &&
           Array.isArray((error as { errors?: unknown[] }).errors)
-            ?  
-              ((error as { errors: any[] }).errors ?? [])
+            ? ((error as { errors: Record<string, unknown[]>[] }).errors ?? [])
             : [];
 
         assert.equal(getMissingRequiredOptions(errors).includes('name'), true);
