@@ -1,6 +1,6 @@
 {
   "name": "@gb-schematics/cli",
-  "version": "6.0.0-alpha.1",
+  "version": "6.0.0-alpha.2",
   "description": "Modern CLI for Angular Schematics",
   "type": "module",
   "bin": {
@@ -25,5 +25,11 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bugs": "https://github.com/GaryB432/gb-schematics/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaryB432/gb-schematics.git",
+    "directory": "packages/cli"
   }
 }
