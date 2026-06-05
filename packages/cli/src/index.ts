@@ -18,7 +18,7 @@ cli
   .option('--dry-run', 'Run without creating files')
   .option('--force', 'Force overwriting files')
   .option('--verbose', 'Show extra logs')
-  .action((schematic: string, options: any) => {
+  .action((schematic: string, options: unknown) => {
     const schematicOptions = extractSchematicOptions(process.argv.slice(2));
     const cleanedOptions = removeUnsetOptions(
       options as Record<string, unknown>

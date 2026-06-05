@@ -40,14 +40,18 @@ describe('schema-validator', () => {
       (error: unknown) => {
         assert.ok(error instanceof Error);
         assert.match(error.message, /Invalid schematic options\./);
-        assert.match(error.message, /--name: must have required property 'name'/);
+        assert.match(
+          error.message,
+          /--name: must have required property 'name'/
+        );
 
         const errors =
           typeof error === 'object' &&
           error !== null &&
           'errors' in error &&
           Array.isArray((error as { errors?: unknown[] }).errors)
-            ? ((error as { errors: any[] }).errors ?? [])
+            ? // eslint-disable-next-line
+              ((error as { errors: any[] }).errors ?? [])
             : [];
 
         assert.equal(getMissingRequiredOptions(errors).includes('name'), true);
@@ -98,9 +102,14 @@ describe('schema-validator', () => {
 
     await assert.rejects(
       () =>
-        resolveOptionsFromSchema(schema, {}, () => false, async () => {
-          throw new Error('should not prompt');
-        }),
+        resolveOptionsFromSchema(
+          schema,
+          {},
+          () => false,
+          async () => {
+            throw new Error('should not prompt');
+          }
+        ),
       /Invalid schematic options\./
     );
   });

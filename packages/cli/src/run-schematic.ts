@@ -1,10 +1,6 @@
 /* eslint @typescript-eslint/no-explicit-any: 0,  @typescript-eslint/no-unused-vars: 1 */
 
-import {
-  getSystemPath,
-  normalize,
-  virtualFs,
-} from '@angular-devkit/core';
+import { getSystemPath, normalize, virtualFs } from '@angular-devkit/core';
 import {
   createConsoleLogger,
   NodeJsSyncHost,
@@ -263,9 +259,7 @@ export async function runSchematic(argv: any) {
     );
     const schematic = collection.createSchematic(schematicName);
     const rawSchemaJson = (schematic as any).description?.schemaJson;
-    const schemaJson = rawSchemaJson
-      ? asJsonSchema(rawSchemaJson)
-      : undefined;
+    const schemaJson = rawSchemaJson ? asJsonSchema(rawSchemaJson) : undefined;
     const inputOptions = schemaJson
       ? await resolveOptionsFromSchema(
           schemaJson,
