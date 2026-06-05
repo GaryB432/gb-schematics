@@ -31,12 +31,12 @@ describe('bump', () => {
     const ftree = Tree.empty();
     ftree.create(
       'package.json',
-      JSON.stringify({ name: 'test', version: '1.2.3' }),
+      JSON.stringify({ name: 'test', version: '1.2.3' })
     );
     const tree = await runner.runSchematic(
       'bump',
       { part: 'prerelease', tag: 'too-fun' },
-      ftree,
+      ftree
     );
     const buff = tree.read('package.json');
 
@@ -50,7 +50,7 @@ describe('bump', () => {
     const ftree = Tree.empty();
     ftree.create(
       'package.json',
-      JSON.stringify({ name: 'test', version: '1.2.3' }),
+      JSON.stringify({ name: 'test', version: '1.2.3' })
     );
 
     const allowedValuesMessage = bumpParts
@@ -60,8 +60,8 @@ describe('bump', () => {
     await assert.rejects(
       runner.runSchematic('bump', { part: 'wtf' }, ftree),
       new RegExp(
-        `Allowed values are: ${allowedValuesMessage.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\.`,
-      ),
+        `Allowed values are: ${allowedValuesMessage.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\.`
+      )
     );
   });
 });

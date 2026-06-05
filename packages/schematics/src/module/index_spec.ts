@@ -23,7 +23,7 @@ describe('module', () => {
     const tree = await runner.runSchematic<Options>(
       'module',
       { name: 'tester' },
-      ftree,
+      ftree
     );
 
     assertSameMembers(tree.files, ['/tester.spec.ts', '/tester.ts']);
@@ -35,7 +35,7 @@ describe('module', () => {
     const tree = await runner.runSchematic<Options>(
       'module',
       { name: 'tester', unitTestRunner: 'none' },
-      ftree,
+      ftree
     );
     assert.ok(!tree.files.includes('/tester.spec.ts'));
   });
@@ -46,13 +46,13 @@ describe('module', () => {
     const tree = await runner.runSchematic<Options>(
       'module',
       { name: 'tester', kind: 'class', sourceRoot: 'src' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/src/Tester.spec.ts', '/src/Tester.ts']);
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     assert.ok(fcontent.includes("import { Tester } from './Tester';"));
     assert.ok(
-      !fcontent.includes("import { describe, expect, test } from 'vitest';"),
+      !fcontent.includes("import { describe, expect, test } from 'vitest';")
     );
   });
 
@@ -67,7 +67,7 @@ describe('module', () => {
         sourceRoot: 'src',
         pascalCaseFiles: false,
       },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, [
       '/src/project-named-tester.spec.ts',
@@ -76,15 +76,15 @@ describe('module', () => {
     const fcontent = tree.readContent('/src/project-named-tester.spec.ts');
     assert.ok(
       fcontent.includes(
-        "import { ProjectNamedTester } from './project-named-tester';",
-      ),
+        "import { ProjectNamedTester } from './project-named-tester';"
+      )
     );
     assert.ok(!fcontent.includes("} from 'vitest';"));
 
     assert.match(fcontent, /let projectNamedTester: ProjectNamedTester/);
     assert.match(
       tree.readContent('/src/project-named-tester.ts'),
-      /: (string|number)/,
+      /: (string|number)/
     );
   });
 
@@ -99,14 +99,14 @@ describe('module', () => {
         unitTestRunner: 'vitest',
         sourceRoot: 'src',
       },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/src/Tester.spec.ts', '/src/Tester.ts']);
     const fcontent = tree.readContent('/src/Tester.spec.ts');
     assert.ok(
       fcontent.includes(
-        "import { beforeEach, describe, expect, test } from 'vitest';",
-      ),
+        "import { beforeEach, describe, expect, test } from 'vitest';"
+      )
     );
     assert.ok(fcontent.includes("import { Tester } from './Tester';"));
   });
@@ -117,13 +117,13 @@ describe('module', () => {
     const tree = await runner.runSchematic<Options>(
       'module',
       { name: 'tester', kind: 'values', sourceRoot: 'src' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/src/tester.spec.ts', '/src/tester.ts']);
     const fcontent = tree.readContent('/src/tester.spec.ts');
     assert.ok(!fcontent.includes("from './Tester'"));
     assert.ok(
-      fcontent.includes("import { add, greet, meaning } from './tester';"),
+      fcontent.includes("import { add, greet, meaning } from './tester';")
     );
   });
 
@@ -133,7 +133,7 @@ describe('module', () => {
     const tree = await runner.runSchematic<Options>(
       'module',
       { name: 'tester', directory: 'a/b/c/d' },
-      ftree,
+      ftree
     );
     assert.ok(tree.files.includes('/a/b/c/d/tester.ts'));
   });
@@ -144,7 +144,7 @@ describe('module', () => {
     const tree = await runner.runSchematic<Options>(
       'module',
       { name: 'c/d/tester', directory: 'a/b' },
-      ftree,
+      ftree
     );
     assert.ok(tree.files.includes('/a/b/c/d/tester.ts'));
   });
@@ -159,7 +159,7 @@ describe('module', () => {
         directory: 'a/b/c/d',
         sourceRoot: 'apps/project/src',
       },
-      ftree,
+      ftree
     );
     assert.ok(tree.files.includes('/apps/project/src/a/b/c/d/tester.ts'));
   });
@@ -174,7 +174,7 @@ describe('module', () => {
         directory: 'a/b',
         sourceRoot: 'apps/project/src',
       },
-      ftree,
+      ftree
     );
     assert.ok(tree.files.includes('/apps/project/src/a/b/c/d/tester.ts'));
   });
@@ -191,7 +191,7 @@ describe('module', () => {
         unitTestRunner: 'none',
         sourceRoot: 'test/root/src',
       },
-      ftree,
+      ftree
     );
     assert.ok(tree.files.includes('/test/root/src/abc/def/banana.ts'));
   });
@@ -204,20 +204,20 @@ describe('js module', () => {
     const tree = await runner.runSchematic<Options>(
       'module',
       { name: 'tester', language: 'js' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/tester.spec.js', '/tester.js']);
     assert.ok(
       tree
         .read('/tester.spec.js')
         ?.toString()
-        .includes("import { add, greet, meaning } from './tester.js';"),
+        .includes("import { add, greet, meaning } from './tester.js';")
     );
     assert.ok(
       tree
         .read('/tester.js')
         ?.toString()
-        .includes('export function greet(name) {'),
+        .includes('export function greet(name) {')
     );
     assert.doesNotMatch(tree.readContent('/tester.js'), /: ^4/);
   });
@@ -228,13 +228,13 @@ describe('js module', () => {
     const tree = await runner.runSchematic<Options>(
       'module',
       { name: 'tester', language: 'js', kind: 'values' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/tester.spec.js', '/tester.js']);
     assert.ok(
       tree
         .readContent('/tester.spec.js')
-        .includes("import { add, greet, meaning } from './tester.js';"),
+        .includes("import { add, greet, meaning } from './tester.js';")
     );
     assert.doesNotMatch(tree.readContent('/tester.js'), /: (string|number)/);
   });

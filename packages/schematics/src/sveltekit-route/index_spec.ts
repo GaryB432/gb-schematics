@@ -22,7 +22,7 @@ describe('sveltekit-route', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'tester' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, [
       '/src/routes/tester/+page.svelte',
@@ -31,7 +31,7 @@ describe('sveltekit-route', () => {
     assert.ok(
       tree
         .readContent('/src/routes/tester/+page.svelte')
-        .includes("$state('tester route')"),
+        .includes("$state('tester route')")
     );
   });
 });
@@ -43,7 +43,7 @@ describe('sveltekit-route with server load', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'tester', load: 'server' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, [
       '/src/routes/tester/+page.svelte',
@@ -58,7 +58,7 @@ describe('sveltekit-route with server load', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'a/b/c/tester', projectRoot: 'apps/fun' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, [
       '/apps/fun/src/routes/a/b/c/tester/+page.svelte',
@@ -68,7 +68,7 @@ describe('sveltekit-route with server load', () => {
     assert.ok(
       tree
         .readContent('/apps/fun/tests/a/b/c/tester.spec.ts')
-        .includes("await page.goto('/a/b/c/tester');"),
+        .includes("await page.goto('/a/b/c/tester');")
     );
   });
 });
@@ -80,7 +80,7 @@ describe('sveltekit-route skipTests', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'tester', skipTests: true },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/src/routes/tester/+page.svelte']);
   });
@@ -93,7 +93,7 @@ describe('sveltekit-route with path', () => {
     const tree = await runner.runSchematic(
       'sveltekit-route',
       { name: 'a/b/c/tester', load: 'none', path: 'tbd' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, [
       '/src/routes/tbd/a/b/c/tester/+page.svelte',
@@ -103,7 +103,7 @@ describe('sveltekit-route with path', () => {
     assert.ok(
       tree
         .readContent('/tests/tbd/a/b/c/tester.spec.ts')
-        .includes("await page.goto('/tbd/a/b/c/tester');"),
+        .includes("await page.goto('/tbd/a/b/c/tester');")
     );
   });
 
@@ -118,7 +118,7 @@ describe('sveltekit-route with path', () => {
         path: 'tbd',
         projectRoot: 'apps/fun',
       },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, [
       '/apps/fun/src/routes/tbd/a/b/c/tester/+page.svelte',
@@ -128,7 +128,7 @@ describe('sveltekit-route with path', () => {
     assert.ok(
       tree
         .readContent('/apps/fun/tests/tbd/a/b/c/tester.spec.ts')
-        .includes("await page.goto('/tbd/a/b/c/tester');"),
+        .includes("await page.goto('/tbd/a/b/c/tester');")
     );
   });
 });

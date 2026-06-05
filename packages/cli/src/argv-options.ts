@@ -12,7 +12,7 @@ const knownOptionNames = new Set([
 
 function toCamelCase(value: string): string {
   return value.replace(/-([a-z])/g, (_, letter: string) =>
-    letter.toUpperCase(),
+    letter.toUpperCase()
   );
 }
 
@@ -27,7 +27,7 @@ function parseSchematicValue(raw: string): unknown {
 }
 
 export function extractSchematicOptions(
-  argv: string[],
+  argv: string[]
 ): Record<string, unknown> {
   const commandIndex = argv.findIndex((arg) => arg === 'generate');
   if (commandIndex === -1) {
@@ -91,7 +91,7 @@ export function extractSchematicOptions(
 }
 
 export function removeUnsetOptions(
-  options: Record<string, unknown>,
+  options: Record<string, unknown>
 ): Record<string, unknown> {
   const cleaned: Record<string, unknown> = {};
 

@@ -46,31 +46,31 @@ type JsonSchema = {
 
 function canPrompt(): boolean {
   return Boolean(
-    process.stdin.isTTY && process.stdout.isTTY && !process.env.CI,
+    process.stdin.isTTY && process.stdout.isTTY && !process.env.CI
   );
 }
 
 async function resolveSchematicName(
   collection: any,
-  providedSchematicName?: string,
+  providedSchematicName?: string
 ): Promise<string> {
   if (providedSchematicName) {
     return providedSchematicName;
   }
 
   const availableSchematics = Object.keys(
-    collection.description?.schematics ?? {},
+    collection.description?.schematics ?? {}
   );
 
   if (!availableSchematics.length) {
     throw new Error(
-      `No schematics found in collection "${collection.description?.name ?? 'unknown'}".`,
+      `No schematics found in collection "${collection.description?.name ?? 'unknown'}".`
     );
   }
 
   if (!canPrompt()) {
     throw new Error(
-      'Missing schematic name. Use "generate <schematic>" in scripts and CI.',
+      'Missing schematic name. Use "generate <schematic>" in scripts and CI.'
     );
   }
 
@@ -107,7 +107,7 @@ function parseTypedValue(raw: string, type?: string): unknown {
 
 function getPromptMessage(
   schemaProp: JsonSchemaProperty,
-  optionName: string,
+  optionName: string
 ): string {
   const promptDef = schemaProp['x-prompt'];
   if (typeof promptDef === 'string' && promptDef.trim().length) {
@@ -126,12 +126,12 @@ function getPromptMessage(
 
 function getPromptableOptionNames(
   properties: Record<string, JsonSchemaProperty>,
-  options: Record<string, unknown>,
+  options: Record<string, unknown>
 ): string[] {
   return Object.entries(properties)
     .filter(
       ([optionName, schemaProp]) =>
-        !isProvided(options[optionName]) && isProvided(schemaProp['x-prompt']),
+        !isProvided(options[optionName]) && isProvided(schemaProp['x-prompt'])
     )
     .map(([optionName]) => optionName);
 }
@@ -140,14 +140,14 @@ async function promptForOption(
   optionName: string,
   schemaProp: JsonSchemaProperty,
   resolvedOptions: Record<string, unknown>,
-  requiredOptionNames: ReadonlySet<string>,
+  requiredOptionNames: ReadonlySet<string>
 ): Promise<void> {
   const message = getPromptMessage(schemaProp, optionName);
   const isRequired = requiredOptionNames.has(optionName);
 
   if (schemaProp.enum?.length) {
     const hasOnlyNumberEnumValues = schemaProp.enum.every(
-      (value) => typeof value === 'number',
+      (value) => typeof value === 'number'
     );
     const enumOptions = hasOnlyNumberEnumValues
       ? schemaProp.enum.map((value) => ({
@@ -209,7 +209,7 @@ async function promptForOption(
 
 function formatSchemaErrorPath(
   instancePath?: string,
-  propertyName?: string,
+  propertyName?: string
 ): string {
   if (instancePath && instancePath.length > 1) {
     return `--${instancePath.slice(1).replace(/\//g, '.')}`;
@@ -223,7 +223,7 @@ function formatSchemaErrorPath(
 }
 
 function formatSchemaValidationErrors(
-  errors: readonly json.schema.SchemaValidatorError[],
+  errors: readonly json.schema.SchemaValidatorError[]
 ): string {
   return errors
     .map((error) => {
@@ -233,13 +233,13 @@ function formatSchemaValidationErrors(
         error.params !== null &&
         'missingProperty' in error.params
           ? String(
-              (error.params as { missingProperty: string }).missingProperty,
+              (error.params as { missingProperty: string }).missingProperty
             )
           : undefined;
 
       const location = formatSchemaErrorPath(
         error.instancePath,
-        missingProperty,
+        missingProperty
       );
       const message = error.message ?? 'Invalid value';
 
@@ -249,7 +249,7 @@ function formatSchemaValidationErrors(
 }
 
 function getMissingRequiredOptions(
-  errors: readonly json.schema.SchemaValidatorError[] = [],
+  errors: readonly json.schema.SchemaValidatorError[] = []
 ): string[] {
   const missing = new Set<string>();
 
@@ -264,7 +264,7 @@ function getMissingRequiredOptions(
       'missingProperty' in error.params
     ) {
       const missingProperty = String(
-        (error.params as { missingProperty: string }).missingProperty,
+        (error.params as { missingProperty: string }).missingProperty
       );
       if (missingProperty) {
         missing.add(missingProperty);
@@ -294,7 +294,7 @@ function createSchemaRegistry(): json.schema.CoreSchemaRegistry {
 async function validateOptionsWithDevkitSchema(
   registry: json.schema.CoreSchemaRegistry,
   schema: JsonSchema,
-  options: Record<string, unknown>,
+  options: Record<string, unknown>
 ): Promise<Record<string, unknown>> {
   const validator = await registry.compile(schema as json.JsonObject);
   const result = await validator(options as unknown as json.JsonValue);
@@ -305,7 +305,7 @@ async function validateOptionsWithDevkitSchema(
       ? `\n${formatSchemaValidationErrors(result.errors)}`
       : '';
     const validationError = new Error(
-      `Invalid schematic options.${details}`,
+      `Invalid schematic options.${details}`
     ) as Error & {
       errors: readonly json.schema.SchemaValidatorError[];
     };
@@ -318,7 +318,7 @@ async function validateOptionsWithDevkitSchema(
 
 async function resolveOptionsFromSchema(
   schema: JsonSchema,
-  initialOptions: Record<string, unknown>,
+  initialOptions: Record<string, unknown>
 ) {
   const properties = schema.properties ?? {};
   const requiredOptionNames = new Set(schema.required ?? []);
@@ -328,7 +328,7 @@ async function resolveOptionsFromSchema(
   if (canPrompt()) {
     const promptableOptions = getPromptableOptionNames(
       properties,
-      resolvedOptions,
+      resolvedOptions
     );
     for (const optionName of promptableOptions) {
       const schemaProp = properties[optionName] ?? {};
@@ -336,7 +336,7 @@ async function resolveOptionsFromSchema(
         optionName,
         schemaProp,
         resolvedOptions,
-        requiredOptionNames,
+        requiredOptionNames
       );
     }
   }
@@ -346,7 +346,7 @@ async function resolveOptionsFromSchema(
       return await validateOptionsWithDevkitSchema(
         registry,
         schema,
-        resolvedOptions,
+        resolvedOptions
       );
     } catch (error: unknown) {
       const validationErrors =
@@ -359,7 +359,7 @@ async function resolveOptionsFromSchema(
           : [];
 
       const missingRequired = getMissingRequiredOptions(
-        validationErrors,
+        validationErrors
       ).filter((name) => !isProvided(resolvedOptions[name]));
 
       if (!missingRequired.length || !canPrompt()) {
@@ -372,7 +372,7 @@ async function resolveOptionsFromSchema(
           optionName,
           schemaProp,
           resolvedOptions,
-          requiredOptionNames,
+          requiredOptionNames
         );
       }
     }
@@ -418,7 +418,7 @@ export async function runSchematic(argv: any) {
     engineHost.registerTaskExecutor(BuiltinTaskExecutor.RunSchematic);
 
     engineHost.registerOptionsTransform(
-      ((desc: any, options: any) => options) as any,
+      ((desc: any, options: any) => options) as any
     );
 
     const logger = createConsoleLogger(verbose);
@@ -426,7 +426,7 @@ export async function runSchematic(argv: any) {
     const collection = engine.createCollection(collectionName);
     const schematicName = await resolveSchematicName(
       collection,
-      providedSchematicName,
+      providedSchematicName
     );
     const schematic = collection.createSchematic(schematicName);
     const schemaJson = (schematic as any).description?.schemaJson as
@@ -435,7 +435,7 @@ export async function runSchematic(argv: any) {
     const inputOptions = schemaJson
       ? await resolveOptionsFromSchema(
           schemaJson,
-          options as Record<string, unknown>,
+          options as Record<string, unknown>
         )
       : options;
 
@@ -451,7 +451,7 @@ export async function runSchematic(argv: any) {
       schematic.call(inputOptions, of(baseTree) as any, {
         interactive: false,
         logger,
-      }) as any,
+      }) as any
     )) as Tree;
 
     s?.message('Committing changes...');

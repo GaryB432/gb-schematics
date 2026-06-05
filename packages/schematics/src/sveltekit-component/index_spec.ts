@@ -22,13 +22,13 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'tester' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/src/lib/components/Tester.svelte']);
     assert.ok(
       !tree
         .readContent('/src/lib/components/Tester.svelte')
-        .includes('export let'),
+        .includes('export let')
     );
   });
 
@@ -38,7 +38,7 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'tester', directory: 'a/b/c/d' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/src/a/b/c/d/Tester.svelte']);
   });
@@ -49,7 +49,7 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'c/d/tester', directory: 'a/b' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/src/a/b/c/d/Tester.svelte']);
   });
@@ -60,7 +60,7 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'tester', directory: 'a/b/c/d', projectRoot: 'apps/project' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/apps/project/src/a/b/c/d/Tester.svelte']);
   });
@@ -71,7 +71,7 @@ describe('sveltekit-component', () => {
     const tree = await runner.runSchematic(
       'sveltekit-component',
       { name: 'c/d/tester', directory: 'a/b', projectRoot: 'apps/project' },
-      ftree,
+      ftree
     );
     assertSameMembers(tree.files, ['/apps/project/src/a/b/c/d/Tester.svelte']);
   });

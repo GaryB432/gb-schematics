@@ -21,7 +21,7 @@ cli
   .action((schematic: string, options: any) => {
     const schematicOptions = extractSchematicOptions(process.argv.slice(2));
     const cleanedOptions = removeUnsetOptions(
-      options as Record<string, unknown>,
+      options as Record<string, unknown>
     );
 
     return runSchematic({
@@ -42,7 +42,7 @@ cli.on('command:*', () => {
 
 const userArgs = process.argv.slice(2);
 const hasHelpOrVersionFlag = userArgs.some((arg) =>
-  ['-h', '--help', '-v', '--version'].includes(arg),
+  ['-h', '--help', '-v', '--version'].includes(arg)
 );
 
 if (!hasHelpOrVersionFlag && (!userArgs[0] || userArgs[0].startsWith('-'))) {

@@ -26,7 +26,7 @@ export function bump(options: Options): Rule {
       const oldOne = pj.version;
       if (!oldOne || !semver.valid(oldOne)) {
         throw new Error(
-          `package.json version must be valid semver. Received ${JSON.stringify(oldOne)}.`,
+          `package.json version must be valid semver. Received ${JSON.stringify(oldOne)}.`
         );
       }
       if (!options.part) {
@@ -36,7 +36,7 @@ export function bump(options: Options): Rule {
       const newOne = semver.inc(oldOne, options.part, options.tag ?? '');
       if (!newOne) {
         throw new Error(
-          `Invalid bump part ${JSON.stringify(options.part)}. Expected one of ${bumpParts.join(', ')}.`,
+          `Invalid bump part ${JSON.stringify(options.part)}. Expected one of ${bumpParts.join(', ')}.`
         );
       }
 

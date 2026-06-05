@@ -26,8 +26,8 @@ function createFixtureCollectionPackage(): {
         schematics: './collection.json',
       },
       null,
-      2,
-    ),
+      2
+    )
   );
 
   writeFileSync(
@@ -43,8 +43,8 @@ function createFixtureCollectionPackage(): {
         },
       },
       null,
-      2,
-    ),
+      2
+    )
   );
 
   writeFileSync(
@@ -55,7 +55,7 @@ function createFixtureCollectionPackage(): {
       '  return (tree) => tree;',
       '}',
       '',
-    ].join('\n'),
+    ].join('\n')
   );
 
   writeFileSync(
@@ -73,8 +73,8 @@ function createFixtureCollectionPackage(): {
         additionalProperties: false,
       },
       null,
-      2,
-    ),
+      2
+    )
   );
 
   return { tmpRoot, collectionName };
@@ -96,7 +96,7 @@ describe('cli integration', () => {
             NODE_PATH: join(tmpRoot, 'node_modules'),
           },
           encoding: 'utf8',
-        },
+        }
       );
 
       assert.equal(result.status, 1);
