@@ -1,5 +1,6 @@
 import { readFile } from 'fs/promises';
-import { join, parse } from 'path';
+import { dirname, join, parse } from 'path';
+import { fileURLToPath } from 'url';
 
 interface Schemtic {
   description: string;
@@ -24,7 +25,11 @@ interface SchematicProperties {
   properties: Record<string, Details>;
 }
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 async function readJson<T>(path: string): Promise<T> {
+  console.log(path);
   return JSON.parse((await readFile(path)).toString()) as T;
 }
 
@@ -46,10 +51,18 @@ function isFromArgv(d: Details): unknown {
   return d.$default && d.$default.$source === 'argv';
 }
 
-async function main() {
-  const packageJ = await readJson<{ schematics: string }>('package.json');
+const schematicsPackagePath = join(__dirname, '..', 'packages', 'schematics');
 
-  const collection = await readJson<Collection>(packageJ.schematics);
+async function main() {
+  const packageJ = await readJson<{ schematics: string }>(
+    join(schematicsPackagePath, 'package.json')
+  );
+
+  console.log(packageJ);
+
+  const collection = await readJson<Collection>(
+    join(schematicsPackagePath, packageJ.schematics)
+  );
 
   for (const [k, v] of Object.entries(collection.schematics).sort((a, b) =>
     a[0].localeCompare(b[0])
@@ -58,7 +71,12 @@ async function main() {
     if (v.schema) {
       const collParsed = parse(packageJ.schematics);
       const schParsed = parse(v.schema);
-      const sfn = join(collParsed.dir, schParsed.dir, schParsed.base);
+      const sfn = join(
+        schematicsPackagePath,
+        collParsed.dir,
+        schParsed.dir,
+        schParsed.base
+      );
       const b = await readJson<SchematicProperties>(sfn);
 
       const args = Object.entries(b.properties)

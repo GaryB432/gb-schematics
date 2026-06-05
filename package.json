@@ -6,14 +6,11 @@
   "keywords": [
     "schematics"
   ],
-  "schematics": "./src/collection.json",
   "scripts": {
     "generate:schema-types": "node ./tools/generate-schema-types.mjs",
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
-    "test": "pnpm -r test",
-    "publish:cli": "pnpm --filter @gb-schematics/cli publish",
-    "publish:schematics": "pnpm --filter @gb-schematics/schematics publish"
+    "test": "pnpm -r test"
   },
   "type": "module",
   "devDependencies": {
