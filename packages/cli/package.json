@@ -4,7 +4,7 @@
   "description": "Modern CLI for Angular Schematics",
   "type": "module",
   "bin": {
-    "gb-schematics-cli": "./dist/index.js"
+    "gb-schematics": "./dist/index.js"
   },
   "scripts": {
     "build": "tsc",
