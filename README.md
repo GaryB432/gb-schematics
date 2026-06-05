@@ -1,9 +1,10 @@
 # gb-schematics
 
-| Package                                          |                                                                                                                                  |                                   |
-| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
-| [**cli**](packages/cli//README.md)               | [![npm version](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fcli)        | Schematics runner `gb-schematics` |
-| [**schematics**](packages/schematics//README.md) | [![npm version](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fschematics) | Some of my favorite schematics    |
+<!-- prettier-ignore -->
+| Package |     |     |
+| ------- | --- | --- |
+| [**cli**](packages/cli//README.md) | [![npm](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fcli)  | Schematics runner `gb-schematics` |
+| [**schematics**](packages/schematics//README.md) | [![npm](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fschematics) | Some of my favorite schematics  |
 
 ## Architecture
 
