@@ -1,21 +1,6 @@
-# ℹ️ Announcement: We have moved to a scoped package!
-
-To better organize our tools and protect our namespace, `gb-schematics` has been renamed to **`@gb-schematics/schematics`**.
-
-To receive the latest updates, features, and bug fixes, please migrate your project to the new package address.
-
-### How to upgrade:
-
-```bash
-npm uninstall gb-schematics
-npm install @gb-schematics/schematics
-```
-
-Thank you for being part of the community!
-
----
-
 # gb-schematics
+
+[![pkg.pr.new](https://pkg.pr.new/badge/GaryB432/gb-schematics)](https://pkg.pr.new/~/GaryB432/gb-schematics)
 
 ## Architecture
 
@@ -30,110 +15,14 @@ flowchart TB
 
 ```
 
+| Package                                          |                                       |
+| ------------------------------------------------ | ------------------------------------- |
+| [**cli**](packages/cli//README.md)               | Schematics runner `gb-schematics-cli` |
+| [**schematics**](packages/schematics//README.md) | Some of my favorite schematics        |
+
 # Development
 
-> npx tsx tools/make-schemas --stamp generated
-
-## bump
-
-```
-schematics gb-schematics:bump [part]
-```
-
-Bump package.json version
-
-### Arguments
-
-<!-- prettier-ignore -->
-| ARGUMENT | DESCRIPTION | VALUE TYPE |
-| --- | --- | --- |
-| part | Which part to increment | major \| premajor \| minor \| preminor \| patch \| prepatch \| prerelease |
-
-### Options
-
-<!-- prettier-ignore -->
-| OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE |
-| --- | --- | --- | --- |
-| --tag | A tag to use with semantic version denotation | string |  |
-| --skipInstall | Skip package installation | boolean | false |
-
-## module
-
-```
-schematics gb-schematics:module [name]
-```
-
-Add Class or general Module
-
-### Arguments
-
-<!-- prettier-ignore -->
-| ARGUMENT | DESCRIPTION | VALUE TYPE |
-| --- | --- | --- |
-| name | The name of the module. | string |
-
-### Options
-
-<!-- prettier-ignore -->
-| OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE |
-| --- | --- | --- | --- |
-| --directory | The directory to create the module, relative to the project source. | string |  |
-| --kind | kind of module | class \| values | values |
-| --unitTestRunner | Test runner to use for unit tests. | jest \| vitest \| native \| none | jest |
-| --inSourceTests | When using Vitest, separate spec files will not be generated and instead will be included within the source files. | boolean | false |
-| --pascalCaseFiles | Use pascal case file names for class module. | boolean | true |
-| --language | The language to use. | ts \| js | ts |
-| --sourceRoot | The path to your project's source root | string |  |
-
-## sveltekit-component
-
-```
-schematics gb-schematics:sveltekit-component [name]
-```
-
-Add a component to your sveltekit project
-
-### Arguments
-
-<!-- prettier-ignore -->
-| ARGUMENT | DESCRIPTION | VALUE TYPE |
-| --- | --- | --- |
-| name | The name of the component. | string |
-
-### Options
-
-<!-- prettier-ignore -->
-| OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE |
-| --- | --- | --- | --- |
-| --directory | The directory to create the component, relative to your project source. | string |  |
-| --props | Property for your component. Use "name:type" for explcit type. | array |  |
-| --language | Component script language. | js \| ts | js |
-| --style | Component style language. | none \| css \| scss | css |
-
-## sveltekit-route
-
-```
-schematics gb-schematics:sveltekit-route [name]
-```
-
-Add a route to your sveltekit project
-
-### Arguments
-
-<!-- prettier-ignore -->
-| ARGUMENT | DESCRIPTION | VALUE TYPE |
-| --- | --- | --- |
-| name | The name of the route. | string |
-
-### Options
-
-<!-- prettier-ignore -->
-| OPTION | DESCRIPTION | VALUE TYPE | DEFAULT VALUE |
-| --- | --- | --- | --- |
-| --path | The path at which to create the route file, relative to the projectRoot. Default is a folder with the same name as the route in the project root. | string |  |
-| --style | The value of style element lang attribute | css \| scss | css |
-| --skipTests | Do not create "spec.ts" test files for the new route. | boolean | false |
-| --load | Should the load function run on client and server (universal) or just server | universal \| server \| none | none |
+> pnpx tsx tools/make-schemas
 
 see
 
