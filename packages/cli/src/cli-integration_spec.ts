@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { tmpdir } from 'node:os';
-import { describe, it } from 'node:test';
 import { spawnSync } from 'node:child_process';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { describe, it } from 'node:test';
 
 function createFixtureCollectionPackage(): {
-  tmpRoot: string;
   collectionName: string;
+  tmpRoot: string;
 } {
   const tmpRoot = mkdtempSync(join(tmpdir(), 'gb-schematics-cli-'));
   const collectionName = 'fixture-schematics';
@@ -21,9 +21,9 @@ function createFixtureCollectionPackage(): {
     JSON.stringify(
       {
         name: collectionName,
-        version: '0.0.0-test',
-        type: 'module',
         schematics: './collection.json',
+        type: 'module',
+        version: '0.0.0-test',
       },
       null,
       2
@@ -62,27 +62,27 @@ function createFixtureCollectionPackage(): {
     join(schematicRoot, 'schema.json'),
     JSON.stringify(
       {
-        type: 'object',
+        additionalProperties: false,
         properties: {
           name: {
-            type: 'string',
             description: 'Name of generated thing',
+            type: 'string',
           },
         },
         required: ['name'],
-        additionalProperties: false,
+        type: 'object',
       },
       null,
       2
     )
   );
 
-  return { tmpRoot, collectionName };
+  return { collectionName, tmpRoot };
 }
 
 describe('cli integration', () => {
   it('prints required-option validation failure in CI mode', () => {
-    const { tmpRoot, collectionName } = createFixtureCollectionPackage();
+    const { collectionName, tmpRoot } = createFixtureCollectionPackage();
 
     try {
       const result = spawnSync(
@@ -90,12 +90,12 @@ describe('cli integration', () => {
         ['dist/index.js', 'generate', 'demo', '--collection', collectionName],
         {
           cwd: process.cwd(),
+          encoding: 'utf8',
           env: {
             ...process.env,
             CI: '1',
             NODE_PATH: join(tmpRoot, 'node_modules'),
           },
-          encoding: 'utf8',
         }
       );
 
@@ -103,7 +103,7 @@ describe('cli integration', () => {
       assert.match(result.stderr, /Failed: Invalid schematic options\./);
       assert.match(result.stderr, /--name: must have required property 'name'/);
     } finally {
-      rmSync(tmpRoot, { recursive: true, force: true });
+      rmSync(tmpRoot, { force: true, recursive: true });
     }
   });
 });

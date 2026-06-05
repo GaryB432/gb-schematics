@@ -7,18 +7,18 @@ describe('argv-options', () => {
   describe('removeUnsetOptions', () => {
     it('drops only undefined values', () => {
       const result = removeUnsetOptions({
-        name: undefined,
-        dryRun: false,
-        force: false,
         collection: '',
         count: 0,
+        dryRun: false,
+        force: false,
+        name: undefined,
       });
 
       assert.deepEqual(result, {
-        dryRun: false,
-        force: false,
         collection: '',
         count: 0,
+        dryRun: false,
+        force: false,
       });
     });
   });

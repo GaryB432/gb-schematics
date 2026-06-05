@@ -23,201 +23,23 @@ import {
   text,
 } from '@clack/prompts';
 import { lastValueFrom, of } from 'rxjs';
+
 import {
   asJsonSchema,
   type JsonSchemaProperty,
   resolveOptionsFromSchema,
 } from './schema-validator.js';
 
-function canPrompt(): boolean {
-  return Boolean(
-    process.stdin.isTTY && process.stdout.isTTY && !process.env.CI
-  );
-}
-
-async function resolveSchematicName(
-  collection: any,
-  providedSchematicName?: string
-): Promise<string> {
-  if (providedSchematicName) {
-    return providedSchematicName;
-  }
-
-  const availableSchematics = Object.keys(
-    collection.description?.schematics ?? {}
-  );
-
-  if (!availableSchematics.length) {
-    throw new Error(
-      `No schematics found in collection "${collection.description?.name ?? 'unknown'}".`
-    );
-  }
-
-  if (!canPrompt()) {
-    throw new Error(
-      'Missing schematic name. Use "generate <schematic>" in scripts and CI.'
-    );
-  }
-
-  const selected = await select({
-    message: 'Select a schematic to run',
-    options: availableSchematics.map((schematicName) => ({
-      label: schematicName,
-      value: schematicName,
-    })),
-  });
-
-  if (isCancel(selected)) {
-    cancel('Operation cancelled.');
-    process.exit(1);
-  }
-
-  return selected;
-}
-
-function isProvided(value: unknown): boolean {
-  return value !== undefined && value !== null && value !== '';
-}
-
-function getPreferredSchemaType(
-  type: JsonSchemaProperty['type']
-): string | undefined {
-  if (Array.isArray(type)) {
-    if (type.includes('integer')) {
-      return 'integer';
-    }
-    if (type.includes('number')) {
-      return 'number';
-    }
-    if (type.includes('string')) {
-      return 'string';
-    }
-    if (type.includes('boolean')) {
-      return 'boolean';
-    }
-    return undefined;
-  }
-
-  return type;
-}
-
-function parseTypedValue(
-  raw: string,
-  type: JsonSchemaProperty['type']
-): unknown {
-  const preferredType = getPreferredSchemaType(type);
-
-  if (preferredType === 'number' || preferredType === 'integer') {
-    const parsed = Number(raw);
-    if (Number.isNaN(parsed)) {
-      throw new Error(`Invalid ${preferredType} value: ${raw}`);
-    }
-    return preferredType === 'integer' ? Math.trunc(parsed) : parsed;
-  }
-  return raw;
-}
-
-function getPromptMessage(
-  schemaProp: JsonSchemaProperty,
-  optionName: string
-): string {
-  const promptDef = schemaProp['x-prompt'];
-  if (typeof promptDef === 'string' && promptDef.trim().length) {
-    return promptDef;
-  }
-  if (
-    typeof promptDef === 'object' &&
-    promptDef !== null &&
-    typeof promptDef.message === 'string' &&
-    promptDef.message.trim().length
-  ) {
-    return promptDef.message;
-  }
-  return schemaProp.description || `Enter value for ${optionName}`;
-}
-
-async function promptForOption(
-  optionName: string,
-  schemaProp: JsonSchemaProperty,
-  resolvedOptions: Record<string, unknown>,
-  requiredOptionNames: ReadonlySet<string>
-): Promise<void> {
-  const message = getPromptMessage(schemaProp, optionName);
-  const isRequired = requiredOptionNames.has(optionName);
-
-  if (schemaProp.enum?.length) {
-    const enumValues = schemaProp.enum.filter(
-      (value): value is string | number | boolean =>
-        typeof value === 'string' ||
-        typeof value === 'number' ||
-        typeof value === 'boolean'
-    );
-
-    if (enumValues.length) {
-      const enumOptions = enumValues.map((value) => ({
-        label: String(value),
-        value,
-      }));
-
-      const picked = await (select as any)({
-        message,
-        options: enumOptions,
-      });
-      if (isCancel(picked)) {
-        cancel('Operation cancelled.');
-        process.exit(1);
-      }
-      resolvedOptions[optionName] = picked;
-      return;
-    }
-  }
-
-  if (schemaProp.type === 'boolean') {
-    const picked = await confirm({
-      message,
-      initialValue: Boolean(schemaProp.default ?? false),
-    });
-    if (isCancel(picked)) {
-      cancel('Operation cancelled.');
-      process.exit(1);
-    }
-    resolvedOptions[optionName] = picked;
-    return;
-  }
-
-  const entered = await text({
-    message,
-    placeholder: schemaProp.default ? String(schemaProp.default) : undefined,
-    validate: (value) => {
-      if (value.trim().length || !isRequired) {
-        return undefined;
-      }
-      return `${optionName} is required`;
-    },
-  });
-
-  if (isCancel(entered)) {
-    cancel('Operation cancelled.');
-    process.exit(1);
-  }
-
-  if (!entered.trim().length && !isRequired) {
-    return;
-  }
-
-  resolvedOptions[optionName] = parseTypedValue(entered, schemaProp.type);
-}
-
 export async function runSchematic(argv: any) {
   const {
-    collection: providedCollectionName,
-    c: _collectionAlias,
-    n: _nameAlias,
-    '--': _passthroughArgs,
     _: _positionalArgs,
+    '--': _passthroughArgs,
+    c: _collectionAlias,
+    collection: providedCollectionName,
     'dry-run': _dryRunKebab,
     dryRun,
     force,
+    n: _nameAlias,
     schematic: providedSchematicName,
     verbose,
     ...options
@@ -318,4 +140,183 @@ export async function runSchematic(argv: any) {
     }
     process.exit(1);
   }
+}
+
+function canPrompt(): boolean {
+  return Boolean(
+    process.stdin.isTTY && process.stdout.isTTY && !process.env.CI
+  );
+}
+
+function getPreferredSchemaType(
+  type: JsonSchemaProperty['type']
+): string | undefined {
+  if (Array.isArray(type)) {
+    if (type.includes('integer')) {
+      return 'integer';
+    }
+    if (type.includes('number')) {
+      return 'number';
+    }
+    if (type.includes('string')) {
+      return 'string';
+    }
+    if (type.includes('boolean')) {
+      return 'boolean';
+    }
+    return undefined;
+  }
+
+  return type;
+}
+
+function getPromptMessage(
+  schemaProp: JsonSchemaProperty,
+  optionName: string
+): string {
+  const promptDef = schemaProp['x-prompt'];
+  if (typeof promptDef === 'string' && promptDef.trim().length) {
+    return promptDef;
+  }
+  if (
+    typeof promptDef === 'object' &&
+    promptDef !== null &&
+    typeof promptDef.message === 'string' &&
+    promptDef.message.trim().length
+  ) {
+    return promptDef.message;
+  }
+  return schemaProp.description || `Enter value for ${optionName}`;
+}
+
+function isProvided(value: unknown): boolean {
+  return value !== undefined && value !== null && value !== '';
+}
+
+function parseTypedValue(
+  raw: string,
+  type: JsonSchemaProperty['type']
+): unknown {
+  const preferredType = getPreferredSchemaType(type);
+
+  if (preferredType === 'number' || preferredType === 'integer') {
+    const parsed = Number(raw);
+    if (Number.isNaN(parsed)) {
+      throw new Error(`Invalid ${preferredType} value: ${raw}`);
+    }
+    return preferredType === 'integer' ? Math.trunc(parsed) : parsed;
+  }
+  return raw;
+}
+
+async function promptForOption(
+  optionName: string,
+  schemaProp: JsonSchemaProperty,
+  resolvedOptions: Record<string, unknown>,
+  requiredOptionNames: ReadonlySet<string>
+): Promise<void> {
+  const message = getPromptMessage(schemaProp, optionName);
+  const isRequired = requiredOptionNames.has(optionName);
+
+  if (schemaProp.enum?.length) {
+    const enumValues = schemaProp.enum.filter(
+      (value): value is boolean | number | string =>
+        typeof value === 'string' ||
+        typeof value === 'number' ||
+        typeof value === 'boolean'
+    );
+
+    if (enumValues.length) {
+      const enumOptions = enumValues.map((value) => ({
+        label: String(value),
+        value,
+      }));
+
+      const picked = await (select as any)({
+        message,
+        options: enumOptions,
+      });
+      if (isCancel(picked)) {
+        cancel('Operation cancelled.');
+        process.exit(1);
+      }
+      resolvedOptions[optionName] = picked;
+      return;
+    }
+  }
+
+  if (schemaProp.type === 'boolean') {
+    const picked = await confirm({
+      initialValue: Boolean(schemaProp.default ?? false),
+      message,
+    });
+    if (isCancel(picked)) {
+      cancel('Operation cancelled.');
+      process.exit(1);
+    }
+    resolvedOptions[optionName] = picked;
+    return;
+  }
+
+  const entered = await text({
+    message,
+    placeholder: schemaProp.default ? String(schemaProp.default) : undefined,
+    validate: (value) => {
+      if (value.trim().length || !isRequired) {
+        return undefined;
+      }
+      return `${optionName} is required`;
+    },
+  });
+
+  if (isCancel(entered)) {
+    cancel('Operation cancelled.');
+    process.exit(1);
+  }
+
+  if (!entered.trim().length && !isRequired) {
+    return;
+  }
+
+  resolvedOptions[optionName] = parseTypedValue(entered, schemaProp.type);
+}
+
+async function resolveSchematicName(
+  collection: any,
+  providedSchematicName?: string
+): Promise<string> {
+  if (providedSchematicName) {
+    return providedSchematicName;
+  }
+
+  const availableSchematics = Object.keys(
+    collection.description?.schematics ?? {}
+  );
+
+  if (!availableSchematics.length) {
+    throw new Error(
+      `No schematics found in collection "${collection.description?.name ?? 'unknown'}".`
+    );
+  }
+
+  if (!canPrompt()) {
+    throw new Error(
+      'Missing schematic name. Use "generate <schematic>" in scripts and CI.'
+    );
+  }
+
+  const selected = await select({
+    message: 'Select a schematic to run',
+    options: availableSchematics.map((schematicName) => ({
+      label: schematicName,
+      value: schematicName,
+    })),
+  });
+
+  if (isCancel(selected)) {
+    cancel('Operation cancelled.');
+    process.exit(1);
+  }
+
+  return selected;
 }

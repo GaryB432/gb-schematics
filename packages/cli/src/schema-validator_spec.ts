@@ -5,19 +5,19 @@ import {
   createSchemaRegistry,
   formatSchemaValidationErrors,
   getMissingRequiredOptions,
+  type JsonSchema,
   resolveOptionsFromSchema,
   validateOptionsWithDevkitSchema,
-  type JsonSchema,
 } from './schema-validator.js';
 
 describe('schema-validator', () => {
   it('applies schema defaults during validation', async () => {
     const registry = createSchemaRegistry();
     const schema: JsonSchema = {
-      type: 'object',
       properties: {
-        flavor: { type: 'string', default: 'vanilla' },
+        flavor: { default: 'vanilla', type: 'string' },
       },
+      type: 'object',
     };
 
     const result = await validateOptionsWithDevkitSchema(registry, schema, {});
@@ -28,11 +28,11 @@ describe('schema-validator', () => {
   it('formats required-field errors with cli flag paths', async () => {
     const registry = createSchemaRegistry();
     const schema: JsonSchema = {
-      type: 'object',
       properties: {
         name: { type: 'string' },
       },
       required: ['name'],
+      type: 'object',
     };
 
     await assert.rejects(
@@ -50,7 +50,7 @@ describe('schema-validator', () => {
           error !== null &&
           'errors' in error &&
           Array.isArray((error as { errors?: unknown[] }).errors)
-            ? // eslint-disable-next-line
+            ?  
               ((error as { errors: any[] }).errors ?? [])
             : [];
 
@@ -63,7 +63,6 @@ describe('schema-validator', () => {
 
   it('recovers by prompting for missing required options', async () => {
     const schema: JsonSchema = {
-      type: 'object',
       properties: {
         name: {
           type: 'string',
@@ -71,6 +70,7 @@ describe('schema-validator', () => {
         },
       },
       required: ['name'],
+      type: 'object',
     };
 
     const prompted: string[] = [];
@@ -91,13 +91,13 @@ describe('schema-validator', () => {
 
   it('throws when required options are missing and prompting is disabled', async () => {
     const schema: JsonSchema = {
-      type: 'object',
       properties: {
         name: {
           type: 'string',
         },
       },
       required: ['name'],
+      type: 'object',
     };
 
     await assert.rejects(

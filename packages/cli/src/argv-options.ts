@@ -1,30 +1,14 @@
 const knownOptionNames = new Set([
-  'collection',
-  'name',
-  'dryRun',
-  'force',
-  'verbose',
   'c',
-  'n',
+  'collection',
   'dry-run',
+  'dryRun',
   'dryrun',
+  'force',
+  'n',
+  'name',
+  'verbose',
 ]);
-
-function toCamelCase(value: string): string {
-  return value.replace(/-([a-z])/g, (_, letter: string) =>
-    letter.toUpperCase()
-  );
-}
-
-function parseSchematicValue(raw: string): unknown {
-  if (raw === 'true') {
-    return true;
-  }
-  if (raw === 'false') {
-    return false;
-  }
-  return raw;
-}
 
 export function extractSchematicOptions(
   argv: string[]
@@ -102,4 +86,20 @@ export function removeUnsetOptions(
   }
 
   return cleaned;
+}
+
+function parseSchematicValue(raw: string): unknown {
+  if (raw === 'true') {
+    return true;
+  }
+  if (raw === 'false') {
+    return false;
+  }
+  return raw;
+}
+
+function toCamelCase(value: string): string {
+  return value.replace(/-([a-z])/g, (_, letter: string) =>
+    letter.toUpperCase()
+  );
 }

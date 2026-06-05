@@ -42,7 +42,7 @@ cli.on('command:*', () => {
 
 const userArgs = process.argv.slice(2);
 const hasHelpOrVersionFlag = userArgs.some((arg) =>
-  ['-h', '--help', '-v', '--version'].includes(arg)
+  ['--help', '--version', '-h', '-v'].includes(arg)
 );
 
 if (!hasHelpOrVersionFlag && (!userArgs[0] || userArgs[0].startsWith('-'))) {

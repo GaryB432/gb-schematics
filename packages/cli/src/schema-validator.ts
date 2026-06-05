@@ -1,18 +1,17 @@
-import { json } from '@angular-devkit/core';
 import type { JSONSchema7, JSONSchema7Definition } from 'json-schema';
 
-type SchematicPrompt = string | { message?: string };
+import { json } from '@angular-devkit/core';
 
-export type JsonSchemaProperty = JSONSchema7 & {
-  'x-prompt'?: SchematicPrompt;
-  enum?: JSONSchema7['enum'];
-};
-
-export type JsonSchema = Omit<JSONSchema7, 'properties' | 'required'> & {
-  required?: string[];
-  properties?: Record<string, JsonSchemaProperty>;
+export type JsonSchema = {
   additionalProperties?: boolean | JsonSchemaProperty;
-};
+  properties?: Record<string, JsonSchemaProperty>;
+  required?: string[];
+} & Omit<JSONSchema7, 'properties' | 'required'>;
+
+export type JsonSchemaProperty = {
+  enum?: JSONSchema7['enum'];
+  'x-prompt'?: SchematicPrompt;
+} & JSONSchema7;
 
 export type PromptForOption = (
   optionName: string,
@@ -21,33 +20,32 @@ export type PromptForOption = (
   requiredOptionNames: ReadonlySet<string>
 ) => Promise<void>;
 
+type SchematicPrompt = { message?: string } | string;
+
 export function asJsonSchema(schema: JSONSchema7Definition): JsonSchema {
   if (typeof schema === 'boolean') {
     return {
-      type: 'object',
       additionalProperties: schema,
+      type: 'object',
     };
   }
 
   return schema as JsonSchema;
 }
-function isProvided(value: unknown): boolean {
-  return value !== undefined && value !== null && value !== '';
-}
+export function createSchemaRegistry(): json.schema.CoreSchemaRegistry {
+  const registry = new json.schema.CoreSchemaRegistry();
+  registry.addPostTransform(json.schema.transforms.addUndefinedDefaults);
+  // Register known schematic formats up front to prevent noisy unknown-format warnings.
+  registry.addFormat({
+    formatter: {
+      type: 'string',
+      validate: (value: string) =>
+        typeof value === 'string' && !value.includes('\0'),
+    },
+    name: 'path',
+  });
 
-function formatSchemaErrorPath(
-  instancePath?: string,
-  propertyName?: string
-): string {
-  if (instancePath && instancePath.length > 1) {
-    return `--${instancePath.slice(1).replace(/\//g, '.')}`;
-  }
-
-  if (propertyName) {
-    return `--${propertyName}`;
-  }
-
-  return 'options';
+  return registry;
 }
 
 export function formatSchemaValidationErrors(
@@ -101,47 +99,6 @@ export function getMissingRequiredOptions(
   }
 
   return [...missing];
-}
-
-export function createSchemaRegistry(): json.schema.CoreSchemaRegistry {
-  const registry = new json.schema.CoreSchemaRegistry();
-  registry.addPostTransform(json.schema.transforms.addUndefinedDefaults);
-  // Register known schematic formats up front to prevent noisy unknown-format warnings.
-  registry.addFormat({
-    name: 'path',
-    formatter: {
-      type: 'string',
-      validate: (value: string) =>
-        typeof value === 'string' && !value.includes('\0'),
-    },
-  });
-
-  return registry;
-}
-
-export async function validateOptionsWithDevkitSchema(
-  registry: json.schema.CoreSchemaRegistry,
-  schema: JsonSchema,
-  options: Record<string, unknown>
-): Promise<Record<string, unknown>> {
-  const validator = await registry.compile(schema as json.JsonObject);
-  const result = await validator(options as unknown as json.JsonValue);
-
-  if (!result.success) {
-    const errors = result.errors ?? [];
-    const details = result.errors?.length
-      ? `\n${formatSchemaValidationErrors(result.errors)}`
-      : '';
-    const validationError = new Error(
-      `Invalid schematic options.${details}`
-    ) as Error & {
-      errors: readonly json.schema.SchemaValidatorError[];
-    };
-    validationError.errors = errors;
-    throw validationError;
-  }
-
-  return (result.data as Record<string, unknown>) ?? options;
 }
 
 export async function resolveOptionsFromSchema(
@@ -211,4 +168,48 @@ export async function resolveOptionsFromSchema(
       }
     }
   }
+}
+
+export async function validateOptionsWithDevkitSchema(
+  registry: json.schema.CoreSchemaRegistry,
+  schema: JsonSchema,
+  options: Record<string, unknown>
+): Promise<Record<string, unknown>> {
+  const validator = await registry.compile(schema as json.JsonObject);
+  const result = await validator(options as unknown as json.JsonValue);
+
+  if (!result.success) {
+    const errors = result.errors ?? [];
+    const details = result.errors?.length
+      ? `\n${formatSchemaValidationErrors(result.errors)}`
+      : '';
+    const validationError = new Error(
+      `Invalid schematic options.${details}`
+    ) as {
+      errors: readonly json.schema.SchemaValidatorError[];
+    } & Error;
+    validationError.errors = errors;
+    throw validationError;
+  }
+
+  return (result.data as Record<string, unknown>) ?? options;
+}
+
+function formatSchemaErrorPath(
+  instancePath?: string,
+  propertyName?: string
+): string {
+  if (instancePath && instancePath.length > 1) {
+    return `--${instancePath.slice(1).replace(/\//g, '.')}`;
+  }
+
+  if (propertyName) {
+    return `--${propertyName}`;
+  }
+
+  return 'options';
+}
+
+function isProvided(value: unknown): boolean {
+  return value !== undefined && value !== null && value !== '';
 }
