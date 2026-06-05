@@ -1,6 +1,9 @@
 # gb-schematics
 
-[![pkg.pr.new](https://pkg.pr.new/badge/GaryB432/gb-schematics)](https://pkg.pr.new/~/GaryB432/gb-schematics)
+| Package                                          |                                                                                                                                  |                                   |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| [**cli**](packages/cli//README.md)               | [![npm version](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fcli)        | Schematics runner `gb-schematics` |
+| [**schematics**](packages/schematics//README.md) | [![npm version](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fschematics) | Some of my favorite schematics    |
 
 ## Architecture
 
@@ -12,13 +15,7 @@ flowchart TB
 	RUN --> DEVKIT["Angular Devkit Engine"]
 	DEVKIT --> COLL["Schematic collection"]
 	COLL --> RULES["Rules and templates"]
-
 ```
-
-| Package                                          |                                       |
-| ------------------------------------------------ | ------------------------------------- |
-| [**cli**](packages/cli//README.md)               | Schematics runner `gb-schematics-cli` |
-| [**schematics**](packages/schematics//README.md) | Some of my favorite schematics        |
 
 # Development
 

@@ -1,7 +1,6 @@
 # @gb-schematics/schematics
 
-[![npm version](https://badge.fury.io/js/@gb-schematics/schematics.svg)](https://badge.fury.io/js/@gb-schematics/schematics)
-[![pkg.pr.new](https://pkg.pr.new/badge/GaryB432/gb-schematics)](https://pkg.pr.new/~/GaryB432/gb-schematics)
+[![npm version](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fschematics)
 
 The sources for this package are in the main [gb-schematics](../../README.md) repo. Please file issues and pull requests against that repo.
 
