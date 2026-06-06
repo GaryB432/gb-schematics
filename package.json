@@ -17,6 +17,7 @@
     "@clack/prompts": "^0.10.1",
     "@eslint/js": "^10.0.1",
     "@types/jest": "^29.5.14",
+    "@types/json-schema": "^7.0.15",
     "@types/node": "^25.9.1",
     "@types/semver": "^7.7.1",
     "@typescript-eslint/eslint-plugin": "^7.0.0",

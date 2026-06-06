@@ -7,7 +7,7 @@
     "gb-schematics": "./dist/index.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --pretty",
     "lint": "eslint src --ext .ts",
     "test": "pnpm run build && tsc -p tsconfig.spec.json && node --test dist/**/*_spec.js",
     "dev": "tsc --watch"
@@ -19,9 +19,6 @@
     "@gb-schematics/schematics": "workspace:*",
     "cac": "^6.7.14",
     "rxjs": "^7.8.1"
-  },
-  "devDependencies": {
-    "@types/json-schema": "^7.0.15"
   },
   "publishConfig": {
     "access": "public"

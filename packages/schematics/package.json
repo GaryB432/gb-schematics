@@ -5,7 +5,7 @@
   "type": "module",
   "schematics": "./dist/collection.json",
   "scripts": {
-    "build": "node ../../tools/generate-schema-types.ts src && rm -rf dist && tsc && copyfiles -u 1 \"src/**/*.json\" \"src/**/files/**/*\" dist",
+    "build": "node ../../tools/generate-schema-types.ts src && rm -rf dist && tsc --pretty && copyfiles -u 1 \"src/**/*.json\" \"src/**/files/**/*\" dist",
     "lint": "eslint src --ext .ts",
     "test": "pnpm run build && tsc -p tsconfig.spec.json && node --test dist/**/*_spec.js"
   },
