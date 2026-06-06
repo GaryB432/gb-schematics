@@ -20,7 +20,7 @@ flowchart TB
 
 # Development
 
-> pnpx tsx tools/make-schemas
+> pnpx tsx tools/make-schemas 292
 
 see
 
