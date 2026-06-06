@@ -7,7 +7,7 @@ import path from 'node:path';
 import pc from 'picocolors';
 
 /**
- * @typedef {{ code?: string }} ErrnoLike
+ * @typedef {NodeJS.ErrnoException} ErrnoLike
  */
 
 /**
@@ -32,7 +32,12 @@ import pc from 'picocolors';
  * @returns {error is ErrnoLike}
  */
 function isErrnoException(error) {
-  return Boolean(error && typeof error === 'object' && 'code' in error);
+  return Boolean(
+    error &&
+      typeof error === 'object' &&
+      'code' in error &&
+      typeof error.code === 'string'
+  );
 }
 
 const repoRoot = process.cwd();
