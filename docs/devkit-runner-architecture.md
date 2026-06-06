@@ -45,7 +45,7 @@ flowchart TD
 
 	subgraph Build_and_Package
 		SRCJSON["src/**/*.json and templates"]
-		GENTS["tools/generate-schema-types.mjs"]
+		GENTS["tools/generate-schema-types.ts"]
 		TSC["tsc compile"]
 		COPY["copyfiles assets to dist"]
 
