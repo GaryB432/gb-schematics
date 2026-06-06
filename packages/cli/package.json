@@ -1,0 +1,32 @@
+{
+  "name": "@gb-schematics/cli",
+  "version": "6.0.0-alpha.5",
+  "description": "Modern CLI for Angular Schematics",
+  "type": "module",
+  "bin": {
+    "gb-schematics": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc --pretty",
+    "lint": "eslint src --ext .ts",
+    "test": "pnpm run build && tsc -p tsconfig.spec.json && node --test dist/**/*_spec.js",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@angular-devkit/core": "^19.0.0",
+    "@angular-devkit/schematics": "^19.0.0",
+    "@clack/prompts": "^0.10.1",
+    "@gb-schematics/schematics": "workspace:*",
+    "cac": "^6.7.14",
+    "rxjs": "^7.8.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": "https://github.com/GaryB432/gb-schematics/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaryB432/gb-schematics.git",
+    "directory": "packages/cli"
+  }
+}

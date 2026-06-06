@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "GbSchematicsEslint",
+  "title": "GB Schematics Eslint Options Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "part": {
+      "type": "string",
+      "description": "Which part to increment",
+      "enum": [
+        "major",
+        "premajor",
+        "minor",
+        "preminor",
+        "patch",
+        "prepatch",
+        "prerelease"
+      ],
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Select the version part to increment."
+    },
+    "tag": {
+      "type": "string",
+      "description": "A tag to use with semantic version denotation",
+      "x-prompt": "Prerelease tag (leave empty to skip)."
+    },
+    "skipInstall": {
+      "type": "boolean",
+      "default": false,
+      "description": "Skip package installation",
+      "x-prompt": "Skip package installation after bump?"
+    }
+  },
+  "required": ["part"]
+}
