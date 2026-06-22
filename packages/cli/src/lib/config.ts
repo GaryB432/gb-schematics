@@ -1,5 +1,5 @@
-import * as os from 'os';
-import * as path from 'path';
+import os from 'node:os';
+import * as path from 'node:path';
 
 export function getAppPaths(appName: string) {
   const home = os.homedir();

@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import os from 'node:os';
+import * as path from 'node:path';
 import { afterEach, beforeEach, describe, it, mock } from 'node:test';
-import path from 'path';
 
 import { getAppPaths } from './config.js';
 
