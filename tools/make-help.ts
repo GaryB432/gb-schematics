@@ -3,7 +3,7 @@ import { dirname, join, parse } from 'path';
 import { fileURLToPath } from 'url';
 
 interface Collection {
-  schematics: Record<string, Schemtic>;
+  schematics: Record<string, Schematic>;
 }
 
 interface Details {
@@ -15,14 +15,14 @@ interface Details {
   visible?: boolean;
 }
 
-interface SchematicProperties {
-  properties: Record<string, Details>;
-}
-
-interface Schemtic {
+interface Schematic {
   description: string;
   factory: string;
   schema?: string;
+}
+
+interface SchematicProperties {
+  properties: Record<string, Details>;
 }
 
 const __filename = fileURLToPath(import.meta.url);
