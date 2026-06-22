@@ -6,7 +6,7 @@ import { cac } from 'cac';
 
 import { extractSchematicOptions, removeUnsetOptions } from './argv-options.js';
 import { helpSchematic } from './help-schematic.js';
-import { getAppPaths } from './lib/xdg.js';
+import { getAppPaths } from './lib/config.js';
 import { runSchematic } from './run-schematic.js';
 import { version } from './version.js';
 

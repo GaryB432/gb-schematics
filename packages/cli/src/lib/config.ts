@@ -1,16 +1,6 @@
 import * as os from 'os';
 import * as path from 'path';
 
-export function add(a: number, b: number): number {
-  return a + b;
-}
-export function greet(name: string): string {
-  return `xdg says: hello to ${name}`;
-}
-export const meaning: { life: number } = {
-  life: 42,
-};
-
 export function getAppPaths(appName: string) {
   const home = os.homedir();
 
