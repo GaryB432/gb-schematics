@@ -1,4 +1,4 @@
-/* eslint @typescript-eslint/no-explicit-any: 0,  @typescript-eslint/no-unused-vars: 1 */
+/* eslint @typescript-eslint/no-explicit-any: 0 */
 
 import { getSystemPath, normalize, virtualFs } from '@angular-devkit/core';
 import {

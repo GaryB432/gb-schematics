@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/no-explicit-any: 0 */
+
 import { cancel, confirm, isCancel, select, text } from '@clack/prompts';
 
 import { type JsonSchemaProperty } from './schema-validator.js';
