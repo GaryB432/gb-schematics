@@ -274,7 +274,7 @@ async function promptForOption(
     process.exit(1);
   }
 
-  if (!entered.trim().length && !isRequired) {
+  if (!entered?.trim().length && !isRequired) {
     return;
   }
 
