@@ -2,19 +2,13 @@ import { readFile } from 'fs/promises';
 import { dirname, join, parse } from 'path';
 import { fileURLToPath } from 'url';
 
-interface Schemtic {
-  description: string;
-  factory: string;
-  schema?: string;
-}
-
 interface Collection {
   schematics: Record<string, Schemtic>;
 }
 
 interface Details {
   $default: { $source: string; index: number };
-  default?: string | number | boolean;
+  default?: boolean | number | string;
   description?: string;
   enum?: string[];
   type: string;
@@ -25,16 +19,26 @@ interface SchematicProperties {
   properties: Record<string, Details>;
 }
 
+interface Schemtic {
+  description: string;
+  factory: string;
+  schema?: string;
+}
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-async function readJson<T>(path: string): Promise<T> {
-  console.log(path);
-  return JSON.parse((await readFile(path)).toString()) as T;
+function isFromArgv(d: Details): unknown {
+  return d.$default && d.$default.$source === 'argv';
 }
 
 function makeDescription(name: string, details: Details): string {
   return details.description ?? `${name} details`;
+}
+
+async function readJson<T>(path: string): Promise<T> {
+  console.log(path);
+  return JSON.parse((await readFile(path)).toString()) as T;
 }
 
 function tableHeader(...cells: string[]): string {
@@ -45,10 +49,6 @@ function tableHeader(...cells: string[]): string {
 
 function tableRow(...cells: string[]): string {
   return ['', ...cells, ''].join(' | ').trim();
-}
-
-function isFromArgv(d: Details): unknown {
-  return d.$default && d.$default.$source === 'argv';
 }
 
 const schematicsPackagePath = join(__dirname, '..', 'packages', 'schematics');

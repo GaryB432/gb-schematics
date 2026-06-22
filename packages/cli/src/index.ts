@@ -5,10 +5,16 @@
 import { cac } from 'cac';
 
 import { extractSchematicOptions, removeUnsetOptions } from './argv-options.js';
+import { helpSchematic } from './help-schematic.js';
+import { getAppPaths } from './lib/xdg.js';
 import { runSchematic } from './run-schematic.js';
 import { version } from './version.js';
 
-const cli = cac('gb-schematics');
+const cliProjectIdentifier = 'gb-schematics';
+const cli = cac(cliProjectIdentifier);
+
+const paths = getAppPaths(cliProjectIdentifier);
+console.log(paths);
 
 cli
   .command('generate [schematic]', 'Run a schematic')
@@ -29,6 +35,14 @@ cli
       ...schematicOptions,
       schematic,
     });
+  });
+
+cli
+  .command('help [schematic]', 'Show schematic schema')
+  .option('-c, --collection <collection>', 'Schematic collection name')
+  .action((schematic: string, options: object) => {
+    console.log(options);
+    return helpSchematic({ ...options, schematic });
   });
 
 cli.version(version, '-v, --version');
