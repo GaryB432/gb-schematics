@@ -22,13 +22,26 @@ const COLLECTION_ALIASES = { "@gb-schematics": "@gb-schematics/schematics" };
 */
 async function resolveCollection(collectionName) {
 	const { pkgJsonPath, packageRoot } = await resolvePackageRoot(collectionName);
-	const schematicsField = JSON.parse(await readFile(pkgJsonPath, "utf-8"))["schematics"];
+	let pkgJson;
+	try {
+		pkgJson = JSON.parse(await readFile(pkgJsonPath, "utf-8"));
+	} catch (cause) {
+		throw new Error(`Failed to parse package.json at "${pkgJsonPath}": ${cause instanceof Error ? cause.message : String(cause)}`);
+	}
+	const schematicsField = pkgJson["schematics"];
 	if (!schematicsField) throw new Error(`Package at "${packageRoot}" does not have a "schematics" field in package.json.`);
 	const collectionJsonPath = resolve(packageRoot, schematicsField);
+	const collectionDir = dirname(collectionJsonPath);
+	let collection;
+	try {
+		collection = JSON.parse(await readFile(collectionJsonPath, "utf-8"));
+	} catch (cause) {
+		throw new Error(`Failed to parse collection.json at "${collectionJsonPath}": ${cause instanceof Error ? cause.message : String(cause)}`);
+	}
 	return {
 		packageRoot,
-		collectionDir: dirname(collectionJsonPath),
-		collection: JSON.parse(await readFile(collectionJsonPath, "utf-8"))
+		collectionDir,
+		collection
 	};
 }
 async function resolvePackageRoot(collectionName) {
@@ -65,8 +78,18 @@ async function resolvePackageRoot(collectionName) {
 *                            entry (e.g. `"./module/schema.json"`).
 */
 async function resolveSchema(collectionDir, schemaRelativePath) {
-	const contents = await readFile(resolve(collectionDir, schemaRelativePath), "utf-8");
-	return JSON.parse(contents);
+	const schemaPath = resolve(collectionDir, schemaRelativePath);
+	let contents;
+	try {
+		contents = await readFile(schemaPath, "utf-8");
+	} catch (cause) {
+		throw new Error(`Cannot read schema file at "${schemaPath}": ${cause instanceof Error ? cause.message : String(cause)}`);
+	}
+	try {
+		return JSON.parse(contents);
+	} catch (cause) {
+		throw new Error(`Failed to parse schema JSON at "${schemaPath}": ${cause instanceof Error ? cause.message : String(cause)}`);
+	}
 }
 //#endregion
 //#region src/cli.ts

@@ -37,8 +37,21 @@ export async function resolveSchema(
   schemaRelativePath: string
 ): Promise<JsonSchema> {
   const schemaPath = resolvePath(collectionDir, schemaRelativePath);
-  const contents = await readFile(schemaPath, 'utf-8');
-  return JSON.parse(contents) as JsonSchema;
+  let contents: string;
+  try {
+    contents = await readFile(schemaPath, 'utf-8');
+  } catch (cause) {
+    throw new Error(
+      `Cannot read schema file at "${schemaPath}": ${cause instanceof Error ? cause.message : String(cause)}`
+    );
+  }
+  try {
+    return JSON.parse(contents) as JsonSchema;
+  } catch (cause) {
+    throw new Error(
+      `Failed to parse schema JSON at "${schemaPath}": ${cause instanceof Error ? cause.message : String(cause)}`
+    );
+  }
 }
 
 /**

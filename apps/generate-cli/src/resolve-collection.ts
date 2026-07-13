@@ -45,9 +45,17 @@ export async function resolveCollection(
   const { pkgJsonPath, packageRoot } =
     await resolvePackageRoot(collectionName);
 
-  const pkgJson = JSON.parse(
-    await readFile(pkgJsonPath, 'utf-8')
-  ) as Record<string, unknown>;
+  let pkgJson: Record<string, unknown>;
+  try {
+    pkgJson = JSON.parse(await readFile(pkgJsonPath, 'utf-8')) as Record<
+      string,
+      unknown
+    >;
+  } catch (cause) {
+    throw new Error(
+      `Failed to parse package.json at "${pkgJsonPath}": ${cause instanceof Error ? cause.message : String(cause)}`
+    );
+  }
 
   const schematicsField = pkgJson['schematics'] as string | undefined;
   if (!schematicsField) {
@@ -59,9 +67,16 @@ export async function resolveCollection(
   const collectionJsonPath = resolvePath(packageRoot, schematicsField);
   const collectionDir = dirname(collectionJsonPath);
 
-  const collection = JSON.parse(
-    await readFile(collectionJsonPath, 'utf-8')
-  ) as Collection;
+  let collection: Collection;
+  try {
+    collection = JSON.parse(
+      await readFile(collectionJsonPath, 'utf-8')
+    ) as Collection;
+  } catch (cause) {
+    throw new Error(
+      `Failed to parse collection.json at "${collectionJsonPath}": ${cause instanceof Error ? cause.message : String(cause)}`
+    );
+  }
 
   return { packageRoot, collectionDir, collection };
 }
