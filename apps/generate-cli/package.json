@@ -1,0 +1,28 @@
+{
+  "name": "@gb-schematics/generate-cli",
+  "version": "0.1.0",
+  "description": "Standalone generate CLI for gb-schematics",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "generate": "./generate.mjs"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "test": "vitest run",
+    "dev": "tsdown --watch"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.10.1",
+    "cac": "^6.7.14"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsdown": "^0.22.7",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
