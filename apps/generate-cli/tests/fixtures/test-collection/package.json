@@ -1,0 +1,6 @@
+{
+  "name": "test-gb-collection",
+  "version": "1.0.0",
+  "type": "module",
+  "schematics": "./collection.json"
+}

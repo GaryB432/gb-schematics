@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "TestModuleOptions",
+  "title": "Test Module Options",
+  "type": "object",
+  "description": "Creates a new module.",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the module.",
+      "x-prompt": "What name would you like to use for the module?"
+    },
+    "kind": {
+      "type": "string",
+      "description": "Kind of module",
+      "default": "values",
+      "enum": ["class", "values"],
+      "x-prompt": "Select module kind."
+    },
+    "language": {
+      "type": "string",
+      "enum": ["ts", "js"],
+      "description": "The language to use.",
+      "default": "ts",
+      "x-prompt": "Select module language."
+    },
+    "sourceRoot": {
+      "type": "string",
+      "format": "path",
+      "description": "The path to your project's source root"
+    }
+  },
+  "required": ["name"]
+}

@@ -1,0 +1,14 @@
+{
+  "schematics": {
+    "module": {
+      "description": "Add a module",
+      "schema": "./module/schema.json",
+      "factory": "./module"
+    },
+    "component": {
+      "description": "Add a component",
+      "schema": "./component/schema.json",
+      "factory": "./component"
+    }
+  }
+}
