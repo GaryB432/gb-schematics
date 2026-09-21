@@ -1,10 +1,15 @@
 # gb-schematics
 
+![Maintenance - As--Is](https://img.shields.io/badge/maintenance-as--is-yellow.svg)
+
+> [!NOTE]
+> We still want to scaffold code for new ideas and are simplifying for agents. Stay tuned for **version-7**.
+
 <!-- prettier-ignore -->
 | Package |     |     |
 | ------- | --- | --- |
-| [**cli**](packages/cli//README.md) | [![npm](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fcli)  | Schematics runner `gb-schematics` |
-| [**schematics**](packages/schematics//README.md) | [![npm](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fschematics) | Some of my favorite schematics  |
+| [**cli**](packages/cli//README.md) | ![Maintenance - As--Is](https://img.shields.io/badge/maintenance-as--is-yellow.svg) [![npm](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fcli)  | Schematics runner `gb-schematics` |
+| [**schematics**](packages/schematics//README.md) | [![Maintenance - As--Is](https://img.shields.io/badge/maintenance-as--is-yellow.svg) ![npm](https://badge.fury.io/js/@gb-schematics%2Fschematics.svg)](https://badge.fury.io/js/@gb-schematics%2Fschematics) | Some of my favorite schematics  |
 
 ## Architecture
 
