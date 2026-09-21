@@ -1,0 +1,22 @@
+{
+  "name": "@gb-schematics/gen",
+  "version": "7.0.0",
+  "type": "module",
+  "bin": {
+    "gen": "./bin.ts"
+  },
+  "dependencies": {
+    "@clack/prompts": "catalog:",
+    "cac": "catalog:"
+  },
+  "description": "Modern CLI for Angular Schematics",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": "https://github.com/GaryB432/gb-schematics/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaryB432/gb-schematics.git",
+    "directory": "packages/gen"
+  }
+}
