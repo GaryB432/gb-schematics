@@ -54,6 +54,13 @@ export default defineConfig([
     rules: { ...markdown.configs.recommended.rules },
   },
   {
-    ignores: ["node_modules", "legacy", "**/*.config.mjs"],
+    ignores: [
+      "**/*.config.mjs",
+      "packages/**/dist",
+      "legacy",
+      "node_modules",
+      "tmp",
+      "tools/**.ts",
+    ],
   },
 ]);

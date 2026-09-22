@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, test } from "node:test";
 
+import { log } from "@clack/prompts";
 import { createClassContent, createValuesContent } from "./content.ts";
 import { type ModuleOptions } from "./types.ts";
 import {
@@ -64,8 +65,8 @@ describe("fixtures", () => {
 
         const actual =
           kind.value === "values"
-            ? createValuesContent(opts, given_path)
-            : createClassContent(opts, given_path);
+            ? createValuesContent(opts, given_path, log)
+            : createClassContent(opts, given_path, log);
 
         const expected = {
           [module_fn]: module_fixture_content.trim(),
@@ -93,6 +94,7 @@ describe("Generation", () => {
         testRunner: "node",
       },
       "/a/b",
+      log,
     );
     assert.deepEqual(content["/a/b/sut.ts"].split("\n"), [
       "export function add(...addends: number[]) {",
@@ -126,6 +128,7 @@ describe("Generation", () => {
         testRunner: "node",
       },
       "/a/b",
+      log,
     );
     assert.deepEqual(content["/a/b/sut.js"].split("\n"), [
       "export function add(...addends) {",

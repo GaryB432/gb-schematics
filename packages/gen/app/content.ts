@@ -1,7 +1,7 @@
 import { format } from "node:path";
 
 import { type LoggingService } from "./logger.ts";
-import type { ModuleOptions } from "./types";
+import type { ModuleOptions } from "./types.ts";
 
 const IMPORT_VITEST = ["import { describe, expect, it } from 'vitest';", ""];
 
