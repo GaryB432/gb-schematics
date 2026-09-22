@@ -1,8 +1,6 @@
 packages:
   - 'packages/*'
 
-nodeVersion: ">=20.0.0" 
-
 catalog:
   '@clack/prompts': ^1.8.0
   cac: ^7.0.0

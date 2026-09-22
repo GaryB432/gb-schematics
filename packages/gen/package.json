@@ -13,6 +13,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "bugs": "https://github.com/GaryB432/gb-schematics/issues",
   "repository": {
     "type": "git",
