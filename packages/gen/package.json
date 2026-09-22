@@ -1,10 +1,10 @@
 {
   "name": "@gb-schematics/gen",
-  "version": "7.0.0-alpha.1",
+  "version": "7.0.0-alpha.2",
   "description": "Modern Scaffolding",
   "type": "module",
   "bin": {
-    "gen": "./bin.ts"
+    "gen": "./dist/bin.js"
   },
   "dependencies": {
     "@clack/prompts": "catalog:",
@@ -14,6 +14,8 @@
     "node": ">=24"
   },
   "scripts": {
+    "build": "tsdown bin.ts --clean",
+    "prepack": "pnpm build",
     "lint": "eslint .",
     "test": "node --test"
   },
