@@ -1,0 +1,7 @@
+export function add(...addends) {
+	return addends.reduce((a, b) => (a += b));
+}
+
+export function greet(greetee) {
+	return `oven says hello to ${greetee}`;
+}

@@ -1,0 +1,10 @@
+import { describe, expect, it } from 'vitest';
+
+import { Oven } from './oven.ts';
+
+describe('oven', () => {
+	const sut = new Oven();
+	it('should add', () => {
+		expect(sut.add(3, 2, 1)).toEqual(1 + 2 + 3);
+	});
+});

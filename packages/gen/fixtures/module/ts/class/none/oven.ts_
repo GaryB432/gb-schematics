@@ -1,0 +1,9 @@
+export class Oven {
+	public add(...addends: number[]): number {
+		return addends.reduce((a, b) => (a += b));
+	}
+
+	public greet(greetee: string): string {
+		return `oven says hello to ${greetee}`;
+	}
+}
