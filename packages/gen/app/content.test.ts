@@ -28,7 +28,6 @@ describe("fixtures", () => {
         }
 
         const given_path = join(
-          "gen",
           "fixtures",
           "module",
           opts.language,
