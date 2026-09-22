@@ -1,0 +1,9 @@
+export class Oven {
+	add(...addends) {
+		return addends.reduce((a, b) => (a += b));
+	}
+
+	greet(greetee) {
+		return `oven says hello to ${greetee}`;
+	}
+}
