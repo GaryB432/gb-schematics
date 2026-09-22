@@ -7,13 +7,37 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default defineConfig([
+  { linterOptions: { reportUnusedDisableDirectives: "error" } },
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
-    languageOptions: { globals: globals.node },
+    languageOptions: {
+      globals: globals.node,
+      parserOptions: {
+        projectService: {
+          allowDefaultProject: ["tools/generate-schema-types.mjs"],
+          defaultProject: "tsconfig.json", // Often optional but good to explicitly define
+        },
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+
     ...js.configs.recommended,
     ...perfectionist.configs["recommended-natural"],
     rules: {
       "no-console": ["error"],
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          vars: "all",
+          args: "all",
+          varsIgnorePattern: "^_",
+          argsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
     },
   },
   ...tseslint.configs.recommended,
@@ -30,6 +54,6 @@ export default defineConfig([
     rules: { ...markdown.configs.recommended.rules },
   },
   {
-    ignores: ["node_modules", "pm/templates"],
+    ignores: ["node_modules", "legacy", "**/*.config.mjs"],
   },
 ]);

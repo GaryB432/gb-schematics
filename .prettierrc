@@ -1,5 +1,20 @@
 {
-  "singleQuote": true,
-  "trailingComma": "es5",
-  "printWidth": 80
+  "singleQuote": false,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "overrides": [
+    {
+      "files": ["legacy/**/*.ts", "legacy/**/*.js"],
+      "options": {
+        "singleQuote": true
+      }
+    },
+    {
+      "files": ["*.md", "*.markdown"],
+      "options": {
+        "singleQuote": true,
+        "proseWrap": "preserve"
+      }
+    }
+  ]
 }
