@@ -1,6 +1,7 @@
 {
   "name": "@gb-schematics/gen",
-  "version": "7.0.0",
+  "version": "7.0.0-alpha.1",
+  "description": "Modern Scaffolding",
   "type": "module",
   "bin": {
     "gen": "./bin.ts"
@@ -9,16 +10,15 @@
     "@clack/prompts": "catalog:",
     "cac": "catalog:"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "lint": "eslint .",
     "test": "node --test"
   },
-  "description": "Modern CLI for Angular Schematics",
   "publishConfig": {
     "access": "public"
-  },
-  "engines": {
-    "node": ">=24"
   },
   "bugs": "https://github.com/GaryB432/gb-schematics/issues",
   "repository": {
