@@ -1,7 +1,8 @@
-import { outro } from '@clack/prompts';
+/* eslint-disable no-console */
+import { outro } from "@clack/prompts";
+import { styleText } from "node:util";
 
 export async function main(rawArguments: string[]): Promise<void> {
-  // eslint-disable-next-line no-console
   console.log(rawArguments);
-  outro('coming soon!!');
+  outro(styleText(["cyan", "bold"], `\n☕ We will be with you shortly`));
 }
