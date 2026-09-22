@@ -9,6 +9,10 @@
     "@clack/prompts": "catalog:",
     "cac": "catalog:"
   },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "node --test"
+  },
   "description": "Modern CLI for Angular Schematics",
   "publishConfig": {
     "access": "public"
