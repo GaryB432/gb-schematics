@@ -15,11 +15,11 @@ gen module [name] [options]
 node packages/gen/bin.ts module [name] [options]
 ```
 
-## Arguments
+### Arguments
 
 `<name>` : Name for the generated module (e.g., `greeter`). **Required.**
 
-## Options
+### Options
 
 `--directory <directory>` : The directory to create the module.
 
@@ -34,6 +34,10 @@ node packages/gen/bin.ts module [name] [options]
 `--language <language>` : Language (extension) for module. Options: `ts`, `js`. Default: `js`.
 
 `--dry-run` : Bypass writing to disk.
+
+## Issues
+
+The sources for this package are in the main [gb-schematics](../../README.md) repo. Please file issues and pull requests against that repo.
 
 ## Pipelines
 
