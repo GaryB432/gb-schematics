@@ -1,6 +1,6 @@
 {
   "name": "@gb-schematics/gen",
-  "version": "7.0.0-alpha.3",
+  "version": "7.0.0",
   "description": "Modern Scaffolding",
   "type": "module",
   "bin": {
