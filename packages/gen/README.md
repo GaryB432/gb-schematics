@@ -1,7 +1,7 @@
 # @gb-schematics/gen
 
-![npm version](https://badge.fury.io/js/@gb-schematics%2Fgen.svg)
-![example workflow](https://github.com/GaryB432/gb-schematics/actions/workflows/ci.yaml/badge.svg)
+[![npm](https://badge.fury.io/js/@gb-schematics%2Fgen.svg?icon=si%3Anpm)](https://badge.fury.io/js/@gb-schematics%2Fgen)
+[![CI](https://github.com/GaryB432/gb-schematics/actions/workflows/ci.yaml/badge.svg)](https://github.com/GaryB432/gb-schematics/actions/workflows/ci.yml)
 
 Scaffold a quick module (a `class` or plain values) for idea capture
 
@@ -55,4 +55,12 @@ flowchart LR
 		NODETEST --> SUITE
 		FIXTURES --> SUITE
 	end
+
+	classDef build fill:#dbeafe,stroke:#2563eb,color:#0f172a,stroke-width:1.5px
+	classDef test fill:#dcfce7,stroke:#16a34a,color:#0f172a,stroke-width:1.5px
+	classDef data fill:#fef3c7,stroke:#d97706,color:#0f172a,stroke-width:1.5px
+	class SRC,TSDOWN,DIST build
+	class NODETEST,SUITE test
+	class FIXTURES data
+	linkStyle default stroke:#475569,stroke-width:1.5px
 ```
