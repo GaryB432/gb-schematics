@@ -6,19 +6,13 @@ import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
+/** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
   { linterOptions: { reportUnusedDisableDirectives: "error" } },
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     languageOptions: {
       globals: globals.node,
-      parserOptions: {
-        projectService: {
-          allowDefaultProject: ["tools/generate-schema-types.mjs"],
-          defaultProject: "tsconfig.json", // Often optional but good to explicitly define
-        },
-        tsconfigRootDir: import.meta.dirname,
-      },
     },
 
     ...js.configs.recommended,
