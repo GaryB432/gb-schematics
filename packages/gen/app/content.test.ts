@@ -28,6 +28,7 @@ describe("fixtures", () => {
         }
 
         const given_path = join(
+          process.cwd(),
           "fixtures",
           "module",
           opts.language,
