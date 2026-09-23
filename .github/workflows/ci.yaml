@@ -41,7 +41,7 @@ jobs:
         run: pnpm run --recursive lint
 
       - name: Run Build
-        run: pnpm run --recursive build
+        run: pnpm run --recursive --if-present build
 
       - name: Run Tests
         run: pnpm run --recursive test

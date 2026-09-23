@@ -1,4 +1,6 @@
 packages:
   - 'packages/*'
-allowBuilds:
-  esbuild: false
+
+catalog:
+  '@clack/prompts': ^1.8.0
+  cac: ^7.0.0

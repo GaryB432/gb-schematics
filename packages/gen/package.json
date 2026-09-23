@@ -1,0 +1,31 @@
+{
+  "name": "@gb-schematics/gen",
+  "version": "7.0.0",
+  "description": "Modern Scaffolding",
+  "type": "module",
+  "bin": {
+    "gen": "./dist/bin.mjs"
+  },
+  "dependencies": {
+    "@clack/prompts": "catalog:",
+    "cac": "catalog:"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "tsdown bin.ts --clean",
+    "prepack": "pnpm build",
+    "lint": "eslint .",
+    "test": "node --test"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": "https://github.com/GaryB432/gb-schematics/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaryB432/gb-schematics.git",
+    "directory": "packages/gen"
+  }
+}
