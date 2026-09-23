@@ -11,10 +11,10 @@ This avoids the common `[object Object]` rendering glitch in some Mermaid integr
 
 ---
 
-## Architecture Diagram
+## Architecture Diagrams
 
 ```mermaid
-flowchart TD
+flowchart TB
 	U["User in target CWD"] --> BIN["packages/gen bin.ts / dist/bin.mjs"]
 	BIN --> MAIN["app/main.ts: cac command parser"]
 	MAIN --> CMD["Command: gen module [name]"]
@@ -32,23 +32,8 @@ flowchart TD
 	CHECK -->|No collision| WRITE["generation.ts: finalizeWrite"]
 	WRITE --> FS["node:fs mkdirSync and writeFileSync"]
 	WRITE --> LOG["@clack/prompts visual logging"]
-
-	subgraph Build_Pipeline["Build Pipeline"]
-		SRC["TypeScript sources in packages/gen"]
-		TSDOWN["tsdown bin.ts --clean"]
-		DIST["dist/bin.mjs executable"]
-		SRC --> TSDOWN
-		TSDOWN --> DIST
-	end
-
-	subgraph Test_Pipeline["Test Pipeline"]
-		NODETEST["node --test"]
-		SUITE["app/content.test.ts"]
-		FIXTURES["fixtures/module/<language>/<kind>/<testRunner>"]
-		NODETEST --> SUITE
-		FIXTURES --> SUITE
-	end
 ```
+
 
 ## Architectural Evolution: Why Version 7 Removed DevKit
 
@@ -120,7 +105,9 @@ Tests run with Node's native test runner against source files and fixtures:
 
 ---
 
-## CLI [CLI Options & Usage](../packages/gen/README.md)
+## CLI Options & Usage
+
+[See `gen` details](../packages/gen/README.md)
 
 ## Practical Troubleshooting
 

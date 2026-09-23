@@ -1,6 +1,7 @@
 # @gb-schematics/gen
 
-[![npm version](https://badge.fury.io/js/@gb-schematics%2Fgen.svg)](https://badge.fury.io/js/@gb-schematics%2Fgen)
+![npm version](https://badge.fury.io/js/@gb-schematics%2Fgen.svg)
+![example workflow](https://github.com/GaryB432/gb-schematics/actions/workflows/ci.yaml/badge.svg)
 
 Scaffold a quick module (a `class` or plain values) for idea capture
 
@@ -33,3 +34,25 @@ node packages/gen/bin.ts module [name] [options]
 `--language <language>` : Language (extension) for module. Options: `ts`, `js`. Default: `js`.
 
 `--dry-run` : Bypass writing to disk.
+
+## Pipelines
+
+```mermaid
+flowchart LR
+	subgraph Build_Pipeline["Build Pipeline"]
+		direction TB
+		SRC["TypeScript sources in packages/gen"]
+		TSDOWN["tsdown bin.ts --clean"]
+		DIST["dist/bin.mjs executable"]
+		SRC --> TSDOWN --> DIST
+	end
+
+	subgraph Test_Pipeline["Test Pipeline"]
+		direction TB
+		NODETEST["node --test"]
+		SUITE["app/content.test.ts"]
+		FIXTURES["fixtures/module/<language>/<kind>/<testRunner>"]
+		NODETEST --> SUITE
+		FIXTURES --> SUITE
+	end
+```
