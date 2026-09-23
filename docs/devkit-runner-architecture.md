@@ -1,12 +1,5 @@
 # Scaffolding & Devkit Runner Architecture Note
 
-> **Status Notice (Version 7.0.0):**
-> This repository transitioned from the Angular DevKit engine to a lightweight, zero-DevKit direct scaffolding architecture (`@gb-schematics/gen`).
-> The original Angular DevKit runner (`@gb-schematics/cli`) and schematics collection (`@gb-schematics/schematics`) are archived in `legacy/`.
-> This document details the active Version 7 architecture while preserving legacy DevKit runner architecture details for historical context and handoff continuity.
-
----
-
 ## Mermaid Rendering Note (VS Code)
 
 When documenting runner flows with Mermaid in VS Code, prefer quoted labels:
@@ -18,9 +11,7 @@ This avoids the common `[object Object]` rendering glitch in some Mermaid integr
 
 ---
 
-## Architecture Diagrams
-
-### 1. Active Version 7 Architecture (`@gb-schematics/gen`)
+## Architecture Diagram
 
 ```mermaid
 flowchart TD
@@ -59,58 +50,6 @@ flowchart TD
 	end
 ```
 
-### 2. Legacy DevKit Architecture (Archived in `legacy/`)
-
-```mermaid
-flowchart TD
-	U["User in target CWD"] --> CLI["legacy/cli dist/index.js"]
-	CLI --> CAC["cac command parser"]
-	CAC --> RUN["runSchematic"]
-
-	RUN --> CLACK["@clack/prompts optional input"]
-	RUN --> HOST["virtualFs ScopedHost at process.cwd"]
-	RUN --> TREE["HostTree from filesystem"]
-	RUN --> ENGHOST["NodeModulesEngineHost"]
-	RUN --> ENG["SchematicEngine"]
-	RUN --> TASKS["Register BuiltinTaskExecutor"]
-
-	ENG --> COLL["legacy/schematics package"]
-	COLL --> DISTCOLL["dist/collection.json"]
-	DISTCOLL --> FACTORY["dist/<schematic>/index.js"]
-	DISTCOLL --> SCHEMA["dist/<schematic>/schema.json"]
-
-	SCHEMA --> OPTS["Schema-based option resolution"]
-	OPTS --> CALL["schematic.call(options, tree)"]
-	CALL --> RESULT["Tree actions"]
-
-	RESULT --> SINK{"dryRun?"}
-	SINK -->|yes| DRY["DryRunSink"]
-	SINK -->|no| HOSTSINK["HostSink"]
-	DRY --> OUT["CLI output"]
-	HOSTSINK --> OUT
-
-	subgraph Legacy_Build["Legacy Build and Package"]
-		SRCJSON["src/**/*.json and templates"]
-		GENTS["tools/generate-schema-types.ts"]
-		TSC["tsc compile"]
-		COPY["copyfiles assets to dist"]
-
-		GENTS --> TSC
-		SRCJSON --> COPY
-		TSC --> DISTCOLL
-		COPY --> DISTCOLL
-	end
-
-	subgraph Legacy_Test["Legacy Test Path"]
-		LTEST["node --test"]
-		STRUN["SchematicTestRunner"]
-		LTEST --> STRUN
-		STRUN --> DISTCOLL
-	end
-```
-
----
-
 ## Architectural Evolution: Why Version 7 Removed DevKit
 
 Version 6 and earlier relied on `@angular-devkit/schematics` as the execution engine. While powerful for complex AST transforms in the Angular ecosystem, DevKit introduced substantial complexity:
@@ -131,7 +70,6 @@ Scaffolding has been simplified for developers and AI agents. Code generation in
 - **Safety by Default:** Pre-flight collision checks (`filterByExisting`) ensure no files are overwritten or partially generated if a collision occurs.
 - **Agent and Developer Ergonomics:** Simple CLI commands (`gen module <name> [options]`) with interactive prompts fallback when options are missing.
 - **Minimal Tooling:** Fast builds powered by `tsdown`, tests executed with native `node --test`, and formatting/linting via ESLint and Prettier.
-- **Legacy Preservation:** The DevKit runner and collections are maintained under `legacy/` for reference and backward compatibility.
 
 ---
 
@@ -149,16 +87,6 @@ Scaffolding has been simplified for developers and AI agents. Code generation in
 - **`app/logger.ts`:** Defines `LoggingService` contract matching `@clack/prompts.log`.
 - **`fixtures/`:** Golden test fixtures covering combinations of `language` (ts/js), `kind` (class/values), and `testRunner` (vitest/node/none).
 
-### `legacy/cli` (`@gb-schematics/cli`) — Archived
-
-- Archived Version 6 CLI runner.
-- Wrapped Angular DevKit engine using `cac`, `@clack/prompts`, and RxJS streams.
-
-### `legacy/schematics` (`@gb-schematics/schematics`) — Archived
-
-- Archived collection of schematics: `bump`, `module`, `sveltekit-component`, `sveltekit-route`.
-- Contains `collection.json`, JSON schemas, and rule template trees.
-
 ---
 
 ## Runtime Contracts
@@ -169,13 +97,6 @@ Scaffolding has been simplified for developers and AI agents. Code generation in
 2. **Atomic Verification:** Generator generates all paths in-memory first; if any target file exists on disk, generation immediately halts with errors and writes nothing.
 3. **Interactive Resolution:** When executed without required arguments in an interactive shell, `@clack/prompts` prompts for `name`, `language`, `kind`, `testRunner`, and `directory`.
 4. **Deterministic Output:** Content generators (`createClassContent`, `createValuesContent`) are deterministic pure functions mapping `ModuleOptions` to `Record<string, string>`.
-
-### Legacy DevKit Contracts (v6 Context)
-
-1. Collection discovery was package-based (`@gb-schematics/schematics`).
-2. Collection metadata path was declared in package manifest `schematics` field (`./dist/collection.json`).
-3. Schematic factories referenced in `collection.json` resolved to built JS at runtime.
-4. Schematics required `HostTree` and `SchematicEngine` to inspect and modify target directories.
 
 ---
 
@@ -189,50 +110,17 @@ Tests run with Node's native test runner against source files and fixtures:
 - **Unit Tests:** Direct assertions on `createValuesContent` and `createClassContent` output structures.
 - **Execution:** Run via `pnpm test` (root) or `node --test` within `packages/gen`.
 
-### Legacy Testing Strategy
-
-- Legacy schematics used `SchematicTestRunner` against built outputs (`dist/collection.json`).
-- Tests required compilation to `dist` before running `node --test` on `dist/**/*_spec.js`.
-
 ---
 
 ## Build Pipeline
-
-### Version 7 Build
 
 - **Single-step Bundling:** `tsdown bin.ts --clean` bundles `packages/gen/bin.ts` and its application code into an executable ESM artifact at `packages/gen/dist/bin.mjs`.
 - **No Asset Copying:** Templates are defined in TypeScript source code (`content.ts`), eliminating the need for `copyfiles` or schema generation build steps.
 - **Root Script:** `pnpm build` triggers `pnpm -r --if-present build`.
 
-### Legacy Build Pipeline
-
-- Step 1: `node ./tools/generate-schema-types.ts` generated TypeScript interfaces from `schema.json`.
-- Step 2: `tsc` compiled TypeScript files to `dist`.
-- Step 3: `copyfiles` copied `collection.json`, JSON schemas, and template files into `dist`.
-
 ---
 
-## CLI Options & Usage (Version 7)
-
-```bash
-# Generate a module
-gen module [name] [options]
-
-# Or locally during development:
-node packages/gen/dist/bin.mjs module [name] [options]
-```
-
-### Options
-
-- `--directory <directory>`: Relative destination directory for the module.
-- `--kind <kind>`: Module style: `class` (with methods) or `values` (functions and constants).
-- `--language <language>`: Source language: `ts` or `js`.
-- `--test-runner <runner>`: Test framework: `vitest`, `node`, or `none`.
-- `--in-source-tests`: When using Vitest, include tests within source files rather than separate `.test` files.
-- `--pascal-case-files`: Use PascalCase file naming for class modules.
-- `-h, --help`: Display help and option descriptions.
-
----
+## CLI [CLI Options & Usage](../packages/gen/README.md)
 
 ## Practical Troubleshooting
 
