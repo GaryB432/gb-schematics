@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is inspired by Keep a Changelog and this project follows Semantic Versioning.
 
+## [7.0.0] - 2026-09-24
+
+### Remove Devkit
+
+- New era of gb-schematics without devkit
+
+### Notes
+
+- This release establishes the stable baseline for future 7.x changes.
+- Intentionally _not_ built on Angular Devkit/Schematics conventions, following the model the Angular tooling team has encouraged over time.
+- Runs locally for development but with a thin `dist` layer for `npm`
+
 ## [6.0.0-alpha.1] - 2026-06-04
 
 ### Miscellaneous cleanup
