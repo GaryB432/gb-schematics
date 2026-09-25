@@ -49,15 +49,21 @@ export async function main(rawArguments: string[]): Promise<void> {
   }
 }
 
+const allPrompts = process.env.ALL_PROMPTS === "true";
+
 async function runGenerateModule(
   name: string | undefined,
   options: Partial<ModuleOptions>,
 ): Promise<void> {
+  // const allPrompts = true;
   const errors = getValidationErrors(options);
   if (errors.length > 0) {
     errors.forEach((e) => log.error(e));
     process.exit(1);
   }
 
-  await generateModule(await resolveModuleOptions({ name, ...options }), log);
+  await generateModule(
+    await resolveModuleOptions({ name, allPrompts, ...options }),
+    log,
+  );
 }

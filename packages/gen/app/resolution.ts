@@ -9,44 +9,47 @@ import {
 } from "./validation.ts";
 
 export async function resolveModuleOptions(
-  options: Partial<ModuleOptions>,
+  options: Partial<ModuleOptions> & { allPrompts: boolean },
 ): Promise<ModuleOptions> {
+  // options.allPrompts = true;
   const resolved: Partial<ModuleOptions> = {
     inSourceTests: options.inSourceTests ?? false,
     pascalCaseFiles: options.pascalCaseFiles ?? false,
     ...options,
   };
 
-  if (resolved.name === undefined) {
-    const d = await nameResolve();
+  if (options.allPrompts || resolved.name === undefined) {
+    const d = await nameResolve(resolved.name ?? "");
     if (typeof d === "symbol") {
       process.exit(0);
     }
     resolved.name = d;
   }
-  if (resolved.language === undefined) {
-    const d = await languageResolve(inferred.language);
+  if (options.allPrompts || resolved.language === undefined) {
+    const d = await languageResolve(options.language ?? inferredx.language);
     if (typeof d === "symbol") {
       process.exit(0);
     }
     resolved.language = d;
   }
-  if (resolved.kind === undefined) {
-    const d = await kindResolve();
+  if (options.allPrompts || resolved.kind === undefined) {
+    const d = await kindResolve(options.kind ?? "values");
     if (typeof d === "symbol") {
       process.exit(0);
     }
     resolved.kind = d;
   }
-  if (resolved.testRunner === undefined) {
-    const d = await testRunnerResolve(inferred.testRunner);
+  if (options.allPrompts || resolved.testRunner === undefined) {
+    const d = await testRunnerResolve(
+      options.testRunner ?? inferredx.testRunner,
+    );
     if (typeof d === "symbol") {
       process.exit(0);
     }
     resolved.testRunner = d;
   }
-  if (resolved.directory === undefined) {
-    const d = await directoryResolve();
+  if (options.allPrompts || resolved.directory === undefined) {
+    const d = await directoryResolve(options.directory ?? "");
     if (typeof d === "symbol") {
       process.exit(0);
     }
@@ -56,13 +59,16 @@ export async function resolveModuleOptions(
   return resolved as ModuleOptions;
 }
 
-async function directoryResolve(): Promise<string | symbol> {
+async function directoryResolve(
+  initialValue: string,
+): Promise<string | symbol> {
   log.info(
     [styleText("white", "cwd:"), styleText("green", process.cwd())].join(" "),
   );
 
   return text({
     message: "Provide directory for your module",
+    initialValue,
     placeholder: "src",
   });
 }
@@ -74,9 +80,9 @@ function inferFromWorkspace(): Required<
   const testRunner = "none";
   return { language, testRunner };
 }
-async function kindResolve(): Promise<string | symbol> {
+async function kindResolve(initialValue: string): Promise<string | symbol> {
   return select({
-    initialValue: "values",
+    initialValue,
     message: "What kind of module is to be generated?",
     options: kindOptions,
   });
@@ -88,8 +94,9 @@ async function languageResolve(initialValue: string): Promise<string | symbol> {
     options: languageOptions,
   });
 }
-async function nameResolve(): Promise<string | symbol> {
+async function nameResolve(initialValue: string): Promise<string | symbol> {
   return text({
+    initialValue,
     message: "Provide a name for your module and test",
     placeholder: "greeter",
     validate(value) {
@@ -109,4 +116,4 @@ async function testRunnerResolve(
   });
 }
 
-const inferred = inferFromWorkspace();
+const inferredx = inferFromWorkspace();

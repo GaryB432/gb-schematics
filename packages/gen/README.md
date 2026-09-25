@@ -13,6 +13,9 @@ gen module [name] [options]
 
 # Or locally during development:
 node packages/gen/bin.ts module [name] [options]
+
+# Terminal prompt and alternative enjoyers can use
+ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
 ```
 
 ### Arguments
