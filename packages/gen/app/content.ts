@@ -1,7 +1,8 @@
 import { format } from "node:path";
 
-import { type LoggingService } from "./logger.ts";
 import type { ModuleOptions } from "./types.ts";
+
+import { type LoggingService } from "./logger.ts";
 
 const IMPORT_VITEST = ["import { describe, expect, it } from 'vitest';", ""];
 
@@ -10,8 +11,8 @@ export function createClassContent(
   destination: string,
   log: LoggingService,
 ): Record<string, string> {
-  let code_lines: string[] = [];
-  let test_lines: string[] = [];
+  let code_lines: string[];
+  let test_lines: string[];
 
   const ext = ".".concat(options.language ?? "txt");
 
@@ -65,10 +66,12 @@ export function createClassContent(
             "\t});",
             "});",
           ];
+
           break;
         }
         case "none": {
           test_lines = [];
+
           break;
         }
         case "vitest": {
@@ -83,9 +86,16 @@ export function createClassContent(
             "\t});",
             "});",
           ];
+
+          break;
+        }
+        default: {
+          test_lines = [];
           break;
         }
       }
+      // // test_lines = [];
+
       break;
     }
     case "ts": {
@@ -115,10 +125,12 @@ export function createClassContent(
             "\t});",
             "});",
           ];
+
           break;
         }
         case "none": {
           test_lines = [];
+
           break;
         }
         case "vitest": {
@@ -133,19 +145,20 @@ export function createClassContent(
             "\t});",
             "});",
           ];
+
           break;
         }
         default: {
           throw new Error("not a testRunner");
         }
       }
+
       break;
     }
     default: {
       code_lines = ['// console.log("not implemented");'];
       test_lines = ["// tbd", `import { add } from '${importPath}';`];
       log.error("not implemented");
-      break;
     }
   }
 
@@ -160,8 +173,8 @@ export function createValuesContent(
   destination: string,
   log: LoggingService,
 ): Record<string, string> {
-  let code_lines: string[] = [];
-  let test_lines: string[] = [];
+  let code_lines: string[];
+  let test_lines: string[];
 
   const ext = ".".concat(options.language ?? "txt");
 
@@ -209,10 +222,12 @@ export function createValuesContent(
             "\t});",
             "});",
           ];
+
           break;
         }
         case "none": {
           test_lines = [];
+
           break;
         }
         case "vitest": {
@@ -226,9 +241,16 @@ export function createValuesContent(
             "\t});",
             "});",
           ];
+
+          break;
+        }
+        default: {
+          test_lines = [];
           break;
         }
       }
+      // test_lines = [];
+
       break;
     }
     case "ts": {
@@ -255,12 +277,10 @@ export function createValuesContent(
             "\t});",
             "});",
           ];
+
           break;
         }
-        case "none": {
-          test_lines = [];
-          break;
-        }
+
         case "vitest": {
           test_lines = [
             ...IMPORT_VITEST,
@@ -272,16 +292,21 @@ export function createValuesContent(
             "	});",
             "});",
           ];
+
           break;
         }
+        default:
+          test_lines = [];
+
+          break;
       }
 
       break;
     }
     default: {
       code_lines = ['// log.info("not implemented");'];
+      test_lines = [];
       log.error("not implemented");
-      break;
     }
   }
 
