@@ -12,10 +12,10 @@ export async function main(rawArguments: string[]): Promise<void> {
   cli
     .command("module [name]", "Generate code module")
     .option(
-      "--directory <directory>",
+      "-d, --directory <directory>",
       "The directory to create the module, relative to the project root",
     )
-    .option("--kind <kind>", "kind of module, class or values")
+    .option("-k, --kind <kind>", "kind of module, class or values")
     .option(
       "--test-runner <runner>",
       "Test runner to use for unit tests (vite or node or none)",
@@ -28,7 +28,7 @@ export async function main(rawArguments: string[]): Promise<void> {
       "--pascal-case-files",
       "Use pascal case file names for class module",
     )
-    .option("--language <language>", "The language to use (js or ts)")
+    .option("-l, --language <language>", "The language to use (js or ts)")
     // .option("--source-root <src>", "The path to your project's source root)")
     .action(async (name: string | undefined, options: ModuleOptions) => {
       await runGenerateModule(name, options);
@@ -49,15 +49,21 @@ export async function main(rawArguments: string[]): Promise<void> {
   }
 }
 
+const allPrompts = process.env.ALL_PROMPTS === "true";
+
 async function runGenerateModule(
   name: string | undefined,
   options: Partial<ModuleOptions>,
 ): Promise<void> {
+  // const allPrompts = true;
   const errors = getValidationErrors(options);
   if (errors.length > 0) {
     errors.forEach((e) => log.error(e));
     process.exit(1);
   }
 
-  await generateModule(await resolveModuleOptions({ name, ...options }), log);
+  await generateModule(
+    await resolveModuleOptions({ allPrompts, name, ...options }),
+    log,
+  );
 }

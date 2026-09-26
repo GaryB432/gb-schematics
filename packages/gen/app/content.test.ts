@@ -1,9 +1,9 @@
+import { log } from "@clack/prompts";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, test } from "node:test";
 
-import { log } from "@clack/prompts";
 import { createClassContent, createValuesContent } from "./content.ts";
 import { type ModuleOptions } from "./types.ts";
 import {

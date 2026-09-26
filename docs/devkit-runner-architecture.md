@@ -34,7 +34,6 @@ flowchart TB
 	WRITE --> LOG["@clack/prompts visual logging"]
 ```
 
-
 ## Architectural Evolution: Why Version 7 Removed DevKit
 
 Version 6 and earlier relied on `@angular-devkit/schematics` as the execution engine. While powerful for complex AST transforms in the Angular ecosystem, DevKit introduced substantial complexity:

@@ -1,15 +1,5 @@
 import { Readable, Writable } from "node:stream";
 
-type LogServiceOptions = {
-  input: Readable;
-  output: Writable;
-  secondarySymbol: string;
-  signal: AbortSignal;
-  spacing: number;
-  symbol: string;
-  withGuide: boolean;
-};
-
 export interface LoggingService {
   error: (message: string, opts?: LogServiceOptions) => void;
   info: (message: string, opts?: LogServiceOptions) => void;
@@ -22,3 +12,13 @@ export interface LoggingService {
   warn: (message: string, opts?: LogServiceOptions) => void;
   warning: (message: string, opts?: LogServiceOptions) => void;
 }
+
+type LogServiceOptions = {
+  input: Readable;
+  output: Writable;
+  secondarySymbol: string;
+  signal: AbortSignal;
+  spacing: number;
+  symbol: string;
+  withGuide: boolean;
+};

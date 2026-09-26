@@ -13,6 +13,12 @@ gen module [name] [options]
 
 # Or locally during development:
 node packages/gen/bin.ts module [name] [options]
+
+# Terminal prompt and alternative enjoyers can use
+ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
+
+# Sanity check
+pnpm dlx prettier . -lw && pnpm --filter @gb-schematics/gen lint --fix && pnpm --filter @gb-schematics/gen test
 ```
 
 ### Arguments
@@ -21,9 +27,9 @@ node packages/gen/bin.ts module [name] [options]
 
 ### Options
 
-`--directory <directory>` : The directory to create the module.
+`-d, --directory <directory>` : The directory to create the module.
 
-`--kind <kind>` : kind of module, class or values. Options: `class` (with methods), `values` (export const or function expressions). Default: `values`.
+`-k, --kind <kind>` : kind of module, class or values. Options: `class` (with methods), `values` (export const or function expressions). Default: `values`.
 
 `--test-runner <runner>` : Test runner to use for unit tests (vite or node or none) Options: `vite`, `node` or `none`.
 
@@ -31,7 +37,7 @@ node packages/gen/bin.ts module [name] [options]
 
 `--pascal-case-files` : Use pascal case file names for class module.
 
-`--language <language>` : Language (extension) for module. Options: `ts`, `js`. Default: `js`.
+`-l, --language <language>` : Language (extension) for module. Options: `ts`, `js`. Default: `js`.
 
 `--dry-run` : Bypass writing to disk.
 

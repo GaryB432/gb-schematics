@@ -1,7 +1,8 @@
 import { format } from "node:path";
 
-import { type LoggingService } from "./logger.ts";
 import type { ModuleOptions } from "./types.ts";
+
+import { type LoggingService } from "./logger.ts";
 
 const IMPORT_VITEST = ["import { describe, expect, it } from 'vitest';", ""];
 
@@ -10,8 +11,8 @@ export function createClassContent(
   destination: string,
   log: LoggingService,
 ): Record<string, string> {
-  let code_lines: string[] = [];
-  let test_lines: string[] = [];
+  let code_lines: string[];
+  let test_lines: string[];
 
   const ext = ".".concat(options.language ?? "txt");
 
@@ -85,6 +86,10 @@ export function createClassContent(
           ];
           break;
         }
+        default: {
+          test_lines = [];
+          break;
+        }
       }
       break;
     }
@@ -145,7 +150,6 @@ export function createClassContent(
       code_lines = ['// console.log("not implemented");'];
       test_lines = ["// tbd", `import { add } from '${importPath}';`];
       log.error("not implemented");
-      break;
     }
   }
 
@@ -160,8 +164,8 @@ export function createValuesContent(
   destination: string,
   log: LoggingService,
 ): Record<string, string> {
-  let code_lines: string[] = [];
-  let test_lines: string[] = [];
+  let code_lines: string[];
+  let test_lines: string[];
 
   const ext = ".".concat(options.language ?? "txt");
 
@@ -228,6 +232,10 @@ export function createValuesContent(
           ];
           break;
         }
+        default: {
+          test_lines = [];
+          break;
+        }
       }
       break;
     }
@@ -257,10 +265,7 @@ export function createValuesContent(
           ];
           break;
         }
-        case "none": {
-          test_lines = [];
-          break;
-        }
+
         case "vitest": {
           test_lines = [
             ...IMPORT_VITEST,
@@ -274,12 +279,15 @@ export function createValuesContent(
           ];
           break;
         }
+        default:
+          test_lines = [];
+          break;
       }
-
       break;
     }
     default: {
       code_lines = ['// log.info("not implemented");'];
+      test_lines = [];
       log.error("not implemented");
       break;
     }
