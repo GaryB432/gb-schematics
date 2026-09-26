@@ -14,4 +14,4 @@ Simple code generator.
 > [!TIP]
 > Generete a complete module with testing, then use AI to flesh it out without architectural detail prompting.
 
-It's easier to scaffold a quick module then ask AI to build upon it.
+It's easier to scaffold a quick module, and then ask AI to build upon it.

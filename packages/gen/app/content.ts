@@ -91,8 +91,6 @@ export function createClassContent(
           break;
         }
       }
-      // // test_lines = [];
-
       break;
     }
     case "ts": {
@@ -291,6 +289,7 @@ export function createValuesContent(
       code_lines = ['// log.info("not implemented");'];
       test_lines = [];
       log.error("not implemented");
+      break;
     }
   }
 
