@@ -63,7 +63,7 @@ async function runGenerateModule(
   }
 
   await generateModule(
-    await resolveModuleOptions({ name, allPrompts, ...options }),
+    await resolveModuleOptions({ allPrompts, name, ...options }),
     log,
   );
 }

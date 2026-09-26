@@ -67,8 +67,8 @@ async function directoryResolve(
   );
 
   return text({
-    message: "Provide directory for your module",
     initialValue,
+    message: "Provide directory for your module",
     placeholder: "src",
   });
 }

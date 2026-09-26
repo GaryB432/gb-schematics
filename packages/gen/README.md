@@ -16,6 +16,9 @@ node packages/gen/bin.ts module [name] [options]
 
 # Terminal prompt and alternative enjoyers can use
 ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
+
+# Sanity check
+pnpm dlx prettier . -lw && pnpm --filter @gb-schematics/gen lint --fix && pnpm --filter @gb-schematics/gen test
 ```
 
 ### Arguments
