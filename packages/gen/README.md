@@ -24,9 +24,9 @@ ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
 
 ### Options
 
-`--directory <directory>` : The directory to create the module.
+`-d, --directory <directory>` : The directory to create the module.
 
-`--kind <kind>` : kind of module, class or values. Options: `class` (with methods), `values` (export const or function expressions). Default: `values`.
+`-k, --kind <kind>` : kind of module, class or values. Options: `class` (with methods), `values` (export const or function expressions). Default: `values`.
 
 `--test-runner <runner>` : Test runner to use for unit tests (vite or node or none) Options: `vite`, `node` or `none`.
 
@@ -34,7 +34,7 @@ ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
 
 `--pascal-case-files` : Use pascal case file names for class module.
 
-`--language <language>` : Language (extension) for module. Options: `ts`, `js`. Default: `js`.
+`-l, --language <language>` : Language (extension) for module. Options: `ts`, `js`. Default: `js`.
 
 `--dry-run` : Bypass writing to disk.
 

@@ -12,10 +12,10 @@ export async function main(rawArguments: string[]): Promise<void> {
   cli
     .command("module [name]", "Generate code module")
     .option(
-      "--directory <directory>",
+      "-d, --directory <directory>",
       "The directory to create the module, relative to the project root",
     )
-    .option("--kind <kind>", "kind of module, class or values")
+    .option("-k, --kind <kind>", "kind of module, class or values")
     .option(
       "--test-runner <runner>",
       "Test runner to use for unit tests (vite or node or none)",
@@ -28,7 +28,7 @@ export async function main(rawArguments: string[]): Promise<void> {
       "--pascal-case-files",
       "Use pascal case file names for class module",
     )
-    .option("--language <language>", "The language to use (js or ts)")
+    .option("-l, --language <language>", "The language to use (js or ts)")
     // .option("--source-root <src>", "The path to your project's source root)")
     .action(async (name: string | undefined, options: ModuleOptions) => {
       await runGenerateModule(name, options);
