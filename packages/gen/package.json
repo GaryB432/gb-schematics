@@ -22,7 +22,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "homepage": "https://github.com/GaryB432/gb-schematics/tree/main/packages/gen",
+  "homepage": "https://github.com/GaryB432/gb-schematics/tree/master/packages/gen",
   "bugs": "https://github.com/GaryB432/gb-schematics/issues",
   "repository": {
     "type": "git",
