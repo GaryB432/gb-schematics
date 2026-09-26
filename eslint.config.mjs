@@ -14,10 +14,12 @@ export default defineConfig([
     languageOptions: {
       globals: globals.node,
     },
-
-    ...js.configs.recommended,
-    ...perfectionist.configs["recommended-natural"],
+    plugins: {
+      ...perfectionist.configs["recommended-natural"].plugins,
+    },
     rules: {
+      ...js.configs.recommended.rules,
+      ...perfectionist.configs["recommended-natural"].rules,
       "no-console": ["error"],
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": [
