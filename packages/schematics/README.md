@@ -9,7 +9,7 @@ License: MIT
 
 ## Schematics
 
-This package contains a collection of [Schematics](https://github.com/angular/angular-cli/tree/main/packages/angular_devkit/schematics) for generating my favorite features.
+This package contains a collection of [Schematics](https://github.com/angular/angular-cli/tree/master/packages/angular_devkit/schematics) for generating my favorite features.
 
 You will need the [Reference Schematics CLI](https://www.npmjs.com/package/@angular-devkit/schematics-cli) tooling to execute these schematics. **Or the experimental one of my own at [@gb-schematics/cli](README.md)**
 
