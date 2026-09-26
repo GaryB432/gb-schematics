@@ -5,6 +5,9 @@
 
 Scaffold a quick module (a `class` or plain values) for idea capture
 
+> [!TIP]
+> Capture a flash of insight with `gen module kitchen-sink` to scaffold a module and test to build upon. No need to explain your setup.
+
 ## Usage
 
 ```bash
@@ -13,12 +16,6 @@ gen module [name] [options]
 
 # Or locally during development:
 node packages/gen/bin.ts module [name] [options]
-
-# Terminal prompt and alternative enjoyers can use
-ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
-
-# Sanity check
-pnpm dlx prettier . -lw && pnpm --filter @gb-schematics/gen lint --fix && pnpm --filter @gb-schematics/gen test
 ```
 
 ### Arguments
@@ -40,6 +37,18 @@ pnpm dlx prettier . -lw && pnpm --filter @gb-schematics/gen lint --fix && pnpm -
 `-l, --language <language>` : Language (extension) for module. Options: `ts`, `js`. Default: `js`.
 
 `--dry-run` : Bypass writing to disk.
+
+## Development
+
+Terminal prompt and alternative enjoyers can use
+
+```sh
+ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
+
+# Sanity check
+pnpm dlx prettier . -lw && pnpm --filter @gb-schematics/gen lint --fix && pnpm --filter @gb-schematics/gen test
+
+```
 
 ## Issues
 
