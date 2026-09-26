@@ -66,12 +66,10 @@ export function createClassContent(
             "\t});",
             "});",
           ];
-
           break;
         }
         case "none": {
           test_lines = [];
-
           break;
         }
         case "vitest": {
@@ -86,7 +84,6 @@ export function createClassContent(
             "\t});",
             "});",
           ];
-
           break;
         }
         default: {
@@ -125,12 +122,10 @@ export function createClassContent(
             "\t});",
             "});",
           ];
-
           break;
         }
         case "none": {
           test_lines = [];
-
           break;
         }
         case "vitest": {
@@ -145,14 +140,12 @@ export function createClassContent(
             "\t});",
             "});",
           ];
-
           break;
         }
         default: {
           throw new Error("not a testRunner");
         }
       }
-
       break;
     }
     default: {
@@ -222,12 +215,10 @@ export function createValuesContent(
             "\t});",
             "});",
           ];
-
           break;
         }
         case "none": {
           test_lines = [];
-
           break;
         }
         case "vitest": {
@@ -241,7 +232,6 @@ export function createValuesContent(
             "\t});",
             "});",
           ];
-
           break;
         }
         default: {
@@ -249,8 +239,6 @@ export function createValuesContent(
           break;
         }
       }
-      // test_lines = [];
-
       break;
     }
     case "ts": {
@@ -277,7 +265,6 @@ export function createValuesContent(
             "\t});",
             "});",
           ];
-
           break;
         }
 
@@ -292,15 +279,12 @@ export function createValuesContent(
             "	});",
             "});",
           ];
-
           break;
         }
         default:
           test_lines = [];
-
           break;
       }
-
       break;
     }
     default: {

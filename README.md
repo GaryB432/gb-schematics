@@ -5,7 +5,7 @@
 
 ## Packages
 
-## [@gb-schematics/**gen**](packages/gen//README.md)
+## [@gb-schematics/**gen**](packages/gen/README.md)
 
 [![npm](https://badge.fury.io/js/@gb-schematics%2Fgen.svg)](https://badge.fury.io/js/@gb-schematics%2Fgen)
 
