@@ -5,6 +5,9 @@
 
 Scaffold a quick module (a `class` or plain values) for idea capture
 
+> [!TIP]
+> Capture a flash of insight with `gen module kitchen-sink` to scaffold a module and test to build upon. No need to explain your setup.
+
 ## Usage
 
 ```bash
@@ -14,11 +17,8 @@ gen module [name] [options]
 # Or locally during development:
 node packages/gen/bin.ts module [name] [options]
 
-# Terminal prompt and alternative enjoyers can use
+# For clack enjoyers
 ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
-
-# Sanity check
-pnpm dlx prettier . -lw && pnpm --filter @gb-schematics/gen lint --fix && pnpm --filter @gb-schematics/gen test
 ```
 
 ### Arguments
@@ -27,19 +27,19 @@ pnpm dlx prettier . -lw && pnpm --filter @gb-schematics/gen lint --fix && pnpm -
 
 ### Options
 
-`-d, --directory <directory>` : The directory to create the module.
+**`-d, --directory <directory>`** : The directory to in which to create the module.
 
-`-k, --kind <kind>` : kind of module, class or values. Options: `class` (with methods), `values` (export const or function expressions). Default: `values`.
+**`-k, --kind <kind>`** : Kind of module. Options: `class` (with methods), `values` (export const or function expressions). Default: `values`.
 
-`--test-runner <runner>` : Test runner to use for unit tests (vite or node or none) Options: `vite`, `node` or `none`.
+**`--test-runner <runner>`** : Test runner to use for unit tests (vite or node or none) Options: `vite`, `node` or `none`.
 
-`--in-source-tests` : When using Vitest, separate spec files will not be generated and instead will be included within the source files.
+**`--in-source-tests`** : When using Vitest, separate spec files will not be generated and instead will be included within the source files.
 
-`--pascal-case-files` : Use pascal case file names for class module.
+**`--pascal-case-files`** : Use pascal case file names for class module.
 
-`-l, --language <language>` : Language (extension) for module. Options: `ts`, `js`. Default: `js`.
+**`-l, --language <language>`** : Language (extension) for module. Options: `ts`, `js`. Default: `js`.
 
-`--dry-run` : Bypass writing to disk.
+**`--dry-run`** : Bypass writing to disk.
 
 ## Issues
 
