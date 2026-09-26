@@ -7,6 +7,7 @@ import {
   languageOptions,
   testRunnerOptions,
 } from "./validation.ts";
+import { inferModuleOptions } from "./workspace.ts";
 
 export async function resolveModuleOptions(
   options: Partial<ModuleOptions> & { allPrompts: boolean },
@@ -26,7 +27,7 @@ export async function resolveModuleOptions(
     resolved.name = d;
   }
   if (options.allPrompts || resolved.language === undefined) {
-    const d = await languageResolve(options.language ?? inferredx.language);
+    const d = await languageResolve(options.language ?? inferred.language);
     if (typeof d === "symbol") {
       process.exit(0);
     }
@@ -41,7 +42,7 @@ export async function resolveModuleOptions(
   }
   if (options.allPrompts || resolved.testRunner === undefined) {
     const d = await testRunnerResolve(
-      options.testRunner ?? inferredx.testRunner,
+      options.testRunner ?? inferred.testRunner,
     );
     if (typeof d === "symbol") {
       process.exit(0);
@@ -71,14 +72,6 @@ async function directoryResolve(
     message: "Provide directory for your module",
     placeholder: "src",
   });
-}
-
-function inferFromWorkspace(): Required<
-  Pick<ModuleOptions, "language" | "testRunner">
-> {
-  const language = "js";
-  const testRunner = "none";
-  return { language, testRunner };
 }
 async function kindResolve(initialValue: string): Promise<string | symbol> {
   return select({
@@ -116,4 +109,4 @@ async function testRunnerResolve(
   });
 }
 
-const inferredx = inferFromWorkspace();
+const inferred = inferModuleOptions();
