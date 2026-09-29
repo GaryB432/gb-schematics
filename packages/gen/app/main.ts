@@ -17,7 +17,7 @@ export async function main(rawArguments: string[]): Promise<void> {
     )
     .option("-k, --kind <kind>", "kind of module, class or values")
     .option(
-      "--test-runner <runner>",
+      "-r, --test-runner <runner>",
       "Test runner to use for unit tests (vite or node or none)",
     )
     .option(
