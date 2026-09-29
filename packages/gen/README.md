@@ -31,7 +31,7 @@ ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
 
 **`-k, --kind <kind>`** : Kind of module. Options: `class` (with methods), `values` (export const or function expressions). Default: `values`.
 
-**`--test-runner <runner>`** : Test runner to use for unit tests (vite or node or none) Options: `vite`, `node` or `none`.
+**`-r, --test-runner <runner>`** : Test runner to use for unit tests (vite or node or none) Options: `vite`, `node` or `none`.
 
 **`--in-source-tests`** : When using Vitest, separate spec files will not be generated and instead will be included within the source files.
 
