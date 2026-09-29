@@ -73,6 +73,7 @@ async function directoryResolve(
     placeholder: "src",
   });
 }
+
 async function kindResolve(initialValue: string): Promise<string | symbol> {
   return select({
     initialValue,
@@ -80,6 +81,7 @@ async function kindResolve(initialValue: string): Promise<string | symbol> {
     options: kindOptions,
   });
 }
+
 async function languageResolve(initialValue: string): Promise<string | symbol> {
   return select({
     initialValue,
@@ -87,6 +89,7 @@ async function languageResolve(initialValue: string): Promise<string | symbol> {
     options: languageOptions,
   });
 }
+
 async function nameResolve(initialValue: string): Promise<string | symbol> {
   return text({
     initialValue,
@@ -99,6 +102,7 @@ async function nameResolve(initialValue: string): Promise<string | symbol> {
     },
   });
 }
+
 async function testRunnerResolve(
   initialValue: string,
 ): Promise<string | symbol> {
