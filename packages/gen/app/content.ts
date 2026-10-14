@@ -185,34 +185,68 @@ export function createComponentContent(
     name: maybePascalName.concat(".spec.svelte"),
   });
 
-  // const importPath = format({
-  //   dir: ".",
-  //   ext: ext,
-  //   name: options.name,
-  // });
+  const propParts = options.prop.map((propInfo) => propInfo.split(":"));
+
+  const typedPropsLines = propParts.map((propsInfo: string[]) => {
+    const [propName, propType] = propsInfo;
+    return `\t${simpleSnakeCase(propName)}: ${propType ?? "unknown"};`;
+  });
+
+  const propsShowLines = propParts.map((propsInfo: string[]) => {
+    return ["{", simpleSnakeCase(propsInfo[0]), "}"].join("");
+  });
+
+  // const goPropsLines = options.prop
+  //   .map((f) => f.split(":"))
+  //   .map((a: string[]) => {
+  //     const [b, c] = a;
+  //     return `\t${simpleSnakeCase(b)}: ${c ?? "unknown"};`;
+  //   });
+
+  const propDeclaration = [
+    "let {",
+    propParts.map((f) => simpleSnakeCase(f[0])).join(", "),
+    " }: Props = $props();",
+  ].join(" ");
 
   switch (options.language) {
     case "js": {
       code_lines = [
-        "export function add(...addends) {",
+        ...propsShowLines,
+        // "interface Props {",
+        // "export function add(...addends) {",
         // "\treturn addends.reduce((a, b) => (a += b));",
         // "}",
         // "",
         // "export function greet(greetee) {",
         // `\treturn \`${options.name} says hello to \${greetee}\`;`,
-        "}",
       ];
       break;
     }
     case "ts": {
       code_lines = [
-        "export function add(...addends: number[]) {",
-        // "\treturn addends.reduce((a, b) => (a += b));",
-        // "}",
-        // "",
+        '<script lang="ts">',
+        "",
+        "interface Props {",
+        ...typedPropsLines,
+        "}",
+        "",
+        propDeclaration,
+        "",
+        "</script>",
+        "",
+        "<article>",
+        ...propsShowLines,
+        "</article>",
+        "",
+        "<style>",
+        "\tarticle {",
+        "\t\tborder: thin solid silver",
+        "\t}",
+        "</style>",
+
         // "export function greet(greetee: string): string {",
         // `\treturn \`${options.name} says hello to \${greetee}\`;`,
-        "}",
       ];
       break;
     }
@@ -375,4 +409,12 @@ function simplePascalCase(str: string): string {
     .replace(new RegExp(/[-_ ]+/, "g"), " ")
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (word) => word.toUpperCase())
     .replace(/\s+/g, "");
+}
+
+function simpleSnakeCase(str: string): string {
+  return str
+    .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+    .toLowerCase()
+    .replace(/[-_ ]+/g, "_")
+    .replace(/(^_+|_+$)/g, "");
 }
