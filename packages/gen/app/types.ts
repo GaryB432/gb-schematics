@@ -4,10 +4,6 @@ export type ComponentOptions = {
    */
   directory?: string;
   /**
-   * When using Vitest, separate spec files will not be generated and instead will be included within the source files.
-   */
-  inSourceTests?: boolean;
-  /**
    * The language to use.
    */
   language?: Language;
@@ -20,9 +16,9 @@ export type ComponentOptions = {
    */
   pascalCaseFiles?: boolean;
   /**
-   * Test runner to use for unit tests.
+   * The names of properties.
    */
-  testRunner?: TestRunner;
+  prop: string[];
 };
 export type Language = string;
 export type ModuleKind = string;

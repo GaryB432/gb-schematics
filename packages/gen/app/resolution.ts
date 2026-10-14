@@ -14,7 +14,6 @@ export async function resolveComponentOptions(
 ): Promise<ComponentOptions> {
   // options.allPrompts = true;
   const resolved: Partial<ComponentOptions> = {
-    inSourceTests: options.inSourceTests ?? false,
     pascalCaseFiles: options.pascalCaseFiles ?? false,
     ...options,
   };
@@ -32,15 +31,6 @@ export async function resolveComponentOptions(
       process.exit(0);
     }
     resolved.language = d;
-  }
-  if (options.allPrompts || resolved.testRunner === undefined) {
-    const d = await testRunnerResolve(
-      options.testRunner ?? inferred.testRunner,
-    );
-    if (typeof d === "symbol") {
-      process.exit(0);
-    }
-    resolved.testRunner = d;
   }
   if (options.allPrompts || resolved.directory === undefined) {
     const d = await directoryResolve(options.directory ?? "");

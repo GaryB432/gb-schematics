@@ -47,14 +47,14 @@ export async function main(rawArguments: string[]): Promise<void> {
       "-r, --test-runner <runner>",
       "Test runner to use for unit tests (vite or node or none)",
     )
+    .option("--prop <name:type>", "Props", { type: [String] })
     .option(
       "--in-source-tests",
       "When using Vitest, separate spec files will not be generated and instead will be included within the source files",
     )
-    .option(
-      "--pascal-case-files",
-      "Use pascal case file names for class module",
-    )
+    .option("--pascal-case-files", "Use pascal case file names for component", {
+      default: true,
+    })
     .option("-l, --language <language>", "The language to use (js or ts)")
     .action(async (name: string | undefined, options: ComponentOptions) => {
       await runGenerateComponent(name, options);
@@ -88,6 +88,7 @@ async function runGenerateComponent(
     process.exit(1);
   }
 
+  log.info(JSON.stringify(options, null, 2));
   await generateComponent(
     await resolveComponentOptions({ allPrompts, name, ...options }),
     log,

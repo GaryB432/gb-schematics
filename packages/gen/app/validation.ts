@@ -27,7 +27,7 @@ export function enquote(s: string): string {
 }
 
 export function getComponentValidationErrors(
-  options: Record<string, boolean | number | string>,
+  options: Record<string, boolean | number | string | string[]>,
 ): string[] {
   const errors: string[] = [];
   const check = (k: string, vals: string[]) => {
@@ -52,6 +52,10 @@ export function getComponentValidationErrors(
     "language",
     languageOptions.map((m) => m.value),
   );
+
+  if (!options.pascalCaseFiles) {
+    errors.push("Svelte convention is pascal case");
+  }
 
   return errors;
 }

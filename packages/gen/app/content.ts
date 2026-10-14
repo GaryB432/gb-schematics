@@ -165,27 +165,31 @@ export function createComponentContent(
   log: LoggingService,
 ): Record<string, string> {
   let code_lines: string[];
-  let test_lines: string[];
+  const test_lines: string[] = [];
 
-  const ext = ".".concat(options.language ?? "txt");
+  const maybePascalName = options.pascalCaseFiles
+    ? simplePascalCase(options.name)
+    : options.name;
+
+  const ext = ".svelte";
 
   const codePath = format({
     dir: destination,
     ext,
-    name: options.name,
+    name: maybePascalName,
   });
 
   const testPath = format({
     dir: destination,
     ext,
-    name: options.name.concat(".test"),
+    name: maybePascalName.concat(".spec.svelte"),
   });
 
-  const importPath = format({
-    dir: ".",
-    ext: ext,
-    name: options.name,
-  });
+  // const importPath = format({
+  //   dir: ".",
+  //   ext: ext,
+  //   name: options.name,
+  // });
 
   switch (options.language) {
     case "js": {
@@ -198,45 +202,6 @@ export function createComponentContent(
         // `\treturn \`${options.name} says hello to \${greetee}\`;`,
         "}",
       ];
-
-      switch (options.testRunner) {
-        case "node": {
-          test_lines = [
-            // "import assert from 'node:assert/strict';",
-            // "import { describe, it } from 'node:test';",
-            // "",
-            `import { add } from '${importPath}';`,
-            // "",
-            // `describe('${options.name}', () => {`,
-            // "\tit('should add', () => {",
-            // "\t\tassert.equal(add(3, 2, 1), 1 + 2 + 3);",
-            // "\t});",
-            // "});",
-          ];
-          break;
-        }
-        case "none": {
-          test_lines = [];
-          break;
-        }
-        case "vitest": {
-          test_lines = [
-            ...IMPORT_VITEST,
-            `import { add } from './${options.name}.js';`,
-            // "",
-            // `describe('${options.name}', () => {`,
-            // "\tit('should add', () => {",
-            // "\t\texpect(add(3, 2, 1)).toEqual(1 + 2 + 3)",
-            // "\t});",
-            // "});",
-          ];
-          break;
-        }
-        default: {
-          test_lines = [];
-          break;
-        }
-      }
       break;
     }
     case "ts": {
@@ -249,45 +214,10 @@ export function createComponentContent(
         // `\treturn \`${options.name} says hello to \${greetee}\`;`,
         "}",
       ];
-      switch (options.testRunner) {
-        case "node": {
-          test_lines = [
-            // "import assert from 'node:assert/strict';",
-            // "import { describe, it } from 'node:test';",
-            // "",
-            `import { add } from '${importPath}';`,
-            // "",
-            // `describe('${options.name}', () => {`,
-            // "\tit('should add', () => {",
-            // "\t\tassert.equal(add(3, 2, 1), 1 + 2 + 3);",
-            // "\t});",
-            // "});",
-          ];
-          break;
-        }
-
-        case "vitest": {
-          test_lines = [
-            ...IMPORT_VITEST,
-            `import { add } from './${options.name}.ts';`,
-            "",
-            `describe('oven', () => {`,
-            "	it('should add', () => {",
-            "		expect(add(3, 2, 1)).toEqual(1 + 2 + 3);",
-            "	});",
-            "});",
-          ];
-          break;
-        }
-        default:
-          test_lines = [];
-          break;
-      }
       break;
     }
     default: {
       code_lines = ['// log.info("not implemented");'];
-      test_lines = [];
       log.error("not implemented");
       break;
     }
