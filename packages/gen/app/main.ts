@@ -88,7 +88,6 @@ async function runGenerateComponent(
     process.exit(1);
   }
 
-  log.info(JSON.stringify(options, null, 2));
   await generateComponent(
     await resolveComponentOptions({ allPrompts, name, ...options }),
     log,
