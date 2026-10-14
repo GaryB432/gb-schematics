@@ -1,13 +1,57 @@
 import { log, select, text } from "@clack/prompts";
 import { styleText } from "node:util";
 
-import { type ModuleOptions } from "./types.ts";
+import { type ComponentOptions, type ModuleOptions } from "./types.ts";
 import {
   kindOptions,
   languageOptions,
   testRunnerOptions,
 } from "./validation.ts";
 import { inferModuleOptions } from "./workspace.ts";
+
+export async function resolveComponentOptions(
+  options: Partial<ComponentOptions> & { allPrompts: boolean },
+): Promise<ComponentOptions> {
+  // options.allPrompts = true;
+  const resolved: Partial<ComponentOptions> = {
+    inSourceTests: options.inSourceTests ?? false,
+    pascalCaseFiles: options.pascalCaseFiles ?? false,
+    ...options,
+  };
+
+  if (options.allPrompts || resolved.name === undefined) {
+    const d = await nameResolve(resolved.name ?? "");
+    if (typeof d === "symbol") {
+      process.exit(0);
+    }
+    resolved.name = d;
+  }
+  if (options.allPrompts || resolved.language === undefined) {
+    const d = await languageResolve(options.language ?? inferred.language);
+    if (typeof d === "symbol") {
+      process.exit(0);
+    }
+    resolved.language = d;
+  }
+  if (options.allPrompts || resolved.testRunner === undefined) {
+    const d = await testRunnerResolve(
+      options.testRunner ?? inferred.testRunner,
+    );
+    if (typeof d === "symbol") {
+      process.exit(0);
+    }
+    resolved.testRunner = d;
+  }
+  if (options.allPrompts || resolved.directory === undefined) {
+    const d = await directoryResolve(options.directory ?? "");
+    if (typeof d === "symbol") {
+      process.exit(0);
+    }
+    resolved.directory = d;
+  }
+
+  return resolved as ComponentOptions;
+}
 
 export async function resolveModuleOptions(
   options: Partial<ModuleOptions> & { allPrompts: boolean },

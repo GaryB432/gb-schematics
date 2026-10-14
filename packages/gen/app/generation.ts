@@ -2,9 +2,36 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join, parse, type ParsedPath } from "node:path";
 import { styleText } from "node:util";
 
-import { createClassContent, createValuesContent } from "./content.ts";
+import {
+  createClassContent,
+  createComponentContent,
+  createValuesContent,
+} from "./content.ts";
 import { type LoggingService } from "./logger.ts";
-import { type ModuleOptions } from "./types.ts";
+import { ComponentOptions, type ModuleOptions } from "./types.ts";
+
+export async function generateComponent(
+  options: ComponentOptions,
+  log: LoggingService,
+): Promise<void> {
+  const destination = join(process.cwd(), options.directory ?? "");
+
+  writeContent(createComponentContent(options, destination, log), log);
+
+  // switch (options.kind) {
+  //   case "class": {
+  //     writeContent(createClassContent(options, destination, log), log);
+  //     break;
+  //   }
+  //   case "values": {
+  //     writeContent(createValuesContent(options, destination, log), log);
+  //     break;
+  //   }
+  //   default: {
+  //     throw new Error(`${options.kind} is not a recognized module kind`);
+  //   }
+  // }
+}
 
 export async function generateModule(
   options: ModuleOptions,

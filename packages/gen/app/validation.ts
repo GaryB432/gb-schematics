@@ -26,7 +26,37 @@ export function enquote(s: string): string {
   return `"${s}"`;
 }
 
-export function getValidationErrors(
+export function getComponentValidationErrors(
+  options: Record<string, boolean | number | string>,
+): string[] {
+  const errors: string[] = [];
+  const check = (k: string, vals: string[]) => {
+    const given = options[k];
+    if (typeof given === "string" && !vals.includes(given)) {
+      errors.push(
+        [k, "must be one of", JSON.stringify(vals), "not", enquote(given)].join(
+          " ",
+        ),
+      );
+    }
+  };
+  check(
+    "testRunner",
+    testRunnerOptions.map((m) => m.value),
+  );
+  check(
+    "kind",
+    kindOptions.map((m) => m.value),
+  );
+  check(
+    "language",
+    languageOptions.map((m) => m.value),
+  );
+
+  return errors;
+}
+
+export function getModuleValidationErrors(
   options: Record<string, boolean | number | string>,
 ): string[] {
   const errors: string[] = [];
