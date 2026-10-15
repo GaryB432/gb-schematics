@@ -3,6 +3,7 @@ import { format } from "node:path";
 import type { ComponentOptions, ModuleOptions } from "./types.ts";
 
 import { type LoggingService } from "./logger.ts";
+import { enquote } from "./validation.ts";
 
 const IMPORT_VITEST = ["import { describe, expect, it } from 'vitest';", ""];
 
@@ -196,12 +197,26 @@ export function createComponentContent(
     return ["{", simpleSnakeCase(propsInfo[0]), "}"].join("");
   });
 
-  // const goPropsLines = options.prop
-  //   .map((f) => f.split(":"))
-  //   .map((a: string[]) => {
-  //     const [b, c] = a;
-  //     return `\t${simpleSnakeCase(b)}: ${c ?? "unknown"};`;
-  //   });
+  // const kkl = ["stuff goes", "here ok"];
+
+  const assignments = propParts.map((propParts: string[]) => {
+    let val = enquote(propParts[0]);
+
+    switch (propParts[1]) {
+      case "boolean": {
+        val = "false";
+        break;
+      }
+      case "number": {
+        val = "NaN";
+        break;
+      }
+    }
+
+    return `\t${simpleSnakeCase(propParts[0])}: ${val},`;
+  });
+
+  const massignments = ["const specimen: Props = {", ...assignments, "}"];
 
   const propDeclaration = [
     "let {",
@@ -213,6 +228,7 @@ export function createComponentContent(
     case "js": {
       code_lines = [
         ...propsShowLines,
+        "console.log('use typescript!');",
         // "interface Props {",
         // "export function add(...addends) {",
         // "\treturn addends.reduce((a, b) => (a += b));",
@@ -234,6 +250,9 @@ export function createComponentContent(
         propDeclaration,
         "",
         "</script>",
+        "",
+
+        ...["<!-- ", ...massignments, "-->"],
         "",
         "<article>",
         ...propsShowLines,
