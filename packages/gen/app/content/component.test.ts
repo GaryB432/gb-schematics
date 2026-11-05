@@ -34,10 +34,9 @@ describe("createComponentContent", () => {
     assert.ok("/a/b/MyCard.svelte" in content);
   });
 
-  // Known failing: cac delivers ["undefined"] when --prop is omitted.
   test("component without props generates no prop", () => {
     const content = createComponentContent(
-      { language: "ts", name: "card", prop: ["undefined"] },
+      { language: "ts", name: "card", prop: [] },
       "/a/b",
       log,
     );

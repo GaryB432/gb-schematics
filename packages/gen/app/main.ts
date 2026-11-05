@@ -47,7 +47,7 @@ export async function main(rawArguments: string[]): Promise<void> {
       "-r, --test-runner <runner>",
       "Test runner to use for unit tests (vite or node or none)",
     )
-    .option("--prop <name:type>", "Props", { type: [String] })
+    .option("--prop <name:type>", "Props")
     .option(
       "--in-source-tests",
       "When using Vitest, separate spec files will not be generated and instead will be included within the source files",
@@ -89,7 +89,12 @@ async function runGenerateComponent(
   }
 
   await generateComponent(
-    await resolveComponentOptions({ allPrompts, name, ...options }),
+    await resolveComponentOptions({
+      allPrompts,
+      name,
+      ...options,
+      prop: [options.prop ?? []].flat(),
+    }),
     log,
   );
 }
