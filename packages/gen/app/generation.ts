@@ -2,11 +2,9 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join, parse, type ParsedPath } from "node:path";
 import { styleText } from "node:util";
 
-import {
-  createClassContent,
-  createComponentContent,
-  createValuesContent,
-} from "./content.ts";
+import { createClassContent } from "./content/class.ts";
+import { createComponentContent } from "./content/component.ts";
+import { createValuesContent } from "./content/values.ts";
 import { type LoggingService } from "./logger.ts";
 import { ComponentOptions, type ModuleOptions } from "./types.ts";
 
