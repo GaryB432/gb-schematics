@@ -6,7 +6,7 @@ import { createClassContent } from "./content/class.ts";
 import { createComponentContent } from "./content/component.ts";
 import { createValuesContent } from "./content/values.ts";
 import { type LoggingService } from "./logger.ts";
-import { ComponentOptions, type ModuleOptions } from "./types.ts";
+import { type ComponentOptions, type ModuleOptions } from "./types.ts";
 
 export async function generateComponent(
   options: ComponentOptions,

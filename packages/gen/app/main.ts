@@ -3,7 +3,7 @@ import { cac } from "cac";
 
 import { generateComponent, generateModule } from "./generation.ts";
 import { resolveComponentOptions, resolveModuleOptions } from "./resolution.ts";
-import { ComponentOptions, type ModuleOptions } from "./types.ts";
+import { type ComponentOptions, type ModuleOptions } from "./types.ts";
 import {
   getComponentValidationErrors,
   getModuleValidationErrors,
