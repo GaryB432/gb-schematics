@@ -1,10 +1,10 @@
 import { format } from "node:path";
 
-import type { ComponentOptions } from "../types.ts";
+import type { ComponentOptions } from "../../types.ts";
 
-import { type LoggingService } from "../logger.ts";
-import { enquote } from "../validation.ts";
-import { simplePascalCase, simpleSnakeCase } from "./shared.ts";
+import { type LoggingService } from "../../logger.ts";
+import { enquote } from "../../validation.ts";
+import { simplePascalCase, simpleSnakeCase } from "../shared.ts";
 
 export function createComponentContent(
   options: ComponentOptions,

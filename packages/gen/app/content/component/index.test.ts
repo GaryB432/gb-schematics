@@ -2,7 +2,7 @@ import { log } from "@clack/prompts";
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 
-import { createComponentContent } from "./component.ts";
+import { createComponentContent } from "./index.ts";
 
 describe("createComponentContent", () => {
   test("ts component declares typed props", () => {
