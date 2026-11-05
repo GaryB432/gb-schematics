@@ -1,9 +1,9 @@
 import { format } from "node:path";
 
-import type { ModuleOptions } from "../types.ts";
+import type { ModuleOptions } from "../../types.ts";
 
-import { type LoggingService } from "../logger.ts";
-import { IMPORT_VITEST } from "./shared.ts";
+import { type LoggingService } from "../../logger.ts";
+import { IMPORT_VITEST } from "../shared.ts";
 
 export function createValuesContent(
   options: ModuleOptions,

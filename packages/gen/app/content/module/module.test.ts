@@ -4,12 +4,12 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, test } from "node:test";
 
-import { type ModuleOptions } from "../types.ts";
+import { type ModuleOptions } from "../../types.ts";
 import {
   kindOptions,
   languageOptions,
   testRunnerOptions,
-} from "../validation.ts";
+} from "../../validation.ts";
 import { createClassContent } from "./class.ts";
 import { createValuesContent } from "./values.ts";
 
