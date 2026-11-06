@@ -4,13 +4,15 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, test } from "node:test";
 
-import { createClassContent, createValuesContent } from "./content.ts";
-import { type ModuleOptions } from "./types.ts";
+import { type ModuleOptions } from "../../types.ts";
 import {
   kindOptions,
   languageOptions,
   testRunnerOptions,
-} from "./validation.ts";
+} from "../../validation.ts";
+import { createClassContent } from "./class.ts";
+import { createModuleContent } from "./index.ts";
+import { createValuesContent } from "./values.ts";
 
 describe("fixtures", () => {
   for (const language of languageOptions) {
@@ -64,9 +66,7 @@ describe("fixtures", () => {
             : readFileSync(spec_fixture_path, "utf-8");
 
         const actual =
-          kind.value === "values"
-            ? createValuesContent(opts, given_path, log)
-            : createClassContent(opts, given_path, log);
+createModuleContent(opts, given_path, log);
 
         const expected = {
           [module_fn]: module_fixture_content.trim(),
@@ -84,7 +84,59 @@ describe("fixtures", () => {
   }
 });
 
-describe("Generation", () => {
+describe("createClassContent", () => {
+  test("ts class with node runner", () => {
+    const content = createClassContent(
+      { kind: "class", language: "ts", name: "my-sut", testRunner: "node" },
+      "/a/b",
+      log,
+    );
+    assert.deepEqual(content["/a/b/my-sut.ts"].split("\n"), [
+      "export class MySut {",
+      "\tpublic add(...addends: number[]): number {",
+      "\t\treturn addends.reduce((a, b) => (a += b));",
+      "\t}",
+      "",
+      "\tpublic greet(greetee: string): string {",
+      "\t\treturn `my-sut says hello to ${greetee}`;",
+      "\t}",
+      "}",
+    ]);
+    assert.ok(content["/a/b/my-sut.test.ts"].includes("new MySut()"));
+  });
+
+  test("pascalCaseFiles names files in pascal case", () => {
+    const content = createClassContent(
+      {
+        kind: "class",
+        language: "ts",
+        name: "my-sut",
+        pascalCaseFiles: true,
+        testRunner: "node",
+      },
+      "/a/b",
+      log,
+    );
+    assert.deepEqual(Object.keys(content), [
+      "/a/b/MySut.ts",
+      "/a/b/MySut.test.ts",
+    ]);
+  });
+
+  test("unknown ts test runner throws", () => {
+    assert.throws(
+      () =>
+        createClassContent(
+          { kind: "class", language: "ts", name: "sut", testRunner: "jest" },
+          "/a/b",
+          log,
+        ),
+      /not a testRunner/,
+    );
+  });
+});
+
+describe("createValuesContent", () => {
   test("create Values Content ts", () => {
     const content = createValuesContent(
       {
