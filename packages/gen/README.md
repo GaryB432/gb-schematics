@@ -27,7 +27,7 @@ ALL_PROMPTS=true node packages/gen/bin.ts module [name] [options]
 
 ### Options
 
-**`-d, --directory <directory>`** : The directory to in which to create the module.
+**`-d, --directory <directory>`** : The directory in which to create the module.
 
 **`-k, --kind <kind>`** : Kind of module. Options: `class` (with methods), `values` (export const or function expressions). Default: `values`.
 
