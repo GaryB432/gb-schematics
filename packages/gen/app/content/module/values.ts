@@ -29,7 +29,7 @@ export function createValuesContent(
 
   const importPath = format({
     dir: ".",
-    ext: ext,
+    ext,
     name: options.name,
   });
 
