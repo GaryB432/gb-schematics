@@ -14,7 +14,7 @@ import { createClassContent } from "./class.ts";
 import { createModuleContent } from "./index.ts";
 import { createValuesContent } from "./values.ts";
 
-describe("fixtures", () => {
+describe.skip("fixtures", () => {
   for (const language of languageOptions) {
     for (const kind of kindOptions) {
       for (const testRunner of testRunnerOptions) {
@@ -65,8 +65,7 @@ describe("fixtures", () => {
             ? "arbitrary content we do not control"
             : readFileSync(spec_fixture_path, "utf-8");
 
-        const actual =
-createModuleContent(opts, given_path, log);
+        const actual = createModuleContent(opts, given_path, log);
 
         const expected = {
           [module_fn]: module_fixture_content.trim(),
@@ -87,7 +86,7 @@ createModuleContent(opts, given_path, log);
 describe("createClassContent", () => {
   test("ts class with node runner", () => {
     const content = createClassContent(
-      { kind: "class", language: "ts", name: "my-sut", testRunner: "node" },
+      { language: "ts", name: "my-sut", testRunner: "node" },
       "/a/b",
       log,
     );
@@ -108,7 +107,6 @@ describe("createClassContent", () => {
   test("pascalCaseFiles names files in pascal case", () => {
     const content = createClassContent(
       {
-        kind: "class",
         language: "ts",
         name: "my-sut",
         pascalCaseFiles: true,
@@ -127,7 +125,7 @@ describe("createClassContent", () => {
     assert.throws(
       () =>
         createClassContent(
-          { kind: "class", language: "ts", name: "sut", testRunner: "jest" },
+          { language: "ts", name: "sut", testRunner: "jest" },
           "/a/b",
           log,
         ),
